@@ -3427,6 +3427,9 @@ class PlayState extends MusicBeatState
 				popUpScore(note);
 				combo += 1;
 				if(combo > 9999) combo = 9999;
+				if(ClientPrefs.hitsounds) {
+					FlxG.sound.play(Paths.sound('hitsound'));
+				}
 			}
 			health += note.hitHealth;
 
