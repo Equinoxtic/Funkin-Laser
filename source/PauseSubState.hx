@@ -164,15 +164,15 @@ class PauseSubState extends MusicBeatSubstate
 			switch (daSelected)
 			{
 				case "Resume":
-					FlxTween.tween(bg, {alpha: 0}, 1.1, {ease: FlxEase.quartInOut});
-					FlxTween.tween(levelInfo, {alpha: 0}, 1.1, {ease: FlxEase.quartInOut});
-					FlxTween.tween(levelDifficulty, {alpha: 0}, 1.1, {ease: FlxEase.quartInOut});
-					FlxTween.tween(blueballedTxt, {alpha: 0}, 1.1, {ease: FlxEase.quartInOut});
-					FlxTween.tween(practiceText, {alpha: 0}, 1.1, {ease: FlxEase.quartInOut});
+					FlxTween.tween(bg, {alpha: 0}, 0.45, {ease: FlxEase.quartInOut});
+					FlxTween.tween(levelInfo, {alpha: 0}, 0.45, {ease: FlxEase.quartInOut});
+					FlxTween.tween(levelDifficulty, {alpha: 0}, 0.45, {ease: FlxEase.quartInOut});
+					FlxTween.tween(blueballedTxt, {alpha: 0}, 0.45, {ease: FlxEase.quartInOut});
+					FlxTween.tween(practiceText, {alpha: 0}, 0.45, {ease: FlxEase.quartInOut});
 					grpMenuShit.forEachAlive(function(alph:Alphabet) {
-						FlxTween.tween(alph, {alpha: 0}, 1.1, {ease: FlxEase.quartInOut});
+						FlxTween.tween(alph, {alpha: 0}, 0.45, {ease: FlxEase.quartInOut});
 					});
-					new FlxTimer().start(1.15, function(tmr:FlxTimer) {
+					new FlxTimer().start(0.45, function(tmr:FlxTimer) {
 						close();
 					});
 				case 'Change Difficulty':
