@@ -1,4 +1,4 @@
-# Funkin+
+# Funkin'+
 
 A rewritten version of Psych Engine.
 
