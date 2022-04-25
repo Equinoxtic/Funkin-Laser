@@ -31,11 +31,17 @@ class MainMenuState extends MusicBeatState
 	private var camGame:FlxCamera;
 	private var camAchievement:FlxCamera;
 	
-	var optionShit:Array<String> = ['story_mode', 'freeplay', #if ACHIEVEMENTS_ALLOWED 'awards', #end 'credits', #if !switch 'donate', #end 'options'];
+	var optionShit:Array<String> = [
+		'story_mode', 
+		'freeplay', 
+		'options'
+	]; // Only going to be three because fakyou
 
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
 	var camFollowPos:FlxObject;
+
+	var bleck:FlxSprite;
 
 	override function create()
 	{
@@ -129,6 +135,11 @@ class MainMenuState extends MusicBeatState
 		}
 		#end
 
+		bleck = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		bleck.scrollFactor.set();
+		bleck.visible = false;
+		add(bleck);
+
 		super.create();
 	}
 
@@ -188,6 +199,11 @@ class MainMenuState extends MusicBeatState
 
 					if(ClientPrefs.flashing) FlxFlicker.flicker(magenta, 1.1, 0.15, false);
 
+					if (ClientPrefs.flashing) {
+						bleck.visible = true;
+						FlxG.camera.flash(FlxColor.WHITE, 0.75);
+					}
+
 					menuItems.forEach(function(spr:FlxSprite)
 					{
 						if (curSelected != spr.ID)
@@ -212,10 +228,10 @@ class MainMenuState extends MusicBeatState
 										MusicBeatState.switchState(new StoryMenuState());
 									case 'freeplay':
 										MusicBeatState.switchState(new FreeplayState());
-									case 'awards':
+									/* case 'awards':
 										MusicBeatState.switchState(new AchievementsMenuState());
 									case 'credits':
-										MusicBeatState.switchState(new CreditsState());
+										MusicBeatState.switchState(new CreditsState()); */
 									case 'options':
 										MusicBeatState.switchState(new OptionsState());
 								}
@@ -237,7 +253,7 @@ class MainMenuState extends MusicBeatState
 
 		menuItems.forEach(function(spr:FlxSprite)
 		{
-			spr.screenCenter(X);
+			spr.x = 100;
 		});
 	}
 
