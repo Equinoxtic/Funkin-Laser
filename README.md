@@ -1,4 +1,4 @@
-# Funkin'+
+# Funkin' Laser
 
 A rewritten version of Psych Engine.
 
