@@ -12,6 +12,7 @@ import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
 import flixel.FlxCamera;
 
 class PauseSubState extends MusicBeatSubstate
@@ -26,6 +27,11 @@ class PauseSubState extends MusicBeatSubstate
 	var pauseMusic:FlxSound;
 	var practiceText:FlxText;
 	var botplayText:FlxText;
+
+	var bg:FlxSprite;
+	var levelInfo:FlxText;
+	var levelDifficulty:FlxText;
+	var blueballedTxt:FlxText;
 
 	public static var transCamera:FlxCamera;
 
@@ -46,26 +52,26 @@ class PauseSubState extends MusicBeatSubstate
 
 		FlxG.sound.list.add(pauseMusic);
 
-		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		bg = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		bg.alpha = 0;
 		bg.scrollFactor.set();
 		add(bg);
 
-		var levelInfo:FlxText = new FlxText(20, 15, 0, "", 32);
+		levelInfo = new FlxText(20, 15, 0, "", 32);
 		levelInfo.text += PlayState.SONG.song;
 		levelInfo.scrollFactor.set();
 		levelInfo.setFormat(Paths.font("vcr.ttf"), 32);
 		levelInfo.updateHitbox();
 		add(levelInfo);
 
-		var levelDifficulty:FlxText = new FlxText(20, 15 + 32, 0, "", 32);
+		levelDifficulty = new FlxText(20, 15 + 32, 0, "", 32);
 		levelDifficulty.text += CoolUtil.difficultyString();
 		levelDifficulty.scrollFactor.set();
 		levelDifficulty.setFormat(Paths.font('vcr.ttf'), 32);
 		levelDifficulty.updateHitbox();
 		add(levelDifficulty);
 
-		var blueballedTxt:FlxText = new FlxText(20, 15 + 64, 0, "", 32);
+		blueballedTxt = new FlxText(20, 15 + 64, 0, "", 32);
 		blueballedTxt.text = "Blueballed: " + PlayState.deathCounter;
 		blueballedTxt.scrollFactor.set();
 		blueballedTxt.setFormat(Paths.font('vcr.ttf'), 32);
@@ -158,7 +164,17 @@ class PauseSubState extends MusicBeatSubstate
 			switch (daSelected)
 			{
 				case "Resume":
-					close();
+					FlxTween.tween(bg, {alpha: 0}, 1.1, {ease: FlxEase.quartInOut});
+					FlxTween.tween(levelInfo, {alpha: 0}, 1.1, {ease: FlxEase.quartInOut});
+					FlxTween.tween(levelDifficulty, {alpha: 0}, 1.1, {ease: FlxEase.quartInOut});
+					FlxTween.tween(blueballedTxt, {alpha: 0}, 1.1, {ease: FlxEase.quartInOut});
+					FlxTween.tween(practiceText, {alpha: 0}, 1.1, {ease: FlxEase.quartInOut});
+					grpMenuShit.forEachAlive(function(alph:Alphabet) {
+						FlxTween.tween(alph, {alpha: 0}, 1.1, {ease: FlxEase.quartInOut});
+					});
+					new FlxTimer().start(1.15, function(tmr:FlxTimer) {
+						close();
+					});
 				case 'Change Difficulty':
 					menuItems = difficultyChoices;
 					regenMenu();
