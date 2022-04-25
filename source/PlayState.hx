@@ -907,7 +907,7 @@ class PlayState extends MusicBeatState
 		judgementData.scrollFactor.set();
 		judgementData.borderSize = 1.25;
 		// judgementData.visible = !ClientPrefs.hideHud;
-		judgementData.visible = !ClientPrefs.showJudgementData;
+		judgementData.visible = ClientPrefs.showJudgementData;
 		add(judgementData);
 
 		botplayTxt = new FlxText(400, timeBarBG.y + 55, FlxG.width - 800, "BOTPLAY", 32);
@@ -3046,22 +3046,26 @@ class PlayState extends MusicBeatState
 
 		if (noteDiff > Conductor.safeZoneOffset * 0.75)
 		{
+			songShits++;
 			daRating = 'shit';
 			score = 50;
 		}
 		else if (noteDiff > Conductor.safeZoneOffset * 0.5)
 		{
+			songBads++;
 			daRating = 'bad';
 			score = 100;
 		}
 		else if (noteDiff > Conductor.safeZoneOffset * 0.25)
 		{
+			songGoods++;
 			daRating = 'good';
 			score = 200;
 		}
 
 		if(daRating == 'sick' && !note.noteSplashDisabled)
 		{
+			songSicks++;
 			spawnNoteSplashOnNote(note);
 		}
 
