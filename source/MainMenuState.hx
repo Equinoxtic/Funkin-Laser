@@ -202,8 +202,8 @@ class MainMenuState extends MusicBeatState
 					selectedSomethin = true;
 					FlxG.sound.play(Paths.sound('confirmMenu'));
 
-					if(ClientPrefs.flashing) FlxFlicker.flicker(magenta, 1.1, 0.15, false);
-
+					// if(ClientPrefs.flashing) FlxFlicker.flicker(magenta, 1.1, 0.15, false);
+					
 					if (ClientPrefs.flashing) {
 						bleck.visible = true;
 						FlxG.camera.flash(FlxColor.WHITE, 0.75);
