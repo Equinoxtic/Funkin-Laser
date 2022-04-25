@@ -210,9 +210,14 @@ class PlayState extends MusicBeatState
 
 	public var songScore:Int = 0;
 	public var songHits:Int = 0;
+	public var songSicks:Int = 0;
+	public var songGoods:Int = 0;
+	public var songBads:Int = 0;
+	public var songShits:Int = 0;
 	public var songMisses:Int = 0;
 	public var ghostMisses:Int = 0;
 	public var scoreTxt:FlxText;
+	public var judgementData:FlxText;
 	var timeTxt:FlxText;
 	var scoreTxtTween:FlxTween;
 
@@ -897,6 +902,14 @@ class PlayState extends MusicBeatState
 		scoreTxt.visible = !ClientPrefs.hideHud;
 		add(scoreTxt);
 
+		judgementData = new FlxText(10 * 2, healthBarBG.y - 275, FlxG.width, "", 20);
+		judgementData.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		judgementData.scrollFactor.set();
+		judgementData.borderSize = 1.25;
+		// judgementData.visible = !ClientPrefs.hideHud;
+		judgementData.visible = !ClientPrefs.showJudgementData;
+		add(judgementData);
+
 		botplayTxt = new FlxText(400, timeBarBG.y + 55, FlxG.width - 800, "BOTPLAY", 32);
 		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		botplayTxt.scrollFactor.set();
@@ -915,6 +928,7 @@ class PlayState extends MusicBeatState
 		iconP1.cameras = [camHUD];
 		iconP2.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
+		judgementData.cameras = [camHUD];
 		botplayTxt.cameras = [camHUD];
 		timeBar.cameras = [camHUD];
 		timeBarBG.cameras = [camHUD];
@@ -1950,6 +1964,8 @@ class PlayState extends MusicBeatState
 		} else {
 			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingString + ' (' + Math.floor(ratingPercent * 100) + '%)';
 		}
+
+		judgementData.text = 'Total Hits: ' + songHits + '\nCombo: ' + combo + '\n\nSick: ' + songSicks + '\nGood: ' + songGoods + '\nBad: ' + songBads + '\nShit: ' + songShits;
 
 		if(cpuControlled) {
 			botplaySine += 180 * elapsed;

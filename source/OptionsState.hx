@@ -689,6 +689,7 @@ class PreferencesSubstate extends MusicBeatSubstate
 		'Ghost Tapping',
 		'Note Delay',
 		'Note Splashes',
+		'Show Judgement Data',
 		'Hide HUD',
 		'Hide Song Length',
 		'Flashing Lights',
@@ -877,6 +878,9 @@ class PreferencesSubstate extends MusicBeatSubstate
 					case 'Hide HUD':
 						ClientPrefs.hideHud = !ClientPrefs.hideHud;
 
+					case 'Show Judgement Data':
+						ClientPrefs.showJudgementData = !ClientPrefs.showJudgementData;
+
 					case 'Persistent Cached Data':
 						ClientPrefs.imagesPersist = !ClientPrefs.imagesPersist;
 						FlxGraphic.defaultPersist = ClientPrefs.imagesPersist;
@@ -974,6 +978,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 				daText = "Uncheck this if you're sensitive to flashing lights!";
 			case 'Camera Zooms':
 				daText = "If unchecked, the camera won't zoom in on a beat hit.";
+			case 'Show Judgement Data':
+				daText = "Hides the Judgement Counter when unchecked.";
 			case 'Hide HUD':
 				daText = "If checked, hides most HUD elements.";
 			case 'Hide Song Length':
@@ -1046,6 +1052,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 						daValue = ClientPrefs.violence;
 					case 'Camera Zooms':
 						daValue = ClientPrefs.camZooms;
+					case 'Show Judgement Data':
+						daValue = ClientPrefs.showJudgementData;
 					case 'Hide HUD':
 						daValue = ClientPrefs.hideHud;
 					case 'Persistent Cached Data':

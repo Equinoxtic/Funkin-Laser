@@ -26,6 +26,7 @@ class ClientPrefs {
 	public static var ghostTapping:Bool = true;
 	public static var hideTime:Bool = false;
 	public static var hitsounds:Bool = false;
+	public static var showJudgementData:Bool = true;
 
 	public static var defaultKeys:Array<FlxKey> = [
 		A, LEFT,			//Note Left
@@ -82,6 +83,7 @@ class ClientPrefs {
 		FlxG.save.data.ghostTapping = ghostTapping;
 		FlxG.save.data.hideTime = hideTime;
 		FlxG.save.data.hitsounds = hitsounds;
+		FlxG.save.data.showJudgementData = showJudgementData;
 
 		var achieves:Array<String> = [];
 		for (i in 0...Achievements.achievementsUnlocked.length) {
@@ -165,6 +167,9 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.hitsounds != null) {
 			hitsounds = FlxG.save.data.hitsounds;
+		}
+		if(FlxG.save.data.showJudgementData != null) {
+			showJudgementData = FlxG.save.data.showJudgementData;
 		}
 
 		var save:FlxSave = new FlxSave();
