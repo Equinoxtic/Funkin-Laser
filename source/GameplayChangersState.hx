@@ -28,7 +28,7 @@ using StringTools;
 
 class GameplayChangersState extends MusicBeatState
 {
-	var shittyOptions:Array<String> = ['Gamemodes and Regular Modifiers', 'Difficulty Reduction', 'Difficulty Increase', 'Fun and Deadly'];
+	var shittyOptions:Array<String> = ['Gamemodes and OG Mods', 'Difficulty Reduction', 'Difficulty Increase', 'Fun and Deadly'];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private static var curSelected:Int = 0;
 	public static var menuBG:FlxSprite;
@@ -91,7 +91,7 @@ class GameplayChangersState extends MusicBeatState
 			}
 
 			switch(shittyOptions[curSelected]) {
-				case 'Gamemodes and Regular Modifiers':
+				case 'Gamemodes and OG Mods':
 					openSubState(new GamemodeSelectionSubState());
 				case 'Difficulty Reduction':
 					openSubState(new DifficultyReductionSubState());
@@ -1118,8 +1118,8 @@ class DifficultyFunSubState extends MusicBeatSubstate
 			}
 		}
 
-		descText = new FlxText(50, 600, 1180, "", 32);
-		descText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		descText = new FlxText(50, 600, 1180, "", 26);
+		descText.setFormat(Paths.font("vcr.ttf"), 26, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		descText.scrollFactor.set();
 		descText.borderSize = 2.4;
 		add(descText);
@@ -1181,6 +1181,8 @@ class DifficultyFunSubState extends MusicBeatSubstate
 				switch(options[curSelected]) {
 					case 'Botplay':
 						ModifierVars.botplay = !ModifierVars.botplay;
+					case 'Practice':
+						ModifierVars.practice = !ModifierVars.practice;
 					case 'Hell':
 						ModifierVars.hell = !ModifierVars.hell;
 					case 'Drugs':
@@ -1231,7 +1233,9 @@ class DifficultyFunSubState extends MusicBeatSubstate
 		var daText:String = '';
 		switch(options[curSelected]) {
 			case 'Botplay':
-				daText = "If checked, the game would play by itself. (You can also enable this from the pause menu)";
+				daText = "If checked, the game would go into 'Botplay' modem, which would let the game play by itself. (You can also enable this from the Pause Menu)";
+			case 'Practice':
+				daText = "If checked, Practice Mode will be enabled, which grants you No Fail but you can't get a Week Score if you had this on.\n(Although if your HP drops to 0, it will not grant you to get accuracy)\n(You can also enable this in the Pause Menu)";
 			case 'Hell':
 				daText = "Hell. Just pure Hell.";
 			case 'Drugs':

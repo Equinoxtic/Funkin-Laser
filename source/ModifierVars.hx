@@ -40,6 +40,7 @@ class ModifierVars {
 
 	/* Fun and Deadly */
 	public static var botplay:Bool = false;
+	public static var practice:Bool = false;
 	public static var hell:Bool = false;
 	public static var drugs:Bool = false;
 	public static var amogus:Bool = false;
@@ -75,6 +76,7 @@ class ModifierVars {
 
 		/* Fun and Deadly */
 		FlxG.save.data.botplay = botplay;
+		FlxG.save.data.practice = practice;
 		FlxG.save.data.hell = hell;
 		FlxG.save.data.drugs = drugs;
 		FlxG.save.data.amogus = amogus;
@@ -179,6 +181,10 @@ class ModifierVars {
 		/* Fun and Deadly */
 		if (FlxG.save.data.botplay != null) {
 			botplay = FlxG.save.data.botplay;
+		}
+
+		if (FlxG.save.data.practice != null) {
+			practice = FlxG.save.data.practice;
 		}
 
 		if (FlxG.save.data.hell != null) {
