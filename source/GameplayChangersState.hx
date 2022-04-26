@@ -624,7 +624,7 @@ class DifficultyReductionSubState extends MusicBeatSubstate
 		var daText:String = '';
 		switch(options[curSelected]) {
 			case 'Lo-Fi':
-				daText = "When enabled, it will slow the song down.";
+				daText = "Chill with Lo-Fi songs.";
 			case 'No Fail':
 				daText = "Enabling this will make you invincible.";
 			case 'Modcharts Disabled':
@@ -923,7 +923,7 @@ class DifficultyIncreaseSubState extends MusicBeatSubstate
 		var daText:String = '';
 		switch(options[curSelected]) {
 			case 'Hi-Fi':
-				daText = "Enabling this wil make the song faster.";
+				daText = "Make it intense with Hi-Fi songs.";
 			case 'Ghost Notes':
 				daText = "If checked, the Notes will become more transparent.";
 			case 'Limited Vision':
