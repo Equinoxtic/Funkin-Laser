@@ -28,7 +28,7 @@ using StringTools;
 
 class GameplayChangersState extends MusicBeatState
 {
-	var shittyOptions:Array<String> = ['Gamemodes', 'Difficulty Reduction', 'Difficulty Increase', 'Fun and Deadly'];
+	var shittyOptions:Array<String> = ['Gamemodes and Regular Modifiers', 'Difficulty Reduction', 'Difficulty Increase', 'Fun and Deadly'];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private static var curSelected:Int = 0;
 	public static var menuBG:FlxSprite;
@@ -91,7 +91,7 @@ class GameplayChangersState extends MusicBeatState
 			}
 
 			switch(shittyOptions[curSelected]) {
-				case 'Gamemodes':
+				case 'Gamemodes and Regular Modifiers':
 					openSubState(new GamemodeSelectionSubState());
 				case 'Difficulty Reduction':
 					openSubState(new DifficultyReductionSubState());
@@ -127,16 +127,30 @@ class GamemodeSelectionSubState extends MusicBeatSubstate
 {
 	private static var curSelected:Int = 0;
 	static var unselectableOptions:Array<String> = [
-		'GAMEMODES'
+		'GAMEMODES',
+		'MODIFIERS',
+		'MULTIPLIERS'
 	];
 
 	static var noCheckbox:Array<String> = [
+		'Song Speed',
+		'Health Drain Amount',
+		'Screen Shake Intensity'
 	];
 
 	static var options:Array<String> = [
 		'GAMEMODES',
 		'Pussy Mode',
-		'Hardcore Mode'
+		'Hardcore Mode',
+		'MODIFIERS',
+		'Perfection',
+		'Health Drain',
+		'Screen Shake',
+		'Enigma',
+		'MULTIPLIERS',
+		'Song Speed',
+		'Health Drain Amount',
+		'Screen Shake Intensity'
 	];
 
 	private var grpOptions:FlxTypedGroup<Alphabet>;
@@ -270,6 +284,14 @@ class GamemodeSelectionSubState extends MusicBeatSubstate
 						ModifierVars.pussyMode = !ModifierVars.pussyMode;
 					case 'Hardcore Mode':
 						ModifierVars.hardcoreMode = !ModifierVars.hardcoreMode;
+					case 'Perfection':
+						ModifierVars.ssMode = !ModifierVars.ssMode;
+					case 'Health Drain':
+						ModifierVars.healthDrain = !ModifierVars.healthDrain;
+					case 'Screen Shake':
+						ModifierVars.screenShake = !ModifierVars.screenShake;
+					case 'Enigma':
+						ModifierVars.enigma = !ModifierVars.enigma;
 				}
 				FlxG.sound.play(Paths.sound('scrollMenu'));
 				reloadValues();
@@ -279,6 +301,12 @@ class GamemodeSelectionSubState extends MusicBeatSubstate
 				var addFloat:Float = controls.UI_LEFT ? -0.01 : 0.01;
 				if(holdTime > 0.5 || controls.UI_LEFT_P || controls.UI_RIGHT_P)
 				switch(options[curSelected]) {
+					case 'Song Speed':
+						ModifierVars.songSpeed += addFloat;
+					case 'Health Drain Amount':
+						ModifierVars.healthDrainAmount += addFloat;
+					case 'Screen Shake Intensity':
+						ModifierVars.screenShakeIntensity += addFloat;
 				}
 				reloadValues();
 
@@ -315,6 +343,20 @@ class GamemodeSelectionSubState extends MusicBeatSubstate
 				daText = "If checked, Modcharts will have a debuff and the song will be slowed down.\n(Not compatible with Hardcore Mode)";
 			case 'Hardcore Mode':
 				daText = "If checked, Modcharts will be a lot more harder, and the song will be majorly sped up.\n(Not compatible with Pussy Mode)";
+			case 'Perfection':
+				daText = "No missing in the song, or death.";
+			case 'Health Drain':
+				daText = "If checked, you will have a certain and modifiable amount of health drain during the song.";
+			case 'Screen Shake':
+				daText = "If checked, the screen will shake during the song.";
+			case 'Enigma':
+				daText = "If this modifier is allowed, the healthbar will be inivisble.";
+			case 'Song Speed':
+				daText = "Increment the amount of speed you want for your song.";
+			case 'Health Drain Amount':
+				daText = "Set the value of how much health drain you should be getting.\n(Must have Health Drain mod on)";
+			case 'Screen Shake Intensity':
+				daText = "Set the value of how intense the screen will shake during the song.\n(Must have the Screen Shake mod on)";
 		}
 		descText.text = daText;
 
@@ -393,20 +435,16 @@ class DifficultyReductionSubState extends MusicBeatSubstate
 {
 	private static var curSelected:Int = 0;
 	static var unselectableOptions:Array<String> = [
-		'MODS',
-		'MULTIPLIERS'
+		'MODIFIERS'
 	];
 	static var noCheckbox:Array<String> = [
-		'Slow Song Multiplier'
 	];
 
 	static var options:Array<String> = [
-		'MODS',
-		'Slow Song',
+		'MODIFIERS',
+		'Lo-Fi',
 		'No Fail',
-		'Modcharts Disabled',
-		'MULTIPLIERS',
-		'Slow Song Multiplier'
+		'Modcharts Disabled'
 	];
 
 	private var grpOptions:FlxTypedGroup<Alphabet>;
@@ -536,8 +574,8 @@ class DifficultyReductionSubState extends MusicBeatSubstate
 		if(usesCheckbox) {
 			if(controls.ACCEPT && nextAccept <= 0) {
 				switch(options[curSelected]) {
-					case 'Slow Song':
-						ModifierVars.slowSong = !ModifierVars.slowSong;
+					case 'Lo-Fi':
+						ModifierVars.lofi = !ModifierVars.lofi;
 					case 'No Fail':
 						ModifierVars.noFail = !ModifierVars.noFail;
 					case 'Modcharts Disabled':
@@ -585,14 +623,14 @@ class DifficultyReductionSubState extends MusicBeatSubstate
 
 		var daText:String = '';
 		switch(options[curSelected]) {
-			case 'Slow Song':
+			case 'Lo-Fi':
 				daText = "When enabled, it will slow the song down.";
 			case 'No Fail':
 				daText = "Enabling this will make you invincible.";
 			case 'Modcharts Disabled':
 				daText = "If checked, Modcharts will be disabled.";
-			case 'Slow Song Multiplier':
-				daText = "Set the value of how slow a song should be.\n(Slow Song Mod must be enabled)";
+			/* case 'Slow Song Multiplier':
+				daText = "Set the value of how slow a song should be.\n(Slow Song Mod must be enabled)"; */
 		}
 		descText.text = daText;
 
@@ -637,8 +675,8 @@ class DifficultyReductionSubState extends MusicBeatSubstate
 			if(checkbox != null) {
 				var daValue:Bool = false;
 				switch(options[checkboxNumber[i]]) {
-					case 'Slow Song':
-						daValue = ModifierVars.slowSong;
+					case 'Lo-Fi':
+						daValue = ModifierVars.hifi;
 					case 'No Fail':
 						daValue = ModifierVars.noFail;
 					case 'Modcharts Disabled':
@@ -652,8 +690,8 @@ class DifficultyReductionSubState extends MusicBeatSubstate
 			if(text != null) {
 				var daText:String = '';
 				switch(options[textNumber[i]]) {
-					case 'Slow Song Multiplier':
-						daText = '' + ModifierVars.slowSpeed;
+					/* case 'Slow Song Multiplier':
+						daText = '' + ModifierVars.slowSpeed; */
 				}
 				var lastTracker:FlxSprite = text.sprTracker;
 				text.sprTracker = null;
@@ -677,24 +715,22 @@ class DifficultyIncreaseSubState extends MusicBeatSubstate
 {
 	private static var curSelected:Int = 0;
 	static var unselectableOptions:Array<String> = [
-		'MODS',
+		'MODIFIERS',
 		'MULTIPLIERS'
 	];
 	static var noCheckbox:Array<String> = [
-		'Fast Song Multiplier',
 		'Ghost Note Alpha',
 		'Limited Vision Intensity',
 		'Nausea Intensity'
 	];
 	static var options:Array<String> = [
-		'MODS',
-		'Fast Song',
+		'MODIFIERS',
+		'Hi-Fi',
 		'Ghost Notes',
 		'Limited Vision',
 		'Nausea',
 		'Flipped',
 		'MULTIPLIERS',
-		'Fast Song Multiplier',
 		'Ghost Note Alpha',
 		'Limited Vision Intensity',
 		'Nausea Intensity'
@@ -827,8 +863,8 @@ class DifficultyIncreaseSubState extends MusicBeatSubstate
 		if(usesCheckbox) {
 			if(controls.ACCEPT && nextAccept <= 0) {
 				switch(options[curSelected]) {
-					case 'Fast Song':
-						ModifierVars.fastSong = !ModifierVars.fastSong;
+					case 'Hi-Fi':
+						ModifierVars.hifi = !ModifierVars.hifi;
 					case 'Ghost Notes':
 						ModifierVars.ghostNotes = !ModifierVars.ghostNotes;
 					case 'Limited Vision':
@@ -846,8 +882,8 @@ class DifficultyIncreaseSubState extends MusicBeatSubstate
 				var addFloat:Float = controls.UI_LEFT ? -0.01 : 0.01;
 				if(holdTime > 0.5 || controls.UI_LEFT_P || controls.UI_RIGHT_P)
 				switch(options[curSelected]) {
-					case 'Fast Song Multiplier':
-						ModifierVars.fastSpeed += addFloat;
+					/* case 'Fast Song Multiplier':
+						ModifierVars.fastSpeed += addFloat; */
 					case 'Ghost Note Alpha':
 						ModifierVars.ghostNoteAlpha += addFloat;
 					case 'Limited Vision Intensity':
@@ -886,7 +922,7 @@ class DifficultyIncreaseSubState extends MusicBeatSubstate
 
 		var daText:String = '';
 		switch(options[curSelected]) {
-			case 'Fast Song':
+			case 'Hi-Fi':
 				daText = "Enabling this wil make the song faster.";
 			case 'Ghost Notes':
 				daText = "If checked, the Notes will become more transparent.";
@@ -896,8 +932,8 @@ class DifficultyIncreaseSubState extends MusicBeatSubstate
 				daText = "Dizzy-ass gameplay if you enable.";
 			case 'Flipped':
 				daText = "Enabling this will flip the gameplay.";
-			case 'Fast Song Multiplier':
-				daText = "Set the value of how fast a song should go.\n(Fast Song mod must be enabled)";
+			/* case 'Fast Song Multiplier':
+				daText = "Set the value of how fast a song should go.\n(Fast Song mod must be enabled)"; */
 			case 'Ghost Note Alpha':
 				daText = "Set the value of how transparent notes should be.\n(Ghost Notes mod must be enabled)";
 			case 'Limited Vision Intensity':
@@ -948,8 +984,8 @@ class DifficultyIncreaseSubState extends MusicBeatSubstate
 			if(checkbox != null) {
 				var daValue:Bool = false;
 				switch(options[checkboxNumber[i]]) {
-					case 'Fast Song':
-						daValue = ModifierVars.fastSong;
+					case 'Hi-Fi':
+						daValue = ModifierVars.hifi;
 					case 'Ghost Notes':
 						daValue = ModifierVars.ghostNotes;
 					case 'Limited Vision':
@@ -967,8 +1003,8 @@ class DifficultyIncreaseSubState extends MusicBeatSubstate
 			if(text != null) {
 				var daText:String = '';
 				switch(options[textNumber[i]]) {
-					case 'Fast Song Multiplier':
-						daText = '' + ModifierVars.fastSpeed;
+					/* case 'Fast Song Multiplier':
+						daText = '' + ModifierVars.fastSpeed; */
 					case 'Ghost Note Alpha':
 						daText = '' + ModifierVars.ghostNoteAlpha;
 					case 'Limited Vision Intensity':
@@ -1008,6 +1044,7 @@ class DifficultyFunSubState extends MusicBeatSubstate
 	static var options:Array<String> = [
 		'MODS',
 		'Botplay',
+		'Practice',
 		'Hell',
 		'Drugs',
 		'Amogus',

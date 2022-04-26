@@ -10,18 +10,25 @@ using StringTools;
 class ModifierVars {
 	// Make this as stupid as ClientPrefs.hx
 
-	/* Gamemodes */
+	/* Gamemodes and Regualar Modifiers */
 	public static var pussyMode:Bool = false;
 	public static var hardcoreMode:Bool = false;
+	public static var ssMode:Bool = false;
+	public static var healthDrain:Bool = false;
+	public static var screenShake:Bool = false;
+	public static var enigma:Bool = false;
+	public static var songSpeed:Float = 0;
+	public static var healthDrainAmount:Float = 0;
+	public static var screenShakeIntensity:Float = 0;
 
 	/* Difficulty Reduction */
-	public static var slowSong:Bool = false;
+	public static var lofi:Bool = false;
 	public static var noFail:Bool = false;
 	public static var disabledModcharts:Bool = false;
 	public static var slowSpeed:Float = 0.75;
 
 	/* Difficulty Increase */
-	public static var fastSong:Bool = false;
+	public static var hifi:Bool = false;
 	public static var ghostNotes:Bool = false;
 	public static var limitedVision:Bool = false;
 	public static var nauseous:Bool = false;
@@ -43,20 +50,25 @@ class ModifierVars {
 		/* Gamemodes */
 		FlxG.save.data.pussyMode = pussyMode;
 		FlxG.save.data.hardcoreMode = hardcoreMode;
+		FlxG.save.data.ssMode = ssMode;
+		FlxG.save.data.healthDrain = healthDrain;
+		FlxG.save.data.screenShake = screenShake;
+		FlxG.save.data.enigma = enigma;
+		FlxG.save.data.songSpeed = songSpeed;
 
 		/* Difficulty Reduction */
-		FlxG.save.data.slowSong = slowSong;
+		FlxG.save.data.lofi = lofi;
 		FlxG.save.data.noFail = noFail;
 		FlxG.save.data.disabledModcharts = disabledModcharts;
-		FlxG.save.data.slowSpeed = slowSpeed;
+		// FlxG.save.data.slowSpeed = slowSpeed;
 
 		/* Difficulty Increase */
-		FlxG.save.data.fastSong = fastSong;
+		FlxG.save.data.hifi = hifi;
 		FlxG.save.data.ghostNotes = ghostNotes;
 		FlxG.save.data.limitedVision = limitedVision;
 		FlxG.save.data.nauseous = nauseous;
 		FlxG.save.data.flipped = flipped;
-		FlxG.save.data.fastSpeed = fastSpeed;
+		// FlxG.save.data.fastSpeed = fastSpeed;
 		FlxG.save.data.ghostNoteAlpha = ghostNoteAlpha;
 		FlxG.save.data.lvIntensity = lvIntensity;
 		FlxG.save.data.nauseaIntensity = nauseaIntensity;
@@ -82,9 +94,37 @@ class ModifierVars {
 			hardcoreMode = FlxG.save.data.hardcoreMode;
 		}
 
+		if (FlxG.save.data.ssMode != null) {
+			ssMode = FlxG.save.data.ssMode;
+		}
+
+		if (FlxG.save.data.healthDrain != null) {
+			healthDrain = FlxG.save.data.healthDrain;
+		}
+
+		if (FlxG.save.data.screenShake != null) {
+			screenShake = FlxG.save.data.screenShake;
+		}
+
+		if (FlxG.save.data.enigma != null) {
+			enigma = FlxG.save.data.enigma;
+		}
+
+		if (FlxG.save.data.songSpeed != null) {
+			songSpeed = FlxG.save.data.songSpeed;
+		}
+
+		if (FlxG.save.data.healthDrainAmount != null) {
+			healthDrainAmount = FlxG.save.data.healthDrainAmount;
+		}
+
+		if (FlxG.save.data.screenShakeIntensity != null) {
+			screenShakeIntensity = FlxG.save.data.screenShakeIntensity;
+		}
+
 		/* Difficulty Reduction */
-		if (FlxG.save.data.slowSong != null) {
-			slowSong = FlxG.save.data.slowSong;
+		if (FlxG.save.data.lofi != null) {
+			lofi = FlxG.save.data.lofi;
 		}
 
 		if (FlxG.save.data.noFail != null) {
@@ -100,8 +140,8 @@ class ModifierVars {
 		}
 
 		/* Difficulty Increase */
-		if (FlxG.save.data.fastSong != null) {
-			fastSong = FlxG.save.data.fastSong;
+		if (FlxG.save.data.hifi != null) {
+			hifi = FlxG.save.data.hifi;
 		}
 
 		if (FlxG.save.data.ghostNotes != null) {
