@@ -197,13 +197,11 @@ class PauseSubState extends MusicBeatSubstate
 					grpMenuShit.forEachAlive(function(alph:Alphabet) {
 						FlxTween.tween(alph, {x: 650}, 0.75, {ease: FlxEase.quartInOut});
 					});
-					new FlxTimer().start(0.75, function(tmr:FlxTimer) {
-						if(PlayState.isStoryMode) {
-							MusicBeatState.switchState(new StoryMenuState());
-						} else {
-							MusicBeatState.switchState(new FreeplayState());
-						}
-					});
+					if(PlayState.isStoryMode) {
+						MusicBeatState.switchState(new StoryMenuState());
+					} else {
+						MusicBeatState.switchState(new FreeplayState());
+					}
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 					PlayState.usedPractice = false;
 					PlayState.changedDifficulty = false;
