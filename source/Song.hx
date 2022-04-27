@@ -50,6 +50,12 @@ class Song
 		this.song = song;
 		this.notes = notes;
 		this.bpm = bpm;
+		/*
+		if (ModifierVars.lofi)
+			this.bpm = bpm * 1.2;
+		if (ModifierVars.hifi)
+			this.bpm = bpm * 0.8;
+		*/
 	}
 
 	public static function loadFromJson(jsonInput:String, ?folder:String):SwagSong
