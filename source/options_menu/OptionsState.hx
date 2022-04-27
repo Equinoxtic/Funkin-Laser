@@ -102,6 +102,10 @@ class OptionsState extends MusicBeatState
 				case 'Modifiers':
 					MusicBeatState.switchState(new modifier_menu.ModifierMenuState());
 			}
+
+			#if desktop
+			DiscordClient.changePresence("Options Menu - " + options[curSelected], null);
+			#end
 		}
 	}
 	

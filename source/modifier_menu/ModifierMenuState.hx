@@ -100,6 +100,10 @@ class ModifierMenuState extends MusicBeatState
 				case 'Fun and Deadly':
 					openSubState(new DifficultyFunSubState());
 			}
+
+			#if desktop
+			DiscordClient.changePresence("Options Menu - " + shittyOptions[curSelected], null);
+			#end
 		}
 	}
 
