@@ -1287,6 +1287,8 @@ class PlayState extends MusicBeatState
 
 	public function startCountdown():Void
 	{
+		combo = 0;
+
 		if(startedCountdown) {
 			callOnLuas('onStartCountdown', []);
 			return;
@@ -2026,8 +2028,8 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
-		var credit:String = Assets.getText(Paths.txt(curSong.toLowerCase() + "/" + "credit"));
-		var origin:String = Assets.getText(Paths.txt(curSong.toLowerCase() + "/" + "origin"));
+		var credit:String = Assets.getText(Paths.txt(curSong.toLowerCase().replace(' ', '-') + "/" + "credit"));
+		var origin:String = Assets.getText(Paths.txt(curSong.toLowerCase().replace(' ', '-') + "/" + "origin"));
 
 		if(ratingString == '?') {
 			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingString;
@@ -2979,6 +2981,12 @@ class PlayState extends MusicBeatState
 				campaignMisses += songMisses;
 
 				storyPlaylist.remove(storyPlaylist[0]);
+				
+				new FlxTimer().start(0.1, function(tmr:FlxTimer) {
+					FlxTween.tween(camHUD, {alpha: 0}, 0.5, {ease: FlxEase.quartInOut});
+				});
+
+				openSubState(new VictoryScreenSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 
 				if (storyPlaylist.length <= 0)
 				{
@@ -3008,7 +3016,6 @@ class PlayState extends MusicBeatState
 					changedDifficulty = false;
 					cpuControlled = false;
 
-					openSubState(new VictoryScreenSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 				}
 				else
 				{
@@ -3064,6 +3071,11 @@ class PlayState extends MusicBeatState
 				usedPractice = false;
 				changedDifficulty = false;
 				cpuControlled = false;
+
+				new FlxTimer().start(0.1, function(tmr:FlxTimer) {
+					FlxTween.tween(camHUD, {alpha: 0}, 0.5, {ease: FlxEase.quartInOut});
+				});
+
 				openSubState(new VictoryScreenSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 			}
 			transitioning = true;
