@@ -146,7 +146,7 @@ class PlayState extends MusicBeatState
 
 	public var gfSpeed:Int = 1;
 	public var health:Float = 1;
-	public var combo:Int = 0;
+	public static var combo:Int = 0;
 
 	private var healthBarBG:AttachedSprite;
 	public var healthBar:FlxBar;
@@ -219,7 +219,7 @@ class PlayState extends MusicBeatState
 	public var scoreTxt:FlxText;
 	public var judgementData:FlxText;
 	public var extraSongDets:FlxText;
-	var ratingFC:String = '';
+	public static var ratingFC:String = '';
 	var timeTxt:FlxText;
 	var scoreTxtTween:FlxTween;
 
@@ -2026,9 +2026,8 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
-		var credit:String = Assets.getText(curSong.toLowerCase() + '/credit');
-		var ftArtist:String = Assets.getText(curSong.toLowerCase() + 'featuring');
-		var origin:String = Assets.getText(curSong.toLowerCase() + '/origin');
+		var credit:String = Assets.getText(Paths.txt(curSong.toLowerCase() + "/" + "credit"));
+		var origin:String = Assets.getText(Paths.txt(curSong.toLowerCase() + "/" + "origin"));
 
 		if(ratingString == '?') {
 			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingString;
@@ -2038,11 +2037,7 @@ class PlayState extends MusicBeatState
 
 		judgementData.text = 'Total Hits: ' + songHits + '\nCombo: ' + combo + '\n\nSick: ' + songSicks + '\nGood: ' + songGoods + '\nBad: ' + songBads + '\nShit: ' + songShits;
 
-		if (OpenFlAssets.exists(ftArtist)) {
-			extraSongDets.text = SONG.song.toUpperCase() + '\n' + CoolUtil.difficultyString() + '\n' + credit + ' feat. ' + ftArtist + '\nFrom: ' + origin;
-		} else {
-			extraSongDets.text = SONG.song.toUpperCase() + '\n' + CoolUtil.difficultyString() + '\n' + credit + '\nFrom: ' + origin;
-		}
+		extraSongDets.text = SONG.song.toUpperCase() + '\n' + CoolUtil.difficultyString() + '\n' + credit + '\nFrom: ' + origin;
 
 		if(cpuControlled) {
 			botplaySine += 180 * elapsed;
@@ -2977,7 +2972,7 @@ class PlayState extends MusicBeatState
 				Highscore.saveScore(SONG.song, songScore, storyDifficulty, percent);
 				#end
 			}
-
+			
 			if (isStoryMode)
 			{
 				campaignScore += songScore;
@@ -2987,14 +2982,14 @@ class PlayState extends MusicBeatState
 
 				if (storyPlaylist.length <= 0)
 				{
-					FlxG.sound.playMusic(Paths.music('freakyMenu'));
+					// FlxG.sound.playMusic(Paths.music('freakyMenu'));
 
-					cancelFadeTween();
+					/* cancelFadeTween();
 					CustomFadeTransition.nextCamera = camOther;
 					if(FlxTransitionableState.skipNextTransIn) {
 						CustomFadeTransition.nextCamera = null;
-					}
-					MusicBeatState.switchState(new StoryMenuState());
+					} */
+					// MusicBeatState.switchState(new StoryMenuState());
 
 					// if ()
 					if(!usedPractice) {
@@ -3011,6 +3006,7 @@ class PlayState extends MusicBeatState
 					usedPractice = false;
 					changedDifficulty = false;
 					cpuControlled = false;
+					openSubState(new VictoryScreenSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 				}
 				else
 				{
@@ -3056,16 +3052,17 @@ class PlayState extends MusicBeatState
 			else
 			{
 				trace('WENT BACK TO FREEPLAY??');
-				cancelFadeTween();
+				/* cancelFadeTween();
 				CustomFadeTransition.nextCamera = camOther;
 				if(FlxTransitionableState.skipNextTransIn) {
 					CustomFadeTransition.nextCamera = null;
-				}
-				MusicBeatState.switchState(new FreeplayState());
-				FlxG.sound.playMusic(Paths.music('freakyMenu'));
+				} */
+				// MusicBeatState.switchState(new FreeplayState());
+				// FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				usedPractice = false;
 				changedDifficulty = false;
 				cpuControlled = false;
+				openSubState(new VictoryScreenSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 			}
 			transitioning = true;
 		}
@@ -4025,7 +4022,7 @@ class PlayState extends MusicBeatState
 			}
 
 			ratingFC = "";
-			if (songSicks > 0) ratingFC = "SFC";
+			if (songSicks > 0) ratingFC = "MFC";
 			if (songGoods > 0) ratingFC = "GFC";
 			if (songBads > 0 || songShits > 0) ratingFC = "FC";
 			if (songMisses > 0 && songMisses < 10) ratingFC = "SDCB";
