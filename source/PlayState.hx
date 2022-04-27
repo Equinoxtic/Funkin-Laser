@@ -218,6 +218,7 @@ class PlayState extends MusicBeatState
 	public var ghostMisses:Int = 0;
 	public var scoreTxt:FlxText;
 	public var judgementData:FlxText;
+	public var extraSongDets:FlxText;
 	var timeTxt:FlxText;
 	var scoreTxtTween:FlxTween;
 
@@ -870,7 +871,10 @@ class PlayState extends MusicBeatState
 		healthBarBG.y = FlxG.height * 0.89;
 		healthBarBG.screenCenter(X);
 		healthBarBG.scrollFactor.set();
-		healthBarBG.visible = !ClientPrefs.hideHud;
+		if (!ClientPrefs.hideHud || !ModifierVars.enigma)
+			healthBarBG.visible = true;
+		else
+			healthBarBG.visible = false;
 		healthBarBG.xAdd = -4;
 		healthBarBG.yAdd = -4;
 		add(healthBarBG);
@@ -910,6 +914,13 @@ class PlayState extends MusicBeatState
 		judgementData.visible = ClientPrefs.showJudgementData;
 		add(judgementData);
 
+		extraSongDets = new FlxText(-10 * 2, healthBarBG.y - 20, FlxG.width, "", 20);
+		extraSongDets.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		extraSongDets.scrollFactor.set();
+		extraSongDets.borderSize = 1.25;
+		extraSongDets.visible = !ClientPrefs.hideHud;
+		add(extraSongDets);
+
 		botplayTxt = new FlxText(400, timeBarBG.y + 55, FlxG.width - 800, "BOTPLAY", 32);
 		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		botplayTxt.scrollFactor.set();
@@ -929,6 +940,7 @@ class PlayState extends MusicBeatState
 		iconP2.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
 		judgementData.cameras = [camHUD];
+		extraSongDets.cameras = [camHUD];
 		botplayTxt.cameras = [camHUD];
 		timeBar.cameras = [camHUD];
 		timeBarBG.cameras = [camHUD];
@@ -1452,6 +1464,16 @@ class PlayState extends MusicBeatState
 		previousFrameTime = FlxG.game.ticks;
 		lastReportedPlayheadPosition = 0;
 
+		/*
+		if (ModifierVars.lofi) {
+			FlxG.sound.playMusic(Paths.instlofi(PlayState.SONG.song), 1, false);
+		}
+
+		if (ModifierVars.hifi) {
+			FlxG.sound.playMusic(Paths.insthifi(PlayState.SONG.song), 1, false);
+		}
+		*/
+
 		FlxG.sound.playMusic(Paths.inst(PlayState.SONG.song), 1, false);
 		FlxG.sound.music.onComplete = finishSong;
 		vocals.play();
@@ -1484,17 +1506,39 @@ class PlayState extends MusicBeatState
 		// FlxG.log.add(ChartParser.parse());
 
 		var songData = SONG;
+
+		/*
+		if (ModifierVars.lofi) {
+			Conductor.changeBPM(songData.bpm * 0.8);
+		}
+		
+		if (ModifierVars.hifi) {
+			Conductor.changeBPM(songData.bpm * 1.2);
+		}
+		*/
+
 		Conductor.changeBPM(songData.bpm);
 
 		curSong = songData.song;
 
-		if (SONG.needsVoices)
+		if (SONG.needsVoices) {
+			/*
+			if (ModifierVars.lofi) {
+				vocals = new FlxSound().loadEmbedded(Paths.voiceslofi(PlayState.SONG.song));
+			}
+
+			if (ModifierVars.hifi) {
+				vocals = new FlxSound().loadEmbedded(Paths.voiceshifi(PlayState.SONG.song));
+			}
+			*/
+
 			vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song));
-		else
+		} else {
 			vocals = new FlxSound();
+		}
 
 		FlxG.sound.list.add(vocals);
-		FlxG.sound.list.add(new FlxSound().loadEmbedded(Paths.inst(PlayState.SONG.song)));
+		// FlxG.sound.list.add(new FlxSound().loadEmbedded(Paths.inst(PlayState.SONG.song)));
 
 		notes = new FlxTypedGroup<Note>();
 		add(notes);
@@ -1504,7 +1548,7 @@ class PlayState extends MusicBeatState
 		// NEW SHIT
 		noteData = songData.notes;
 
-		var playerCounter:Int = 0;
+		var playerCounter:Int = 0;	
 
 		var daBeats:Int = 0; // Not exactly representative of 'daBeats' lol, just how much it has looped
 
@@ -1534,9 +1578,22 @@ class PlayState extends MusicBeatState
 			{
 				if(songNotes[1] > -1) { //Real notes
 					var daStrumTime:Float = songNotes[0];
+					if (daStrumTime < 0) { daStrumTime = 0; }
 					var daNoteData:Int = Std.int(songNotes[1] % 4);
 
 					var gottaHitNote:Bool = section.mustHitSection;
+
+					/*
+					if (ModifierVars.lofi) {
+						daStrumTime = (daStrumTime + ClientPrefs.noteOffset) * 0.8332;
+					}
+					if (ModifierVars.hifi) {
+						daStrumTime = (daStrumTime + ClientPrefs.noteOffset) * 1.25;
+					}
+					if (!ModifierVars.lofi && !ModifierVars.hifi) {
+						daStrumTime = daStrumTime + ClientPrefs.noteOffset;
+					}
+					*/
 
 					if (songNotes[1] > 3)
 					{
@@ -1558,6 +1615,15 @@ class PlayState extends MusicBeatState
 
 					var susLength:Float = swagNote.sustainLength;
 
+					/*
+					if (ModifierVars.lofi) {
+						susLength = susLength / Conductor.stepCrochet * 0.8338;
+					}
+					if (ModifierVars.hifi) {
+						susLength = susLength / Conductor.stepCrochet * 1.25;
+					}
+					*/
+	
 					susLength = susLength / Conductor.stepCrochet;
 					unspawnNotes.push(swagNote);
 
@@ -1959,6 +2025,9 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
+		var credit:String = Paths.txt(curSong.toLowerCase() + '/credit.txt');
+		var origin:String = Paths.txt(curSong.toLowerCase() + '/origin.txt');
+
 		if(ratingString == '?') {
 			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingString;
 		} else {
@@ -1966,6 +2035,8 @@ class PlayState extends MusicBeatState
 		}
 
 		judgementData.text = 'Total Hits: ' + songHits + '\nCombo: ' + combo + '\n\nSick: ' + songSicks + '\nGood: ' + songGoods + '\nBad: ' + songBads + '\nShit: ' + songShits;
+
+		extraSongDets.text = SONG.song.toUpperCase() + '\n' + CoolUtil.difficultyString() + '\n' + credit + '\nFrom: ' + origin;
 
 		if(cpuControlled) {
 			botplaySine += 180 * elapsed;
@@ -3771,6 +3842,15 @@ class PlayState extends MusicBeatState
 		{
 			if (SONG.notes[Math.floor(curStep / 16)].changeBPM)
 			{
+				/*
+				if (ModifierVars.lofi) {
+					Conductor.changeBPM(SONG.notes[Math.floor(curStep / 16)].bpm * 0.7);
+				}
+				if (ModifierVars.hifi) {
+					Conductor.changeBPM(SONG.notes[Math.floor(curStep / 16)].bpm * 1.2);
+				}
+				*/
+
 				Conductor.changeBPM(SONG.notes[Math.floor(curStep / 16)].bpm);
 				//FlxG.log.add('CHANGED BPM!');
 				setOnLuas('curBpm', Conductor.bpm);
