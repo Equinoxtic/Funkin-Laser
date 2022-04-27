@@ -442,7 +442,7 @@ class DifficultyReductionSubState extends MusicBeatSubstate
 
 	static var options:Array<String> = [
 		'MODIFIERS',
-		'Lo-Fi',
+		// 'Lo-Fi',
 		'No Fail',
 		'Modcharts Disabled'
 	];
@@ -574,8 +574,8 @@ class DifficultyReductionSubState extends MusicBeatSubstate
 		if(usesCheckbox) {
 			if(controls.ACCEPT && nextAccept <= 0) {
 				switch(options[curSelected]) {
-					case 'Lo-Fi':
-						ModifierVars.lofi = !ModifierVars.lofi;
+					// case 'Lo-Fi':
+					// 	ModifierVars.lofi = !ModifierVars.lofi;
 					case 'No Fail':
 						ModifierVars.noFail = !ModifierVars.noFail;
 					case 'Modcharts Disabled':
@@ -623,8 +623,8 @@ class DifficultyReductionSubState extends MusicBeatSubstate
 
 		var daText:String = '';
 		switch(options[curSelected]) {
-			case 'Lo-Fi':
-				daText = "Chill with Lo-Fi songs.";
+			// case 'Lo-Fi':
+			// 	daText = "Chill with Lo-Fi songs.";
 			case 'No Fail':
 				daText = "Enabling this will make you invincible.";
 			case 'Modcharts Disabled':
@@ -675,8 +675,8 @@ class DifficultyReductionSubState extends MusicBeatSubstate
 			if(checkbox != null) {
 				var daValue:Bool = false;
 				switch(options[checkboxNumber[i]]) {
-					case 'Lo-Fi':
-						daValue = ModifierVars.lofi;
+					// case 'Lo-Fi':
+					// 	daValue = ModifierVars.lofi;
 					case 'No Fail':
 						daValue = ModifierVars.noFail;
 					case 'Modcharts Disabled':
@@ -725,7 +725,7 @@ class DifficultyIncreaseSubState extends MusicBeatSubstate
 	];
 	static var options:Array<String> = [
 		'MODIFIERS',
-		'Hi-Fi',
+		// 'Hi-Fi',
 		'Ghost Notes',
 		'Limited Vision',
 		'Nausea',
@@ -863,8 +863,8 @@ class DifficultyIncreaseSubState extends MusicBeatSubstate
 		if(usesCheckbox) {
 			if(controls.ACCEPT && nextAccept <= 0) {
 				switch(options[curSelected]) {
-					case 'Hi-Fi':
-						ModifierVars.hifi = !ModifierVars.hifi;
+					// case 'Hi-Fi':
+					// 	ModifierVars.hifi = !ModifierVars.hifi;
 					case 'Ghost Notes':
 						ModifierVars.ghostNotes = !ModifierVars.ghostNotes;
 					case 'Limited Vision':
@@ -984,8 +984,8 @@ class DifficultyIncreaseSubState extends MusicBeatSubstate
 			if(checkbox != null) {
 				var daValue:Bool = false;
 				switch(options[checkboxNumber[i]]) {
-					case 'Hi-Fi':
-						daValue = ModifierVars.hifi;
+					// case 'Hi-Fi':
+					// 	daValue = ModifierVars.hifi;
 					case 'Ghost Notes':
 						daValue = ModifierVars.ghostNotes;
 					case 'Limited Vision':

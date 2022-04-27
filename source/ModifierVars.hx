@@ -22,13 +22,13 @@ class ModifierVars {
 	public static var screenShakeIntensity:Float = 0;
 
 	/* Difficulty Reduction */
-	public static var lofi:Bool = false;
+	// public static var lofi:Bool = false;
 	public static var noFail:Bool = false;
 	public static var disabledModcharts:Bool = false;
 	public static var slowSpeed:Float = 0.75;
 
 	/* Difficulty Increase */
-	public static var hifi:Bool = false;
+	// public static var hifi:Bool = false;
 	public static var ghostNotes:Bool = false;
 	public static var limitedVision:Bool = false;
 	public static var nauseous:Bool = false;
@@ -58,13 +58,13 @@ class ModifierVars {
 		FlxG.save.data.songSpeed = songSpeed;
 
 		/* Difficulty Reduction */
-		FlxG.save.data.lofi = lofi;
+		// FlxG.save.data.lofi = lofi;
 		FlxG.save.data.noFail = noFail;
 		FlxG.save.data.disabledModcharts = disabledModcharts;
 		// FlxG.save.data.slowSpeed = slowSpeed;
 
 		/* Difficulty Increase */
-		FlxG.save.data.hifi = hifi;
+		// FlxG.save.data.hifi = hifi;
 		FlxG.save.data.ghostNotes = ghostNotes;
 		FlxG.save.data.limitedVision = limitedVision;
 		FlxG.save.data.nauseous = nauseous;
@@ -125,9 +125,9 @@ class ModifierVars {
 		}
 
 		/* Difficulty Reduction */
-		if (FlxG.save.data.lofi != null) {
-			lofi = FlxG.save.data.lofi;
-		}
+		// if (FlxG.save.data.lofi != null) {
+		// 	lofi = FlxG.save.data.lofi;
+		// }
 
 		if (FlxG.save.data.noFail != null) {
 			noFail = FlxG.save.data.noFail;
@@ -142,9 +142,9 @@ class ModifierVars {
 		}
 
 		/* Difficulty Increase */
-		if (FlxG.save.data.hifi != null) {
-			hifi = FlxG.save.data.hifi;
-		}
+		// if (FlxG.save.data.hifi != null) {
+		// 	hifi = FlxG.save.data.hifi;
+		// }
 
 		if (FlxG.save.data.ghostNotes != null) {
 			ghostNotes = FlxG.save.data.ghostNotes;
