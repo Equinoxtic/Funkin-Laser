@@ -156,6 +156,9 @@ class DifficultyReductionSubState extends MusicBeatSubstate
 			descText.alpha = 0;
 			close();
 			FlxG.sound.play(Paths.sound('cancelMenu'));
+			#if desktop
+			DiscordClient.changePresence("Modifiers Menu", null);
+			#end
 		}
 
 		var usesCheckbox = true;

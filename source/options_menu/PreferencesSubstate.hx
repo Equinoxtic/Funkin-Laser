@@ -178,6 +178,9 @@ class PreferencesSubstate extends MusicBeatSubstate
 			descText.alpha = 0;
 			close();
 			FlxG.sound.play(Paths.sound('cancelMenu'));
+			#if desktop
+			DiscordClient.changePresence("Options Menu", null);
+			#end
 		}
 
 		var usesCheckbox = true;

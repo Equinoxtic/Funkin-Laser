@@ -32,6 +32,7 @@ class ModifierMenuState extends MusicBeatState
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private static var curSelected:Int = 0;
 	public static var menuBG:FlxSprite;
+	var ohNoes:Bool = false;
 
 	override function create()
 	{
@@ -81,11 +82,13 @@ class ModifierMenuState extends MusicBeatState
 		}
 
 		if (controls.BACK) {
+			ohNoes = false;
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			MusicBeatState.switchState(new options_menu.OptionsState());
 		}
 
 		if (controls.ACCEPT) {
+			ohNoes = true;
 			for (item in grpOptions.members) {
 				item.alpha = 0;
 			}
@@ -100,9 +103,8 @@ class ModifierMenuState extends MusicBeatState
 				case 'Fun and Deadly':
 					openSubState(new DifficultyFunSubState());
 			}
-
 			#if desktop
-			DiscordClient.changePresence("Options Menu - " + shittyOptions[curSelected], null);
+			DiscordClient.changePresence("Modifiers Menu - " + shittyOptions[curSelected], null);
 			#end
 		}
 	}

@@ -119,6 +119,9 @@ class ControlsSubstate extends MusicBeatSubstate {
 				}
 				close();
 				FlxG.sound.play(Paths.sound('cancelMenu'));
+				#if desktop
+				DiscordClient.changePresence("Options Menu", null);
+				#end
 			}
 
 			if(controls.ACCEPT && nextAccept <= 0) {

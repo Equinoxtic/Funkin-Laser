@@ -200,6 +200,9 @@ class NotesSubstate extends MusicBeatSubstate
 			}
 			changingNote = false;
 			FlxG.sound.play(Paths.sound('cancelMenu'));
+			#if desktop
+			DiscordClient.changePresence("Options Menu", null);
+			#end
 		}
 
 		if(nextAccept > 0) {

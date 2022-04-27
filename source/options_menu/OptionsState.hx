@@ -69,7 +69,8 @@ class OptionsState extends MusicBeatState
 		changeSelection();
 	}
 
-	override function update(elapsed:Float) {
+	override function update(elapsed:Float) 
+	{
 		super.update(elapsed);
 
 		if (controls.UI_UP_P) {
@@ -102,7 +103,6 @@ class OptionsState extends MusicBeatState
 				case 'Modifiers':
 					MusicBeatState.switchState(new modifier_menu.ModifierMenuState());
 			}
-
 			#if desktop
 			DiscordClient.changePresence("Options Menu - " + options[curSelected], null);
 			#end
