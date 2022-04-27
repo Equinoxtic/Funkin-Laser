@@ -676,7 +676,7 @@ class DifficultyReductionSubState extends MusicBeatSubstate
 				var daValue:Bool = false;
 				switch(options[checkboxNumber[i]]) {
 					case 'Lo-Fi':
-						daValue = ModifierVars.hifi;
+						daValue = ModifierVars.lofi;
 					case 'No Fail':
 						daValue = ModifierVars.noFail;
 					case 'Modcharts Disabled':
