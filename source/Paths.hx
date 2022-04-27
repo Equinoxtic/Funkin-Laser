@@ -191,6 +191,28 @@ class Paths
 		return 'songs:assets/songs/${song.toLowerCase().replace(' ', '-')}/Voices.$SOUND_EXT';
 	}
 
+	inline static public function voiceslofi(lofiSong:String):Any
+	{
+		#if MODS_ALLOWED
+		var file:Sound = returnSongFile(modsSongs(lofiSong.toLowerCase().replace(' ', '-') + '/Voices_LOFI'));
+		if (file != null) {
+			return file;
+		}
+		#end
+		return 'songs:assets/songs/${lofiSong.toLowerCase().replace(' ', '-')}/Voices_LOFI.$SOUND_EXT';
+	}
+
+	inline static public function voiceshifi(hifiSong:String):Any
+	{
+		#if MODS_ALLOWED
+		var file:Sound = returnSongFile(modsSongs(hifiSong.toLowerCase().replace(' ', '-') + '/Voices_HIFI'));
+		if (file != null) {
+			return file;
+		}
+		#end
+		return 'songs:assets/songs/${hifiSong.toLowerCase().replace(' ', '-')}/Voices_HIFI.$SOUND_EXT';
+	}
+
 	inline static public function inst(song:String):Any
 	{
 		#if MODS_ALLOWED
@@ -200,6 +222,28 @@ class Paths
 		}
 		#end
 		return 'songs:assets/songs/${song.toLowerCase().replace(' ', '-')}/Inst.$SOUND_EXT';
+	}
+
+	inline static public function instlofi(lofiSong:String):Any
+	{
+		#if MODS_ALLOWED
+		var file:Sound = returnSongFile(modsSongs(lofiSong.toLowerCase().replace(' ', '-') + '/Inst_LOFI'));
+		if (file != null) {
+			return file;
+		}
+		#end
+		return 'songs:assets/songs/${lofiSong.toLowerCase().replace(' ', '-')}/Inst_LOFI.$SOUND_EXT';
+	}
+
+	inline static public function insthifi(hifiSong:String):Any
+	{
+		#if MODS_ALLOWED
+		var file:Sound = returnSongFile(modsSongs(hifiSong.toLowerCase().replace(' ', '-') + '/Inst_HIFI'));
+		if (file != null) {
+			return file;
+		}
+		#end
+		return 'songs:assets/songs/${hifiSong.toLowerCase().replace(' ', '-')}/Inst_HIFI.$SOUND_EXT';
 	}
 
 	#if MODS_ALLOWED
