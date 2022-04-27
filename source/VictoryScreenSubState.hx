@@ -1,5 +1,8 @@
 package;
 
+#if desktop
+import Discord.DiscordClient;
+#end
 import Controls.Control;
 import flixel.FlxG;
 import flixel.FlxSubState;
@@ -106,6 +109,10 @@ class VictoryScreenSubState extends MusicBeatSubstate
 			});
 			allowExit = true;
 		});
+
+		#if desktop
+		DiscordClient.changePresence(PlayState.SONG.song + " - " + PlayState.ratingFC, null);
+		#end
 	}
 
 	override public function update(elapsed:Float) {
