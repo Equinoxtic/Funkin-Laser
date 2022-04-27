@@ -32,6 +32,21 @@
 
 ## Installing components
 
-Open Visual Studio (2019), then click on Modify
+Open Visual Studio (2019), then click on "Modify"
 
 ![thing](https://cdn.discordapp.com/attachments/798150104158568448/968890348661268511/unknown.png)
+
+After that, click on "Individual Components"
+
+![thing2](https://cdn.discordapp.com/attachments/798150104158568448/968891539768102922/unknown.png)
+
+Go and search for these components (Press CTRL + Q to search)
+
+* MSVC v142 - VS 2019 C++ x64/x86 build tools
+* Windows SDK (10.0.17763.0)
+
+This will only take up 4GB of your storage
+
+Wait for it to fully install, and once done installing open a desired terminal in the engine's folder and then type in ``lime test windows``
+
+Wait for the engine to fully compile and you would be sent straight into the Funkin' Game!
