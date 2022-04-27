@@ -30,6 +30,7 @@
 * ``haxelib git polymod https://github.com/MasterEric/polymod.git``
 * ``haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc``
 
+
 ## Installing components
 
 Open Visual Studio (2019), then click on "Modify"
@@ -47,6 +48,28 @@ Go and search for these components (Press CTRL + Q to search)
 
 This will only take up 4GB of your storage
 
-Wait for it to fully install, and once done installing open a desired terminal in the engine's folder and then type in ``lime test windows``
+After you hve done all of these steps, it is time for you to start installing the engine
+
+## Installing the engine
+
+### Very basic way
+
+Click that green thing that says "Code"  (I know it's different for me because I am using an extension for GitHub)
+
+Then press Download ZIP
+
+![thing3idk](https://cdn.discordapp.com/attachments/798150104158568448/969003805352001558/unknown.png)
+
+Once the zip file is done downloading, extract it somewhere in your system
+
+### The cool way :sunglasses:
+
+Open up your terminal
+
+Type in ``git clone https://github.com/Equinoxtic/Funkin-Laser``
+
+Wait for it to finish, then once it is finished, type in ``cd Funkin-Laser``
+
+Now type in ``lime test windows``
 
 Wait for the engine to fully compile and you would be sent straight into the Funkin' Game!
