@@ -2026,6 +2026,7 @@ class PlayState extends MusicBeatState
 		super.update(elapsed);
 
 		var credit:String = Paths.txt(curSong.toLowerCase() + '/credit.txt');
+		var ftArtist:String = Paths.txt(curSong.toLowerCase() + 'featuring.txt');
 		var origin:String = Paths.txt(curSong.toLowerCase() + '/origin.txt');
 
 		if(ratingString == '?') {
@@ -2036,7 +2037,11 @@ class PlayState extends MusicBeatState
 
 		judgementData.text = 'Total Hits: ' + songHits + '\nCombo: ' + combo + '\n\nSick: ' + songSicks + '\nGood: ' + songGoods + '\nBad: ' + songBads + '\nShit: ' + songShits;
 
-		extraSongDets.text = SONG.song.toUpperCase() + '\n' + CoolUtil.difficultyString() + '\n' + credit + '\nFrom: ' + origin;
+		if (OpenFLAssets.exists(ftArtist)) {
+			extraSongDets.text = SONG.song.toUpperCase() + '\n' + CoolUtil.difficultyString() + '\n' + credit + ' feat. ' + ftArtist + '\nFrom: ' + origin;
+		} else {
+			extraSongDets.text = SONG.song.toUpperCase() + '\n' + CoolUtil.difficultyString() + '\n' + credit + '\nFrom: ' + origin;
+		}
 
 		if(cpuControlled) {
 			botplaySine += 180 * elapsed;
