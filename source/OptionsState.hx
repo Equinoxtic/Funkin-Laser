@@ -100,7 +100,7 @@ class OptionsState extends MusicBeatState
 					openSubState(new PreferencesSubstate());
 
 				case 'Modifiers':
-					MusicBeatState.switchState(new GameplayChangersState());
+					MusicBeatState.switchState(new modifier_menu.ModifierMenuState());
 			}
 		}
 	}
