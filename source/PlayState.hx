@@ -71,7 +71,7 @@ class PlayState extends MusicBeatState
 		['Good', 0.8], //From 70% to 79%
 		['Great', 0.9], //From 80% to 89%
 		['Sick!', 1], //From 90% to 99%
-		['Perfect!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
+		['Perfect!', 1] //The value on this one isn't used actually, since Perfect is always "1"
 	];
 	
 	#if (haxe >= "4.0.0")
@@ -219,6 +219,7 @@ class PlayState extends MusicBeatState
 	public var scoreTxt:FlxText;
 	public var judgementData:FlxText;
 	public var extraSongDets:FlxText;
+	var ratingFC:String = '';
 	var timeTxt:FlxText;
 	var scoreTxtTween:FlxTween;
 
@@ -2025,14 +2026,14 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
-		var credit:String = Paths.txt(curSong.toLowerCase() + '/credit.txt');
-		var ftArtist:String = Paths.txt(curSong.toLowerCase() + 'featuring.txt');
-		var origin:String = Paths.txt(curSong.toLowerCase() + '/origin.txt');
+		var credit:String = Assets.getText(curSong.toLowerCase() + '/credit');
+		var ftArtist:String = Assets.getText(curSong.toLowerCase() + 'featuring');
+		var origin:String = Assets.getText(curSong.toLowerCase() + '/origin');
 
 		if(ratingString == '?') {
 			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingString;
 		} else {
-			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingString + ' (' + Math.floor(ratingPercent * 100) + '%)';
+			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingString + ' (' + Math.floor(ratingPercent * 100) + '%) - ' + ratingFC;
 		}
 
 		judgementData.text = 'Total Hits: ' + songHits + '\nCombo: ' + combo + '\n\nSick: ' + songSicks + '\nGood: ' + songGoods + '\nBad: ' + songBads + '\nShit: ' + songShits;
@@ -4023,8 +4024,16 @@ class PlayState extends MusicBeatState
 				}
 			}
 
+			ratingFC = "";
+			if (songSicks > 0) ratingFC = "SFC";
+			if (songGoods > 0) ratingFC = "GFC";
+			if (songBads > 0 || songShits > 0) ratingFC = "FC";
+			if (songMisses > 0 && songMisses < 10) ratingFC = "SDCB";
+			else if (songMisses >= 10) ratingFC = "Clear";
+
 			setOnLuas('rating', ratingPercent);
 			setOnLuas('ratingName', ratingString);
+			setOnLuas('ratingFC', ratingFC);
 		}
 	}
 
