@@ -82,7 +82,7 @@ class ModifierMenuState extends MusicBeatState
 
 		if (controls.BACK) {
 			FlxG.sound.play(Paths.sound('cancelMenu'));
-			MusicBeatState.switchState(new OptionsState());
+			MusicBeatState.switchState(new options_menu.OptionsState());
 		}
 
 		if (controls.ACCEPT) {
