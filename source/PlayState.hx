@@ -2037,7 +2037,7 @@ class PlayState extends MusicBeatState
 
 		judgementData.text = 'Total Hits: ' + songHits + '\nCombo: ' + combo + '\n\nSick: ' + songSicks + '\nGood: ' + songGoods + '\nBad: ' + songBads + '\nShit: ' + songShits;
 
-		if (OpenFLAssets.exists(ftArtist)) {
+		if (OpenFlAssets.exists(ftArtist)) {
 			extraSongDets.text = SONG.song.toUpperCase() + '\n' + CoolUtil.difficultyString() + '\n' + credit + ' feat. ' + ftArtist + '\nFrom: ' + origin;
 		} else {
 			extraSongDets.text = SONG.song.toUpperCase() + '\n' + CoolUtil.difficultyString() + '\n' + credit + '\nFrom: ' + origin;
