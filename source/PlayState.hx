@@ -3003,9 +3003,11 @@ class PlayState extends MusicBeatState
 						FlxG.save.data.weekCompleted = StoryMenuState.weekCompleted;
 						FlxG.save.flush();
 					}
+
 					usedPractice = false;
 					changedDifficulty = false;
 					cpuControlled = false;
+
 					openSubState(new VictoryScreenSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 				}
 				else
