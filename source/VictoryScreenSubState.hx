@@ -92,14 +92,20 @@ class VictoryScreenSubState extends MusicBeatSubstate
 			leSpr.alpha = 0;
 			grpRatingItems.add(leSpr);
 		}
+
+		changeSelection();
+
+		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 		
-		FlxTween.tween(bg, {alpha: 1}, 1.1, {ease: FlxEase.quartInOut});
+		FlxTween.tween(bg, {alpha: 0.65}, 0.45, {ease: FlxEase.quartInOut});
 		FlxG.sound.play(Paths.sound("results_sounds/buildup"));
 		new FlxTimer().start(1.5, function(tmr:FlxTimer) {
 			FlxG.sound.play(Paths.sound("results_sounds/" + soundImpact));
+			grpRatingItems.forEachAlive(function(spr:FlxSprite) {
+				FlxTween.tween(spr, {alpha: 1}, 0.35, {ease: FlxEase.backOut});
+			});
 			allowExit = true;
 		});
-		
 	}
 
 	override public function update(elapsed:Float) {
@@ -117,7 +123,7 @@ class VictoryScreenSubState extends MusicBeatSubstate
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 					var ecksdee:String = victoryItems[curSelected];
 					switch(ecksdee) {
-						case "Restart":
+						case "Replay":
 							CustomFadeTransition.nextCamera = transCamera;
 							MusicBeatState.resetState();
 							FlxG.sound.music.volume = 0;
