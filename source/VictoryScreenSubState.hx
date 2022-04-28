@@ -24,12 +24,7 @@ class VictoryScreenSubState extends MusicBeatSubstate
 	var grpVictoryItems:FlxTypedGroup<Alphabet>;
 	var victoryItems:Array<String> = ['Continue', 'Replay'];
 	var curSelected:Int = 0;
-	var grpRatingItems:FlxTypedGroup<FlxSprite>;
-	var ratingItems:Array<String> = ['MFC', 'GFC', 'FC', 'SDCB', 'Clear'];
-	var ratingStr:String = '';
 	var soundImpact:String = '';
-	var songStats:FlxText;
-	var moreSongStats:FlxText;
 	var bg:FlxSprite;
 	var allowExit:Bool = false;
 
@@ -45,18 +40,6 @@ class VictoryScreenSubState extends MusicBeatSubstate
 		bg.alpha = 0.65;
 		add(bg);
 
-		songStats = new FlxText(-10 * 2, FlxG.height * 0.79 - 10, FlxG.width, "", 20);
-		songStats.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		songStats.scrollFactor.set();
-		songStats.borderSize = 1.25;
-		add(songStats);
-
-		moreSongStats = new FlxText(10 * 2, FlxG.height * 0.79 - 275, FlxG.width, "", 20);
-		moreSongStats.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		moreSongStats.scrollFactor.set();
-		moreSongStats.borderSize = 1.25;
-		add(moreSongStats);
-
 		grpVictoryItems = new FlxTypedGroup<Alphabet>();
 		add(grpVictoryItems);
 
@@ -67,34 +50,25 @@ class VictoryScreenSubState extends MusicBeatSubstate
 			grpVictoryItems.add(shit);
 		}
 
-		grpRatingItems = new FlxTypedGroup<FlxSprite>();
-		add(grpRatingItems);
-
-		switch(PlayState.ratingFC) {
+		switch(PlayState.ratingFC) { // For sounds
 			case 'Clear':
-				ratingStr = 'N/A';
 				soundImpact = 'nanda';
 			case 'SDCB':
-				ratingStr = 'SDCB';
 				soundImpact = 'sdcb';
 			case 'FC':
-				ratingStr = 'FC';
 				soundImpact = 'gfcorfc';
 			case 'GFC':
-				ratingStr = 'GFC';
 				soundImpact = 'gfcorfc';
 			case 'MFC':
-				ratingStr = 'MFC';
 				soundImpact = 'mfc';
 		}
 
-		for (i in 0...ratingItems.length) {
-			var leSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image("rankings/" + ratingStr));
-			leSpr.screenCenter();
-			leSpr.antialiasing = ClientPrefs.globalAntialiasing;
-			leSpr.alpha = 0;
-			grpRatingItems.add(leSpr);
-		}
+		var ratingSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image("rankings/" + PlayState.ratingFC));
+		ratingSpr.screenCenter(Y);
+		ratingSpr.x = FlxG.width - 44 * 12;
+		ratingSpr.antialiasing = ClientPrefs.globalAntialiasing;
+		ratingSpr.alpha = 0;
+		add(ratingSpr);
 
 		changeSelection();
 
@@ -104,9 +78,7 @@ class VictoryScreenSubState extends MusicBeatSubstate
 		FlxG.sound.play(Paths.sound("results_sounds/buildup"));
 		new FlxTimer().start(1.5, function(tmr:FlxTimer) {
 			FlxG.sound.play(Paths.sound("results_sounds/" + soundImpact));
-			grpRatingItems.forEachAlive(function(spr:FlxSprite) {
-				FlxTween.tween(spr, {alpha: 1}, 0.35, {ease: FlxEase.backOut});
-			});
+			FlxTween.tween(ratingSpr, {alpha: 1}, 0.35, {ease: FlxEase.backOut});
 			allowExit = true;
 		});
 
