@@ -30,10 +30,25 @@ using StringTools;
 // TO DO: Redo the menu creation system for not being as dumb
 class OptionsState extends MusicBeatState
 {
-	var options:Array<String> = ['Notes', 'Controls', 'Preferences', 'Modifiers'];
+	var options:Array<String> = ['Notes', 'Controls', 'Preferences', 'Extras', 'Modifiers'];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private static var curSelected:Int = 0;
 	public static var menuBG:FlxSprite;
+
+	function switchOptionsSubstate(label:String) {
+		switch(label) {
+			case 'Notes':
+				openSubState(new NotesSubstate());
+			case 'Controls':
+				openSubState(new ControlsSubstate());
+			case 'Preferences':
+				openSubState(new PreferencesSubstate());
+			case 'Extras':
+				openSubState(new ExtraPrefsSubstate());
+			case 'Modifiers':
+				MusicBeatState.switchState(new modifier_menu.ModifierMenuState());
+		}
+	}
 
 	override function create() {
 		#if desktop
@@ -89,20 +104,7 @@ class OptionsState extends MusicBeatState
 			for (item in grpOptions.members) {
 				item.alpha = 0;
 			}
-
-			switch(options[curSelected]) {
-				case 'Notes':
-					openSubState(new NotesSubstate());
-
-				case 'Controls':
-					openSubState(new ControlsSubstate());
-
-				case 'Preferences':
-					openSubState(new PreferencesSubstate());
-
-				case 'Modifiers':
-					MusicBeatState.switchState(new modifier_menu.ModifierMenuState());
-			}
+			switchOptionsSubstate(options[curSelected]);
 			#if desktop
 			DiscordClient.changePresence("Options Menu - " + options[curSelected], null);
 			#end
