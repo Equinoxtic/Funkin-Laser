@@ -2982,22 +2982,25 @@ class PlayState extends MusicBeatState
 
 				storyPlaylist.remove(storyPlaylist[0]);
 				
-				new FlxTimer().start(0.1, function(tmr:FlxTimer) {
-					FlxTween.tween(camHUD, {alpha: 0}, 0.5, {ease: FlxEase.quartInOut});
-				});
-
-				openSubState(new VictoryScreenSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+				
+				if (ClientPrefs.allowVictoryScreen) {
+					new FlxTimer().start(0.1, function(tmr:FlxTimer) {
+						FlxTween.tween(camHUD, {alpha: 0}, 0.5, {ease: FlxEase.quartInOut});
+					});
+					openSubState(new VictoryScreenSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+				}
 
 				if (storyPlaylist.length <= 0)
 				{
-					// FlxG.sound.playMusic(Paths.music('freakyMenu'));
-
-					/* cancelFadeTween();
-					CustomFadeTransition.nextCamera = camOther;
-					if(FlxTransitionableState.skipNextTransIn) {
-						CustomFadeTransition.nextCamera = null;
-					} */
-					// MusicBeatState.switchState(new StoryMenuState());
+					if (!ClientPrefs.allowVictoryScreen) {
+						FlxG.sound.playMusic(Paths.music('freakyMenu'));
+						cancelFadeTween();
+						CustomFadeTransition.nextCamera = camOther;
+						if(FlxTransitionableState.skipNextTransIn) {
+							CustomFadeTransition.nextCamera = null;
+						}
+						MusicBeatState.switchState(new StoryMenuState());
+					}
 
 					// if ()
 					if(!usedPractice) {
@@ -3060,23 +3063,27 @@ class PlayState extends MusicBeatState
 			}
 			else
 			{
-				trace('WENT BACK TO FREEPLAY??');
-				/* cancelFadeTween();
-				CustomFadeTransition.nextCamera = camOther;
-				if(FlxTransitionableState.skipNextTransIn) {
-					CustomFadeTransition.nextCamera = null;
-				} */
-				// MusicBeatState.switchState(new FreeplayState());
-				// FlxG.sound.playMusic(Paths.music('freakyMenu'));
+				if (!ClientPrefs.allowVictoryScreen) {
+					trace('WENT BACK TO FREEPLAY??');
+					cancelFadeTween();
+					CustomFadeTransition.nextCamera = camOther;
+					if(FlxTransitionableState.skipNextTransIn) {
+						CustomFadeTransition.nextCamera = null;
+					}
+					MusicBeatState.switchState(new FreeplayState());
+					FlxG.sound.playMusic(Paths.music('freakyMenu'));
+				}
+				
 				usedPractice = false;
 				changedDifficulty = false;
 				cpuControlled = false;
 
-				new FlxTimer().start(0.1, function(tmr:FlxTimer) {
-					FlxTween.tween(camHUD, {alpha: 0}, 0.5, {ease: FlxEase.quartInOut});
-				});
-
-				openSubState(new VictoryScreenSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+				if (ClientPrefs.allowVictoryScreen) {
+					new FlxTimer().start(0.1, function(tmr:FlxTimer) {
+						FlxTween.tween(camHUD, {alpha: 0}, 0.5, {ease: FlxEase.quartInOut});
+					});
+					openSubState(new VictoryScreenSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+				}
 			}
 			transitioning = true;
 		}

@@ -27,6 +27,10 @@ class ClientPrefs {
 	public static var hideTime:Bool = false;
 	public static var hitsounds:Bool = false;
 	public static var showJudgementData:Bool = true;
+	public static var allowVictoryScreen:Bool = true;
+	public static var winningIcons:Bool = true;
+	public static var noteOpacity:Float = 1;
+	public static var noteTailOpacity:Float = 1;
 
 	public static var defaultKeys:Array<FlxKey> = [
 		A, LEFT,			//Note Left
@@ -84,6 +88,10 @@ class ClientPrefs {
 		FlxG.save.data.hideTime = hideTime;
 		FlxG.save.data.hitsounds = hitsounds;
 		FlxG.save.data.showJudgementData = showJudgementData;
+		FlxG.save.data.allowVictoryScreen = allowVictoryScreen;
+		FlxG.save.data.winningIcons = winningIcons;
+		FlxG.save.data.noteOpacity = noteOpacity;
+		FlxG.save.data.noteTailOpacity = noteTailOpacity;
 
 		var achieves:Array<String> = [];
 		for (i in 0...Achievements.achievementsUnlocked.length) {
@@ -170,6 +178,18 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.showJudgementData != null) {
 			showJudgementData = FlxG.save.data.showJudgementData;
+		}
+		if(FlxG.save.data.allowVictoryScreen != null) {
+			allowVictoryScreen = FlxG.save.data.allowVictoryScreen;
+		}
+		if(FlxG.save.data.winningIcons != null) {
+			winningIcons = FlxG.save.data.winningIcons;
+		}
+		if(FlxG.save.data.noteOpacity != null) {
+			noteOpacity = FlxG.save.data.noteOpacity;
+		}
+		if(FlxG.save.data.noteTailOpacity != null) {
+			noteTailOpacity = FlxG.save.data.noteTailOpacity;
 		}
 
 		var save:FlxSave = new FlxSave();
