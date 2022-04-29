@@ -908,7 +908,7 @@ class PlayState extends MusicBeatState
 		add(scoreTxt);
 
 		judgementData = new FlxText(10 * 2, healthBarBG.y - 275, FlxG.width, "", 20);
-		judgementData.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		judgementData.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		judgementData.scrollFactor.set();
 		judgementData.borderSize = 1.25;
 		// judgementData.visible = !ClientPrefs.hideHud;
@@ -916,7 +916,7 @@ class PlayState extends MusicBeatState
 		add(judgementData);
 
 		extraSongDets = new FlxText(-10 * 2, healthBarBG.y - 20, FlxG.width, "", 20);
-		extraSongDets.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		extraSongDets.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		extraSongDets.scrollFactor.set();
 		extraSongDets.borderSize = 1.25;
 		extraSongDets.visible = !ClientPrefs.hideHud;
@@ -2032,14 +2032,14 @@ class PlayState extends MusicBeatState
 		var origin:String = Assets.getText(Paths.txt(curSong.toLowerCase().replace(' ', '-') + "/" + "origin"));
 
 		if(ratingString == '?') {
-			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingString;
+			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingString + ' - N/A';
 		} else {
-			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingString + ' (' + Math.floor(ratingPercent * 100) + '%) - ' + ratingFC;
+			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingString + ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%) - ' + ratingFC;
 		}
 
 		judgementData.text = 'Total Hits: ' + songHits + '\nCombo: ' + combo + '\n\nSick: ' + songSicks + '\nGood: ' + songGoods + '\nBad: ' + songBads + '\nShit: ' + songShits;
 
-		extraSongDets.text = SONG.song.toUpperCase() + '\n' + CoolUtil.difficultyString() + '\n' + credit + '\nFrom: ' + origin;
+		extraSongDets.text = SONG.song.toUpperCase() + '\n' + CoolUtil.difficultyString() + '\n' + credit + '\n' + origin;
 
 		if(cpuControlled) {
 			botplaySine += 180 * elapsed;
@@ -3171,9 +3171,9 @@ class PlayState extends MusicBeatState
 			if(scoreTxtTween != null) {
 				scoreTxtTween.cancel();
 			}
-			scoreTxt.scale.x = 1.1;
-			scoreTxt.scale.y = 1.1;
-			scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 0.2, {
+			scoreTxt.scale.x = 1.1 - 0.1;
+			scoreTxt.scale.y = 1.1 - 0.1;
+			scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1 - 0.1, y: 1 - 0.1}, 0.4, {
 				onComplete: function(twn:FlxTween) {
 					scoreTxtTween = null;
 				}
@@ -3893,8 +3893,8 @@ class PlayState extends MusicBeatState
 		}
 		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 4 == 0)
 		{
-			FlxG.camera.zoom += 0.015;
-			camHUD.zoom += 0.03;
+			FlxG.camera.zoom += 0.015 * 2;
+			camHUD.zoom += 0.03 * 2;
 		}
 
 		iconP1.setGraphicSize(Std.int(iconP1.width + 30));
@@ -4043,11 +4043,19 @@ class PlayState extends MusicBeatState
 			}
 
 			ratingFC = "";
-			if (songSicks > 0) ratingFC = "MFC";
-			if (songGoods > 0) ratingFC = "GFC";
-			if (songBads > 0 || songShits > 0) ratingFC = "FC";
-			if (songMisses > 0 && songMisses < 10) ratingFC = "SDCB";
-			else if (songMisses >= 10) ratingFC = "Clear";
+
+			if (songMisses == 0 && songBads == 0 && songShits == 0 && songGoods == 0) // Marvelous (SICK) Full Combo
+				ratingFC= "PFC";
+			else if (songMisses == 0 && songBads == 0 && songShits == 0 && songGoods >= 1) // Good Full Combo (Nothing but Goods & Sicks)
+				ratingFC = "MFC";
+			else if (songMisses == 0 && songBads >= 1 && songShits == 0 && songGoods >= 0) // Alright Full Combo (Bads, Goods and Sicks)
+				ratingFC = "GFC";
+			else if (songMisses == 0) // Regular FC
+				ratingFC = "FC";
+			else if (songMisses < 10) // Single Digit Combo Breaks
+				ratingFC = "SDCB";
+			else if (songMisses >= 10) 
+				ratingFC = "N/A";
 
 			setOnLuas('rating', ratingPercent);
 			setOnLuas('ratingName', ratingString);

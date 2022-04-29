@@ -25,14 +25,20 @@ class VictoryScreenSubState extends MusicBeatSubstate
 	var victoryItems:Array<String> = ['Continue', 'Replay'];
 	var curSelected:Int = 0;
 	var soundImpact:String = '';
+	var cheerSound:String = '';
 	var bg:FlxSprite;
+	var whitePulse:FlxSprite;
 	var allowExit:Bool = false;
+	var graphicToLoad:String = "";
 
 	public static var transCamera:FlxCamera;
 
 	public function new(x:Float, y:Float)
 	{
 		super();
+
+		var shittyA:Float = 0;
+		var shittyTime:Float = 0;
 
 		bg = new FlxSprite().makeGraphic(FlxG.width * 2, FlxG.height * 2, FlxColor.BLACK);
 		bg.scrollFactor.set();
@@ -50,35 +56,75 @@ class VictoryScreenSubState extends MusicBeatSubstate
 			grpVictoryItems.add(shit);
 		}
 
-		switch(PlayState.ratingFC) { // For sounds
-			case 'Clear':
-				soundImpact = 'nanda';
-			case 'SDCB':
-				soundImpact = 'sdcb';
-			case 'FC':
-				soundImpact = 'gfcorfc';
-			case 'GFC':
-				soundImpact = 'gfcorfc';
-			case 'MFC':
-				soundImpact = 'mfc';
+		
+		switch(PlayState.ratingFC) { // For loading the rating pics
+			case "N/A":
+				graphicToLoad = "NA";
+			default:
+				graphicToLoad = PlayState.ratingFC;
 		}
 
-		var ratingSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image("rankings/" + PlayState.ratingFC));
+		var ratingSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image("rankings/" + graphicToLoad));
 		ratingSpr.screenCenter(Y);
 		ratingSpr.x = FlxG.width - 44 * 12;
 		ratingSpr.antialiasing = ClientPrefs.globalAntialiasing;
 		ratingSpr.alpha = 0;
 		add(ratingSpr);
 
-		changeSelection();
-
-		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
+		whitePulse = new FlxSprite().makeGraphic(FlxG.width * 2, FlxG.height * 2, FlxColor.WHITE);
+		whitePulse.screenCenter();
+		whitePulse.alpha = 0;
+		add(whitePulse);
 		
-		FlxTween.tween(bg, {alpha: 0.65}, 0.45, {ease: FlxEase.quartInOut});
+		changeSelection();
+		
+		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
+
+		switch(PlayState.ratingFC) { // For sounds
+			case 'N/A':
+				soundImpact = 'nanda';
+				cheerSound = 'nacheer';
+				shittyA = 0.05;
+				shittyTime = 0.25;
+
+			case 'SDCB':
+				soundImpact = 'sdcb';
+				cheerSound = 'sdcbcheer';
+				shittyA = 0.15;
+				shittyTime = 0.45;
+
+			case 'FC':
+				soundImpact = 'gfcorfc';
+				cheerSound = 'goodcheer';
+				shittyA = 0.25;
+				shittyTime = 0.65;
+
+			case 'GFC':
+				soundImpact = 'gfcorfc';
+				cheerSound = 'goodcheer';
+				shittyA = 0.45;
+				shittyTime = 0.85;
+
+			case 'MFC':
+				soundImpact = 'mfc';
+				cheerSound = 'mfccheer';
+				shittyA = 0.55;
+				shittyTime = 1.05;
+
+			case 'PFC':
+				soundImpact = 'mfc';
+				cheerSound = 'pfccheer';
+				shittyA = 0.65;
+				shittyTime = 1.25;
+		}
+		
+		FlxTween.tween(bg, {alpha: 0.65}, 0.65, {ease: FlxEase.quartInOut});
 		FlxG.sound.play(Paths.sound("results_sounds/buildup"));
-		new FlxTimer().start(1.5, function(tmr:FlxTimer) {
+		new FlxTimer().start(1.7, function(tmr:FlxTimer) {
+			pulseShit(shittyA, shittyTime);
 			FlxG.sound.play(Paths.sound("results_sounds/" + soundImpact));
-			FlxTween.tween(ratingSpr, {alpha: 1}, 0.35, {ease: FlxEase.backOut});
+			FlxG.sound.play(Paths.sound("cheer_sounds/" + cheerSound));
+			FlxTween.tween(ratingSpr, {alpha: 1}, 0.15, {ease: FlxEase.backOut});
 			allowExit = true;
 		});
 
@@ -96,6 +142,7 @@ class VictoryScreenSubState extends MusicBeatSubstate
 		if (controls.UI_DOWN_P) {
 			changeSelection(1);
 		}
+
 		if (allowExit) {
 			if (controls.ACCEPT) {
 				grpVictoryItems.forEachAlive(function(spr:Alphabet) {
@@ -133,5 +180,12 @@ class VictoryScreenSubState extends MusicBeatSubstate
 				item.alpha = 1;
 			}
 		}
+	}
+
+	function pulseShit(a:Float, dur:Float) {
+		whitePulse.alpha = a;
+		FlxTween.tween(
+			whitePulse, {alpha: 0}, dur, {ease: FlxEase.quartInOut}
+		);
 	}
 }
