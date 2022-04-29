@@ -13,6 +13,7 @@ class ModifierVars {
 	/* Gamemodes and Regualar Modifiers */
 	public static var pussyMode:Bool = false;
 	public static var hardcoreMode:Bool = false;
+	public static var endlessMode:Bool = false;
 	public static var ssMode:Bool = false;
 	public static var healthDrain:Bool = false;
 	public static var screenShake:Bool = false;
@@ -51,6 +52,7 @@ class ModifierVars {
 		/* Gamemodes */
 		FlxG.save.data.pussyMode = pussyMode;
 		FlxG.save.data.hardcoreMode = hardcoreMode;
+		FlxG.save.data.endlessMode = endlessMode;
 		FlxG.save.data.ssMode = ssMode;
 		FlxG.save.data.healthDrain = healthDrain;
 		FlxG.save.data.screenShake = screenShake;
@@ -94,6 +96,10 @@ class ModifierVars {
 
 		if (FlxG.save.data.hardcoreMode != null) {
 			hardcoreMode = FlxG.save.data.hardcoreMode;
+		}
+
+		if (FlxG.save.data.endlessMode != null) {
+			endlessMode = FlxG.save.data.endlessMode;
 		}
 
 		if (FlxG.save.data.ssMode != null) {

@@ -45,6 +45,7 @@ class GamemodeSelectionSubState extends MusicBeatSubstate
 		'GAMEMODES',
 		'Pussy Mode',
 		'Hardcore Mode',
+		'Endless Mode',
 		'MODIFIERS',
 		'Perfection',
 		'Health Drain',
@@ -190,6 +191,8 @@ class GamemodeSelectionSubState extends MusicBeatSubstate
 						ModifierVars.pussyMode = !ModifierVars.pussyMode;
 					case 'Hardcore Mode':
 						ModifierVars.hardcoreMode = !ModifierVars.hardcoreMode;
+					case 'Endless Mode':
+						ModifierVars.endlessMode = !ModifierVars.endlessMode;
 					case 'Perfection':
 						ModifierVars.ssMode = !ModifierVars.ssMode;
 					case 'Health Drain':
@@ -249,6 +252,8 @@ class GamemodeSelectionSubState extends MusicBeatSubstate
 				daText = "If checked, Modcharts will have a debuff and the song will be slowed down.\n(Not compatible with Hardcore Mode)";
 			case 'Hardcore Mode':
 				daText = "If checked, Modcharts will be a lot more harder, and the song will be majorly sped up.\n(Not compatible with Pussy Mode)";
+			case 'Endless Mode':
+				daText = "If checked, the game would keep repeating itself once the song is over.";
 			case 'Perfection':
 				daText = "No missing in the song, or death.";
 			case 'Health Drain':
@@ -307,6 +312,20 @@ class GamemodeSelectionSubState extends MusicBeatSubstate
 			if(checkbox != null) {
 				var daValue:Bool = false;
 				switch(options[checkboxNumber[i]]) {
+					case 'Pussy Mode':
+						daValue = ModifierVars.pussyMode;
+					case 'Hardcore Mode':
+						daValue = ModifierVars.hardcoreMode;
+					case 'Endless Mode':
+						daValue = ModifierVars.endlessMode;
+					case 'Perfection':
+						daValue = ModifierVars.ssMode;
+					case 'Health Drain':
+						daValue = ModifierVars.healthDrain;
+					case 'Screen Shake':
+						daValue = ModifierVars.screenShake;
+					case 'Enigma':
+						daValue = ModifierVars.enigma;
 				}
 				checkbox.daValue = daValue;
 			}
@@ -318,6 +337,10 @@ class GamemodeSelectionSubState extends MusicBeatSubstate
 				switch(options[textNumber[i]]) {
 					case 'Slow Song Multiplier':
 						daText = '' + ModifierVars.slowSpeed;
+					case 'Health Drain Amount':
+						daText = '' + ModifierVars.healthDrainAmount;
+					case 'Screen Shake Intensity':
+						daText = '' + ModifierVars.screenShakeIntensity;
 				}
 				var lastTracker:FlxSprite = text.sprTracker;
 				text.sprTracker = null;
