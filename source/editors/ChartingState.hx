@@ -228,7 +228,9 @@ class ChartingState extends MusicBeatState
 				player3: 'gf',
 				speed: 1,
 				stage: 'stage',
-				validScore: false
+				validScore: false,
+				credit: '',
+				origin: ''
 			};
 		}
 		
@@ -335,10 +337,18 @@ class ChartingState extends MusicBeatState
 	var noteSkinInputText:FlxUIInputText;
 	var noteSplashesInputText:FlxUIInputText;
 	var stageDropDown:FlxUIDropDownMenuCustom;
+	var UI_credits:FlxUIInputText;
+	var UI_origin:FlxUIInputText;
 	function addSongUI():Void
 	{
 		UI_songTitle = new FlxUIInputText(10, 10, 70, _song.song, 8);
 		blockPressWhileTypingOn.push(UI_songTitle);
+
+		UI_credits = new FlxUIInputText(110, 10 * 8, 70, _song.credit, 8);
+		blockPressWhileTypingOn.push(UI_credits);
+
+		UI_origin = new FlxUIInputText(110, 10 * 12, 70, _song.origin, 8);
+		blockPressWhileTypingOn.push(UI_origin);
 		
 		var check_voices = new FlxUICheckBox(10, 25, null, null, "Has voice track", 100);
 		check_voices.checked = _song.needsVoices;
@@ -543,6 +553,8 @@ class ChartingState extends MusicBeatState
 		var tab_group_song = new FlxUI(null, UI_box);
 		tab_group_song.name = "Song";
 		tab_group_song.add(UI_songTitle);
+		tab_group_song.add(UI_credits);
+		tab_group_song.add(UI_origin);
 
 		tab_group_song.add(check_voices);
 		tab_group_song.add(clear_events);
@@ -2123,7 +2135,9 @@ class ChartingState extends MusicBeatState
 			player2: _song.player2,
 			player3: _song.player3,
 			stage: _song.stage,
-			validScore: false
+			validScore: false,
+			credit: _song.credit,
+			origin: _song.origin
 		};
 		var json = {
 			"song": eventsSong

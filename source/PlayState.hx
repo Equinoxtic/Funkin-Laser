@@ -208,20 +208,30 @@ class PlayState extends MusicBeatState
 	var wiggleShit:WiggleEffect = new WiggleEffect();
 	var bgGhouls:BGSprite;
 
-	public var songScore:Int = 0;
-	public var songHits:Int = 0;
-	public var songSicks:Int = 0;
-	public var songGoods:Int = 0;
-	public var songBads:Int = 0;
-	public var songShits:Int = 0;
-	public var songMisses:Int = 0;
-	public var ghostMisses:Int = 0;
+	public static var songScore:Int = 0;
+	public static var songHits:Int = 0;
+	public static var songSicks:Int = 0;
+	public static var songGoods:Int = 0;
+	public static var songBads:Int = 0;
+	public static var songShits:Int = 0;
+	public static var songMisses:Int = 0;
+	public static var ghostMisses:Int = 0;
 	public var scoreTxt:FlxText;
 	public var judgementData:FlxText;
 	public var extraSongDets:FlxText;
 	public static var ratingFC:String = '';
 	var timeTxt:FlxText;
 	var scoreTxtTween:FlxTween;
+
+	public static var fakeCombo:Int = 0;
+	public static var fakeScore:Int = 0;
+	public static var fakeHits:Int = 0;
+	public static var fakeSicks:Int = 0;
+	public static var fakeGoods:Int = 0;
+	public static var fakeBads:Int = 0;
+	public static var fakeShits:Int = 0;
+	public static var fakeMisses:Int = 0;
+	public static var fakeGhostMisses:Int = 0;
 
 	public static var campaignScore:Int = 0;
 	public static var campaignMisses:Int = 0;
@@ -901,7 +911,7 @@ class PlayState extends MusicBeatState
 		reloadHealthBarColors();
 
 		scoreTxt = new FlxText(0, healthBarBG.y + 36, FlxG.width, "", 20);
-		scoreTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		scoreTxt.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1.25;
 		scoreTxt.visible = !ClientPrefs.hideHud;
@@ -1287,8 +1297,6 @@ class PlayState extends MusicBeatState
 
 	public function startCountdown():Void
 	{
-		combo = 0;
-
 		if(startedCountdown) {
 			callOnLuas('onStartCountdown', []);
 			return;
@@ -1844,6 +1852,7 @@ class PlayState extends MusicBeatState
 		super.closeSubState();
 	}
 
+	/* This code literally broke the Victory Screen RPC, so fak you psych engine
 	override public function onFocus():Void
 	{
 		#if desktop
@@ -1862,7 +1871,7 @@ class PlayState extends MusicBeatState
 
 		super.onFocus();
 	}
-	
+
 	override public function onFocusLost():Void
 	{
 		#if desktop
@@ -1874,6 +1883,7 @@ class PlayState extends MusicBeatState
 
 		super.onFocusLost();
 	}
+	*/
 
 	function resyncVocals():Void
 	{
@@ -2028,8 +2038,8 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
-		var credit:String = Assets.getText(Paths.txt(curSong.toLowerCase().replace(' ', '-') + "/" + "credit"));
-		var origin:String = Assets.getText(Paths.txt(curSong.toLowerCase().replace(' ', '-') + "/" + "origin"));
+		// var credit:String = Assets.getText(Paths.txt(curSong.toLowerCase().replace(' ', '-') + "/" + "credit"));
+		// var origin:String = Assets.getText(Paths.txt(curSong.toLowerCase().replace(' ', '-') + "/" + "origin"));
 
 		if(ratingString == '?') {
 			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingString + ' - N/A';
@@ -2037,9 +2047,22 @@ class PlayState extends MusicBeatState
 			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingString + ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%) - ' + ratingFC;
 		}
 
+		switch(curSong.toLowerCase().replace(' ', '-')) { // Hard-coded song credit shit
+			case 'tutorial' | 'bopeebo' | 'fresh' | 'dad-battle' | 'spookeez' | 'south' | 'pico' | 'philly-nice' | 'blammed' | 'satin-panties' | 'high' | 'milf' | 'cocoa' | 'eggnog' | 'senpai' | 'roses' | 'thorns':
+				SONG.credit = "Kawai Sprite";
+				SONG.origin = "Friday Night Funkin'";
+			case 'monster' | 'winter-horrorland':
+				SONG.credit = "Kawai Sprite ft. Bassetfilms";
+				SONG.origin = "Friday Night Funkin'";
+		}
+
 		judgementData.text = 'Total Hits: ' + songHits + '\nCombo: ' + combo + '\n\nSick: ' + songSicks + '\nGood: ' + songGoods + '\nBad: ' + songBads + '\nShit: ' + songShits;
 
-		extraSongDets.text = SONG.song.toUpperCase() + '\n' + CoolUtil.difficultyString() + '\n' + credit + '\n' + origin;
+		if (SONG.credit != null || SONG.origin != null) {
+			extraSongDets.text = SONG.song.toUpperCase() + '\n' + CoolUtil.difficultyString() + '\n' + SONG.credit + '\n' + SONG.origin;
+		} else {
+			extraSongDets.text = SONG.song.toUpperCase() + '\n' + CoolUtil.difficultyString();
+		}
 
 		if(cpuControlled) {
 			botplaySine += 180 * elapsed;
@@ -2943,7 +2966,16 @@ class PlayState extends MusicBeatState
 		inCutscene = false;
 		updateTime = false;
 
-		deathCounter = 0;
+		fakeCombo = combo;
+		fakeScore = songScore;
+		fakeHits = songHits;
+		fakeSicks = songSicks;
+		fakeGoods = songGoods;
+		fakeBads = songBads;
+		fakeShits = songShits;
+		fakeMisses = songMisses;
+		fakeGhostMisses = ghostMisses;
+
 		seenCutscene = false;
 
 		#if ACHIEVEMENTS_ALLOWED
@@ -3171,9 +3203,9 @@ class PlayState extends MusicBeatState
 			if(scoreTxtTween != null) {
 				scoreTxtTween.cancel();
 			}
-			scoreTxt.scale.x = 1.1 - 0.1;
-			scoreTxt.scale.y = 1.1 - 0.1;
-			scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1 - 0.1, y: 1 - 0.1}, 0.4, {
+			scoreTxt.scale.x = 1.1;
+			scoreTxt.scale.y = 1.1;
+			scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 0.4, {
 				onComplete: function(twn:FlxTween) {
 					scoreTxtTween = null;
 				}
@@ -4015,8 +4047,8 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	public var ratingString:String;
-	public var ratingPercent:Float;
+	public static var ratingString:String;
+	public static var ratingPercent:Float;
 	public function RecalculateRating() {
 		setOnLuas('score', songScore);
 		setOnLuas('misses', songMisses);
