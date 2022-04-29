@@ -82,7 +82,7 @@ class VictoryScreenSubState extends MusicBeatSubstate
 		songStats.scrollFactor.set();
 		songStats.updateHitbox();
 		songStats.x = ratingSpr.x;
-		songStats.y = ratingSpr.y + 175;
+		songStats.y = ratingSpr.y + 205;
 		songStats.alpha = 0;
 		add(songStats);
 
