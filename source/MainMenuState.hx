@@ -41,6 +41,8 @@ class MainMenuState extends MusicBeatState
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
 	var camFollowPos:FlxObject;
+	
+	public static var isInSubState:Bool = false;
 
 	var bleck:FlxSprite;
 
@@ -117,7 +119,7 @@ class MainMenuState extends MusicBeatState
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
-		var fpVersion:FlxText = new FlxText(12, FlxG.height - 44, 0, "Funkin' Laser v" + funkinPlusVersion, 12);
+		var fpVersion:FlxText = new FlxText(-12, FlxG.height - 44, FlxG.width, "Funkin' Laser v" + funkinPlusVersion, 12);
 		fpVersion.scrollFactor.set();
 		fpVersion.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(fpVersion);
@@ -170,7 +172,7 @@ class MainMenuState extends MusicBeatState
 		var lerpVal:Float = CoolUtil.boundTo(elapsed * 5.6, 0, 1);
 		camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
 
-		if (!selectedSomethin)
+		if (!selectedSomethin && !isInSubState)
 		{
 			if (controls.UI_UP_P)
 			{
@@ -252,6 +254,10 @@ class MainMenuState extends MusicBeatState
 				MusicBeatState.switchState(new MasterEditorMenu());
 			}
 			#end
+
+			if (FlxG.keys.justPressed.C) {
+				openShitSubState(new NavigationBar());
+			}
 		}
 
 		super.update(elapsed);
@@ -286,5 +292,12 @@ class MainMenuState extends MusicBeatState
 				FlxG.log.add(spr.frameWidth);
 			}
 		});
+	}
+
+	function openShitSubState(subState:flixel.FlxSubState) {
+		isInSubState = true;
+		if (subState != null) {
+			openSubState(subState);
+		}
 	}
 }
