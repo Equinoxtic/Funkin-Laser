@@ -30,12 +30,18 @@ class VictoryScreenSubState extends MusicBeatSubstate
 	var whitePulse:FlxSprite;
 	var allowExit:Bool = false;
 	var graphicToLoad:String = "";
+	var songStats:FlxText;
+	var songScore:Int = PlayState.songScore;
 
 	public static var transCamera:FlxCamera;
 
 	public function new(x:Float, y:Float)
 	{
 		super();
+
+		#if desktop
+		DiscordClient.changePresence(PlayState.SONG.song + " - " + PlayState.ratingFC, null);
+		#end
 
 		var shittyA:Float = 0;
 		var shittyTime:Float = 0;
@@ -63,13 +69,22 @@ class VictoryScreenSubState extends MusicBeatSubstate
 			default:
 				graphicToLoad = PlayState.ratingFC;
 		}
-
+		
 		var ratingSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image("rankings/" + graphicToLoad));
 		ratingSpr.screenCenter(Y);
 		ratingSpr.x = FlxG.width - 44 * 12;
 		ratingSpr.antialiasing = ClientPrefs.globalAntialiasing;
 		ratingSpr.alpha = 0;
 		add(ratingSpr);
+
+		songStats = new FlxText(0, 0, FlxG.width, "", 18);
+		songStats.setFormat(Paths.font('vcr.ttf'), 18, FlxColor.WHITE, LEFT);
+		songStats.scrollFactor.set();
+		songStats.updateHitbox();
+		songStats.x = ratingSpr.x;
+		songStats.y = ratingSpr.y + 175;
+		songStats.alpha = 0;
+		add(songStats);
 
 		whitePulse = new FlxSprite().makeGraphic(FlxG.width * 2, FlxG.height * 2, FlxColor.WHITE);
 		whitePulse.screenCenter();
@@ -118,23 +133,32 @@ class VictoryScreenSubState extends MusicBeatSubstate
 				shittyTime = 1.25;
 		}
 		
-		FlxTween.tween(bg, {alpha: 0.65}, 0.65, {ease: FlxEase.quartInOut});
+		FlxTween.tween(bg, {alpha: 0.45}, 0.65, {ease: FlxEase.quartInOut});
 		FlxG.sound.play(Paths.sound("results_sounds/buildup"));
 		new FlxTimer().start(1.7, function(tmr:FlxTimer) {
 			pulseShit(shittyA, shittyTime);
 			FlxG.sound.play(Paths.sound("results_sounds/" + soundImpact));
 			FlxG.sound.play(Paths.sound("cheer_sounds/" + cheerSound));
 			FlxTween.tween(ratingSpr, {alpha: 1}, 0.15, {ease: FlxEase.backOut});
+			FlxTween.tween(songStats, {alpha: 1}, 0.15, {ease: FlxEase.backOut});
 			allowExit = true;
 		});
 
-		#if desktop
-		DiscordClient.changePresence(PlayState.SONG.song + " - " + PlayState.ratingFC, null);
-		#end
+		resetShit();
 	}
 
 	override public function update(elapsed:Float) {
 		super.update(elapsed);
+
+		songStats.text = "TOTAL STATISTICS:\n\n"
+		+ "Score: " + PlayState.fakeScore 
+		+ "\nCombo: " + PlayState.fakeCombo
+		+ "\nHits: " + PlayState.fakeHits
+		+ "\nSick: " + PlayState.fakeSicks
+		+ "\nGood: " + PlayState.fakeGoods
+		+ "\nBad: " + PlayState.fakeBads
+		+ "\nShit: " + PlayState.fakeShits;
+
 		if (controls.UI_UP_P) {
 			changeSelection(-1);
 		}
@@ -154,10 +178,11 @@ class VictoryScreenSubState extends MusicBeatSubstate
 							MusicBeatState.resetState();
 							FlxG.sound.music.volume = 0;
 						case "Continue":
-							if (PlayState.isStoryMode)
+							if (PlayState.isStoryMode) {
 								MusicBeatState.switchState(new StoryMenuState());
-							else
+							} else {
 								MusicBeatState.switchState(new FreeplayState());
+							}
 					}
 				});
 			}
@@ -187,5 +212,23 @@ class VictoryScreenSubState extends MusicBeatSubstate
 		FlxTween.tween(
 			whitePulse, {alpha: 0}, dur, {ease: FlxEase.quartInOut}
 		);
+	}
+
+	function resetShit() {
+		new FlxTimer().start(0.2, function(tmr:FlxTimer) {
+			PlayState.songScore = 0;
+			PlayState.deathCounter = 0;
+			PlayState.songHits = 0;
+			PlayState.songShits = 0;
+			PlayState.songBads = 0;
+			PlayState.songGoods = 0;
+			PlayState.songSicks = 0;
+			PlayState.combo = 0;
+			PlayState.songMisses = 0;
+			PlayState.ghostMisses = 0;
+			PlayState.ratingPercent = 0;
+			PlayState.ratingString = "?";
+			PlayState.ratingFC = "N/A";
+		});
 	}
 }

@@ -20,7 +20,7 @@ class PauseSubState extends MusicBeatSubstate
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
 	var menuItems:Array<String> = [];
-	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Change Difficulty', 'Toggle Practice Mode', 'Botplay', 'Exit to menu'];
+	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Toggle Practice Mode', 'Botplay', 'Exit to menu'];
 	var difficultyChoices = [];
 	var curSelected:Int = 0;
 
@@ -175,22 +175,25 @@ class PauseSubState extends MusicBeatSubstate
 					new FlxTimer().start(0.45, function(tmr:FlxTimer) {
 						close();
 					});
-				case 'Change Difficulty':
+				/* case 'Change Difficulty':
 					menuItems = difficultyChoices;
-					regenMenu();
+					regenMenu(); */
 				case 'Toggle Practice Mode':
 					PlayState.practiceMode = !PlayState.practiceMode;
 					PlayState.usedPractice = true;
 					practiceText.visible = PlayState.practiceMode;
 				case "Restart Song":
+					resetShit();
 					CustomFadeTransition.nextCamera = transCamera;
 					MusicBeatState.resetState();
 					FlxG.sound.music.volume = 0;
 				case 'Botplay':
+					resetShit();
 					PlayState.cpuControlled = !PlayState.cpuControlled;
 					PlayState.usedPractice = true;
 					botplayText.visible = PlayState.cpuControlled;
 				case "Exit to menu":
+					resetShit();
 					PlayState.deathCounter = 0;
 					PlayState.seenCutscene = false;
 					CustomFadeTransition.nextCamera = transCamera;
@@ -262,5 +265,23 @@ class PauseSubState extends MusicBeatSubstate
 		}
 		curSelected = 0;
 		changeSelection();
+	}
+
+	function resetShit() {
+		new FlxTimer().start(0.2, function(tmr:FlxTimer) {
+			PlayState.songScore = 0;
+			PlayState.deathCounter = 0;
+			PlayState.songHits = 0;
+			PlayState.songShits = 0;
+			PlayState.songBads = 0;
+			PlayState.songGoods = 0;
+			PlayState.songSicks = 0;
+			PlayState.combo = 0;
+			PlayState.songMisses = 0;
+			PlayState.ghostMisses = 0;
+			PlayState.ratingPercent = 0;
+			PlayState.ratingString = "?";
+			PlayState.ratingFC = "N/A";
+		});
 	}
 }

@@ -470,27 +470,27 @@ class FunkinLua {
 		
 		//stupid bietch ass functions
 		Lua_helper.add_callback(lua, "addScore", function(value:Int = 0) {
-			lePlayState.songScore += value;
+			PlayState.songScore += value;
 			lePlayState.RecalculateRating();
 		});
 		Lua_helper.add_callback(lua, "addMisses", function(value:Int = 0) {
-			lePlayState.songMisses += value;
+			PlayState.songMisses += value;
 			lePlayState.RecalculateRating();
 		});
 		Lua_helper.add_callback(lua, "addHits", function(value:Int = 0) {
-			lePlayState.songHits += value;
+			PlayState.songHits += value;
 			lePlayState.RecalculateRating();
 		});
 		Lua_helper.add_callback(lua, "setScore", function(value:Int = 0) {
-			lePlayState.songScore = value;
+			PlayState.songScore = value;
 			lePlayState.RecalculateRating();
 		});
 		Lua_helper.add_callback(lua, "setMisses", function(value:Int = 0) {
-			lePlayState.songMisses = value;
+			PlayState.songMisses = value;
 			lePlayState.RecalculateRating();
 		});
 		Lua_helper.add_callback(lua, "setHits", function(value:Int = 0) {
-			lePlayState.songHits = value;
+			PlayState.songHits = value;
 			lePlayState.RecalculateRating();
 		});
 		
@@ -625,10 +625,10 @@ class FunkinLua {
 			cameraFromString(camera).fade(colorNum, duration, false, null, forced);
 		});
 		Lua_helper.add_callback(lua, "setRatingPercent", function(value:Float) {
-			lePlayState.ratingPercent = value;
+			PlayState.ratingPercent = value;
 		});
 		Lua_helper.add_callback(lua, "setRatingString", function(value:String) {
-			lePlayState.ratingString = value;
+			PlayState.ratingString = value;
 		});
 		Lua_helper.add_callback(lua, "getMouseX", function(camera:String) {
 			var cam:FlxCamera = cameraFromString(camera);
