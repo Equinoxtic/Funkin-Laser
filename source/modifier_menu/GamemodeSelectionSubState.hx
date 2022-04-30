@@ -255,7 +255,7 @@ class GamemodeSelectionSubState extends MusicBeatSubstate
 			case 'Endless Mode':
 				daText = "If checked, the game would keep repeating itself once the song is over.";
 			case 'Perfection':
-				daText = "No missing in the song, or death.";
+				daText = "PFC a song, or get blueballed.";
 			case 'Health Drain':
 				daText = "If checked, you will have a certain and modifiable amount of health drain during the song.";
 			case 'Screen Shake':
