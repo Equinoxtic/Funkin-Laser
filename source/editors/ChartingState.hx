@@ -1140,6 +1140,8 @@ class ChartingState extends MusicBeatState
 		}
 		Conductor.songPosition = FlxG.sound.music.time;
 		_song.song = UI_songTitle.text;
+		_song.credit = UI_credits.text;
+		_song.origin = UI_origin.text;
 
 		strumLine.y = getYfromStrum((Conductor.songPosition - sectionStartTime()) / zoomList[curZoom] % (Conductor.stepCrochet * _song.notes[curSection].lengthInSteps));
 		camPos.y = strumLine.y;
