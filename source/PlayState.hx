@@ -1069,16 +1069,12 @@ class PlayState extends MusicBeatState
 
 		if (ModifierVars.hardcoreMode) {
 			ModifierVars.pussyMode = false;
-			SONG.speed = SONG.speed + 1.5;
+			SONG.speed = SONG.speed + 1.5 + ModifierVars.songSpeed;
 		}
 
 		if (ModifierVars.pussyMode) {
 			ModifierVars.hardcoreMode = false;
-			SONG.speed = SONG.speed - 0.8;
-		}
-
-		if (!ModifierVars.hardcoreMode && !ModifierVars.pussyMode) {
-			SONG.speed = SONG.speed + ModifierVars.songSpeed;
+			SONG.speed = SONG.speed - 0.8 + ModifierVars.songSpeed;
 		}
 	}
 
