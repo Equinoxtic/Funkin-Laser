@@ -40,6 +40,7 @@ class FreeplayModMenu extends MusicBeatSubstate
 	static var options:Array<String> = [
 		'MODS',
 		'Botplay',
+		'Practice Mode',
 		'MULTIPLIERS',
 		'Song Speed'
 	];
@@ -190,6 +191,8 @@ class FreeplayModMenu extends MusicBeatSubstate
 					switch(options[curSelected]) {
 						case 'Botplay':
 							ModifierVars.botplay = !ModifierVars.botplay;
+						case 'Practice Mode':
+							ModifierVars.practice = !ModifierVars.practice;
 					}
 					FlxG.sound.play(Paths.sound('scrollMenu'));
 					reloadValues();
@@ -237,9 +240,11 @@ class FreeplayModMenu extends MusicBeatSubstate
 		var daText:String = '';
 		switch(options[curSelected]) {
 			case 'Botplay':
-				daText = "If checked, the game would go into 'Botplay' mode, which would let the game play by itself.";
+				daText = "Enabling this would enable \"Botplay\" mode, which would let the game play by itself.";
+			case  'Practice Mode':
+				daText = "Enabling this would enable \"Practice\" mode.\nThis mode will grant you no failure, but a penalty once your HP drops to 0.";
 			case 'Song Speed':
-				daText = 'Set how fast the song should go.';
+				daText = "Set how fast the song should go.\n(Going above 0 will speed up the song)";
 		}
 		descText.text = daText;
 
@@ -286,6 +291,8 @@ class FreeplayModMenu extends MusicBeatSubstate
 				switch(options[checkboxNumber[i]]) {
 					case 'Botplay':
 						daValue = ModifierVars.botplay;
+					case 'Practice Mode':
+						daValue = ModifierVars.practice;
 				}
 				checkbox.daValue = daValue;
 			}

@@ -20,7 +20,7 @@ class PauseSubState extends MusicBeatSubstate
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
 	var menuItems:Array<String> = [];
-	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Toggle Practice Mode', 'Exit to menu'];
+	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Exit to menu'];
 	var difficultyChoices = [];
 	var curSelected:Int = 0;
 
@@ -83,7 +83,7 @@ class PauseSubState extends MusicBeatSubstate
 		practiceText.setFormat(Paths.font('vcr.ttf'), 32);
 		practiceText.x = FlxG.width - (practiceText.width + 20);
 		practiceText.updateHitbox();
-		practiceText.visible = PlayState.practiceMode;
+		practiceText.visible = ModifierVars.practice;
 		add(practiceText);
 
 		botplayText = new FlxText(20, FlxG.height - 40, 0, "BOTPLAY", 32);
@@ -178,10 +178,10 @@ class PauseSubState extends MusicBeatSubstate
 				/* case 'Change Difficulty':
 					menuItems = difficultyChoices;
 					regenMenu(); */
-				case 'Toggle Practice Mode':
-					PlayState.practiceMode = !PlayState.practiceMode;
-					PlayState.usedPractice = true;
-					practiceText.visible = PlayState.practiceMode;
+				// case 'Toggle Practice Mode':
+				// 	PlayState.practiceMode = !PlayState.practiceMode;
+				// 	PlayState.usedPractice = true;
+					// practiceText.visible = ModifierVars.practice;
 				case "Restart Song":
 					resetShit();
 					CustomFadeTransition.nextCamera = transCamera;
@@ -191,7 +191,7 @@ class PauseSubState extends MusicBeatSubstate
 				// 	resetShit();
 				// 	PlayState.cpuControlled = !PlayState.cpuControlled;
 				// 	PlayState.usedPractice = true;
-				// 	botplayText.visible = PlayState.cpuControlled;
+					// botplayText.visible = ModifierVars.botplay;
 				case "Exit to menu":
 					resetShit();
 					PlayState.deathCounter = 0;
