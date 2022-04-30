@@ -2064,6 +2064,10 @@ class PlayState extends MusicBeatState
 			FlxTween.tween(camGame, {x: 0 - 10 * Math.cos((currentBeat * 0.25) * Math.PI), y: 0 - 15 * Math.cos((currentBeat * 0.25) * Math.PI), angle: -2 * 2 * Math.sin((currentBeat+1)+300)}, 0.1);
 		}
 
+		if (ModifierVars.healthDrain) {
+			health -= ModifierVars.healthDrainAmount * (health/22);
+		}
+
 		// var credit:String = Assets.getText(Paths.txt(curSong.toLowerCase().replace(' ', '-') + "/" + "credit"));
 		// var origin:String = Assets.getText(Paths.txt(curSong.toLowerCase().replace(' ', '-') + "/" + "origin"));
 
@@ -3680,6 +3684,10 @@ class PlayState extends MusicBeatState
 						gf.heyTimer = 0.6;
 					}
 				}
+			}
+
+			if (ModifierVars.healthDrain) {
+				health += ModifierVars.healthDrainAmount + 0.1;
 			}
 
 			if(ModifierVars.botplay) {
