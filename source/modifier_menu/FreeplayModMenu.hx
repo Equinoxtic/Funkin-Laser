@@ -35,7 +35,8 @@ class FreeplayModMenu extends MusicBeatSubstate
 		'MULTIPLIERS'
 	];
 	static var noCheckbox:Array<String> = [
-		'Song Speed'
+		'Song Speed',
+		'Health Drain Amount'
 	];
 	
 	static var options:Array<String> = [
@@ -45,8 +46,10 @@ class FreeplayModMenu extends MusicBeatSubstate
 		'MODS',
 		'Botplay',
 		'Practice Mode',
+		'Health Drain',
 		'MULTIPLIERS',
-		'Song Speed'
+		'Song Speed',
+		'Health Drain Amount'
 	];
 
 	private var grpOptions:FlxTypedGroup<Alphabet>;
@@ -201,6 +204,8 @@ class FreeplayModMenu extends MusicBeatSubstate
 							ModifierVars.botplay = !ModifierVars.botplay;
 						case 'Practice Mode':
 							ModifierVars.practice = !ModifierVars.practice;
+						case 'Health Drain':
+							ModifierVars.healthDrain = !ModifierVars.healthDrain;
 					}
 					FlxG.sound.play(Paths.sound('scrollMenu'));
 					reloadValues();
@@ -214,6 +219,10 @@ class FreeplayModMenu extends MusicBeatSubstate
 							ModifierVars.songSpeed += addFloat;
 							if (ModifierVars.songSpeed < 0) ModifierVars.songSpeed = 0;
 							if (ModifierVars.songSpeed > 3) ModifierVars.songSpeed = 3;
+						case 'Health Drain Amount':
+							ModifierVars.healthDrainAmount += addFloat;
+							if (ModifierVars.healthDrainAmount < 0) ModifierVars.healthDrainAmount = 0;
+							if (ModifierVars.healthDrainAmount > 5) ModifierVars.healthDrainAmount = 5;
 					}
 					reloadValues();
 
@@ -247,6 +256,10 @@ class FreeplayModMenu extends MusicBeatSubstate
 
 		var daText:String = '';
 		switch(options[curSelected]) {
+			case 'Pussy Mode':
+				daText = "If checked, the song will be slowed down.\n(Make it slower with Song Speed)";
+			case 'Hardcore Mode':
+				daText = "If checked, the song will be faster, and a hard modchart plays.\n(You can make the song faster with Song Speed)";
 			case 'Botplay':
 				daText = "Enabling this would enable \"Botplay\" mode, which would let the game play by itself.";
 			case  'Practice Mode':
@@ -316,6 +329,8 @@ class FreeplayModMenu extends MusicBeatSubstate
 				switch(options[textNumber[i]]) {
 					case 'Song Speed':
 						daText = '' + ModifierVars.songSpeed;
+					case 'Health Drain Amount':
+						daText = '' + ModifierVars.healthDrainAmount;
 				}
 				var lastTracker:FlxSprite = text.sprTracker;
 				text.sprTracker = null;
