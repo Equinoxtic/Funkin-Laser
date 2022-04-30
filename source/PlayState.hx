@@ -2107,6 +2107,7 @@ class PlayState extends MusicBeatState
 
 		if (FlxG.keys.justPressed.SEVEN && !endingSong && !inCutscene)
 		{
+			resetShit();
 			persistentUpdate = false;
 			paused = true;
 			cancelFadeTween();
@@ -2146,6 +2147,7 @@ class PlayState extends MusicBeatState
 			iconP2.animation.curAnim.curFrame = 0;
 
 		if (FlxG.keys.justPressed.EIGHT && !endingSong && !inCutscene) {
+			resetShit();
 			persistentUpdate = false;
 			paused = true;
 			cancelFadeTween();
