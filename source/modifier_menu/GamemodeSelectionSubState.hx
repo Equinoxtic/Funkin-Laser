@@ -249,9 +249,9 @@ class GamemodeSelectionSubState extends MusicBeatSubstate
 		var daText:String = '';
 		switch(options[curSelected]) {
 			case 'Pussy Mode':
-				daText = "If checked, Modcharts will have a debuff and the song will be slowed down.\n(Not compatible with Hardcore Mode)";
+				daText = "If checked, the song will be slowed down.\n(Make it slower with Song Speed)";
 			case 'Hardcore Mode':
-				daText = "If checked, Modcharts will be a lot more harder, and the song will be majorly sped up.\n(Not compatible with Pussy Mode)";
+				daText = "If checked, the song will be faster, and a hard modchart plays.\n(You can make the song faster with Song Speed)";
 			case 'Endless Mode':
 				daText = "If checked, the game would keep repeating itself once the song is over.";
 			case 'Perfection':
