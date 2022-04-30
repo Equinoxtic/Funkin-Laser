@@ -1067,7 +1067,19 @@ class PlayState extends MusicBeatState
 		#end
 		super.create();
 
-		SONG.speed = SONG.speed + ModifierVars.songSpeed;
+		if (ModifierVars.hardcoreMode) {
+			ModifierVars.pussyMode = false;
+			SONG.speed = SONG.speed + 1.5;
+		}
+
+		if (ModifierVars.pussyMode) {
+			ModifierVars.hardcoreMode = false;
+			SONG.speed = SONG.speed - 0.8;
+		}
+
+		if (!ModifierVars.hardcoreMode && !ModifierVars.pussyMode) {
+			SONG.speed = SONG.speed + ModifierVars.songSpeed;
+		}
 	}
 
 	public function addTextToDebug(text:String) {
@@ -2041,6 +2053,18 @@ class PlayState extends MusicBeatState
 		}
 
 		super.update(elapsed);
+
+		if (ModifierVars.hardcoreMode) {
+			var songPos = Conductor.songPosition;
+			var curBpm = Conductor.bpm;
+			var currentBeat = (songPos/100)/(curBpm/70);
+			for (i in 0...strumLineNotes.members.length) {
+				FlxTween.tween(strumLineNotes.members[i], {y: strumLineNotes.members.length + 30 * Math.cos((currentBeat+i)+300)}, 0.1);
+				FlxTween.tween(strumLineNotes.members[i], {angle: strumLineNotes.members.length - 360 * Math.sin((currentBeat+i)+300)}, 0.1);
+			}
+			FlxTween.tween(camHUD, {angle: -2 * 2 * Math.sin((currentBeat+1)+300)}, 0.1);
+			FlxTween.tween(camGame, {angle: -2 * 2 * Math.sin((currentBeat+1)+300)}, 0.1);
+		}
 
 		// var credit:String = Assets.getText(Paths.txt(curSong.toLowerCase().replace(' ', '-') + "/" + "credit"));
 		// var origin:String = Assets.getText(Paths.txt(curSong.toLowerCase().replace(' ', '-') + "/" + "origin"));
