@@ -2217,6 +2217,13 @@ class PlayState extends MusicBeatState
 		}
 		doDeathCheck();
 
+		if (ModifierVars.ssMode) {
+			if (songMisses > 0) {
+				health = 0;
+				trace("STUPID");
+			}
+		}
+
 		var roundedSpeed:Float = FlxMath.roundDecimal(SONG.speed, 2);
 		if (unspawnNotes[0] != null)
 		{
@@ -2487,9 +2494,26 @@ class PlayState extends MusicBeatState
 	}
 
 	var isDead:Bool = false;
+
+	function resetShitButDeath() {
+		songScore = 0;
+		songHits = 0;
+		songShits = 0;
+		songBads = 0;
+		songGoods = 0;
+		songSicks = 0;
+		combo = 0;
+		songMisses = 0;
+		ghostMisses = 0;
+		ratingPercent = 0;
+		ratingString = "?";
+		ratingFC = "N/A";
+	}
+
 	function doDeathCheck() {
 		if (health <= 0 && !ModifierVars.practice && !isDead)
 		{
+			resetShitButDeath();
 			var ret:Dynamic = callOnLuas('onGameOver', []);
 			if(ret != FunkinLua.Function_Stop) {
 				boyfriend.stunned = true;
@@ -2960,6 +2984,13 @@ class PlayState extends MusicBeatState
 	var transitioning = false;
 	public function endSong():Void
 	{
+		var shitty:Float = Highscore.floorDecimal(ratingPercent * 100, 2);
+		if (ModifierVars.ssMode) {
+			if (shitty != 100) {
+				health = 0;
+				trace("FAILURE");
+			}
+		}
 		//Should kill you if you tried to cheat
 		if(!startingSong) {
 			notes.forEach(function(daNote:Note) {
