@@ -30,6 +30,7 @@ class FreeplayModMenu extends MusicBeatSubstate
 {
 	private static var curSelected:Int = 0;
 	static var unselectableOptions:Array<String> = [
+		'GAMEMODES',
 		'MODS',
 		'MULTIPLIERS'
 	];
@@ -38,6 +39,9 @@ class FreeplayModMenu extends MusicBeatSubstate
 	];
 	
 	static var options:Array<String> = [
+		'GAMEMODES',
+		'Pussy Mode',
+		'Hardcore Mode',
 		'MODS',
 		'Botplay',
 		'Practice Mode',
@@ -189,6 +193,10 @@ class FreeplayModMenu extends MusicBeatSubstate
 			if(usesCheckbox) {
 				if(controls.ACCEPT && nextAccept <= 0) {
 					switch(options[curSelected]) {
+						case 'Pussy Mode':
+							ModifierVars.pussyMode = !ModifierVars.pussyMode;
+						case 'Hardcore Mode':
+							ModifierVars.hardcoreMode = !ModifierVars.hardcoreMode;
 						case 'Botplay':
 							ModifierVars.botplay = !ModifierVars.botplay;
 						case 'Practice Mode':
@@ -289,6 +297,10 @@ class FreeplayModMenu extends MusicBeatSubstate
 			if(checkbox != null) {
 				var daValue:Bool = false;
 				switch(options[checkboxNumber[i]]) {
+					case 'Pussy Mode':
+						daValue = ModifierVars.pussyMode;
+					case 'Hardcore Mode':
+						daValue = ModifierVars.hardcoreMode;
 					case 'Botplay':
 						daValue = ModifierVars.botplay;
 					case 'Practice Mode':
