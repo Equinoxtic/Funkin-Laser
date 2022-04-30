@@ -232,9 +232,9 @@ class DifficultyFunSubState extends MusicBeatSubstate
 		var daText:String = '';
 		switch(options[curSelected]) {
 			case 'Botplay':
-				daText = "If checked, the game would go into 'Botplay' modem, which would let the game play by itself. (You can also enable this from the Pause Menu)";
-			case 'Practice':
-				daText = "If checked, Practice Mode will be enabled, which grants you No Fail but you can't get a Week Score if you had this on.\n(Although if your HP drops to 0, it will not grant you to get accuracy)\n(You can also enable this in the Pause Menu)";
+				daText = "Enabling this would enable \"Botplay\" mode, which would let the game play by itself.";
+			case  'Practice Mode':
+				daText = "Enabling this would enable \"Practice\" mode.\nThis mode will grant you no failure, but a penalty once your HP drops to 0.";
 			case 'Hell':
 				daText = "Hell. Just pure Hell.";
 			case 'Drugs':
