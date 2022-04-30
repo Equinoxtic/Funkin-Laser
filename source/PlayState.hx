@@ -266,6 +266,8 @@ class PlayState extends MusicBeatState
 	private var luaDebugGroup:FlxTypedGroup<DebugLuaText>;
 	public var introSoundsSuffix:String = '';
 
+	var pausedHardcoreModchart:Bool = false;
+
 	override public function create()
 	{
 		#if MODS_ALLOWED
@@ -1755,7 +1757,7 @@ class PlayState extends MusicBeatState
 			{
 				babyArrow.y -= 10;
 				babyArrow.alpha = 0;
-				FlxTween.tween(babyArrow, {y: babyArrow.y + 10, alpha: 1}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
+				FlxTween.tween(babyArrow, {y: babyArrow.y + 10, alpha: ModifierVars.ghostNoteAlpha}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
 			}
 
 			if (player == 1)
@@ -2050,7 +2052,7 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
-		if (ModifierVars.hardcoreMode) {
+		if (ModifierVars.hardcoreMode && !pausedHardcoreModchart) {
 			var songPos = Conductor.songPosition;
 			var curBpm = Conductor.bpm;
 			var currentBeat = (songPos/100)/(curBpm/70);
@@ -2058,8 +2060,8 @@ class PlayState extends MusicBeatState
 				FlxTween.tween(strumLineNotes.members[i], {y: strumLineNotes.members.length + 30 * Math.cos((currentBeat+i)+300)}, 0.1);
 				FlxTween.tween(strumLineNotes.members[i], {angle: strumLineNotes.members.length - 360 * Math.sin((currentBeat+i)+300)}, 0.1);
 			}
-			FlxTween.tween(camHUD, {angle: -2 * 2 * Math.sin((currentBeat+1)+300)}, 0.1);
-			FlxTween.tween(camGame, {angle: -2 * 2 * Math.sin((currentBeat+1)+300)}, 0.1);
+			FlxTween.tween(camHUD, {x: 0 - 10 * Math.cos((currentBeat * 0.25) * Math.PI), y: 0 - 15 * Math.cos((currentBeat * 0.25) * Math.PI), angle: -2 * 2 * Math.sin((currentBeat+1)+300)}, 0.1);
+			FlxTween.tween(camGame, {x: 0 - 10 * Math.cos((currentBeat * 0.25) * Math.PI), y: 0 - 15 * Math.cos((currentBeat * 0.25) * Math.PI), angle: -2 * 2 * Math.sin((currentBeat+1)+300)}, 0.1);
 		}
 
 		// var credit:String = Assets.getText(Paths.txt(curSong.toLowerCase().replace(' ', '-') + "/" + "credit"));
@@ -3004,6 +3006,7 @@ class PlayState extends MusicBeatState
 	var transitioning = false;
 	public function endSong():Void
 	{
+		pausedHardcoreModchart = true;
 		var shitty:Float = Highscore.floorDecimal(ratingPercent * 100, 2);
 		if (ModifierVars.ssMode) {
 			if (shitty != 100) {
