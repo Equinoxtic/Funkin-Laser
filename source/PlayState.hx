@@ -162,7 +162,7 @@ class PlayState extends MusicBeatState
 	public static var practiceMode:Bool = false;
 	public static var usedPractice:Bool = false;
 	public static var changedDifficulty:Bool = false;
-	public static var cpuControlled:Bool = false;
+	// public static var cpuControlled:Bool = false;
 
 	var botplaySine:Float = 0;
 	var botplayTxt:FlxText;
@@ -223,6 +223,8 @@ class PlayState extends MusicBeatState
 	var timeTxt:FlxText;
 	var scoreTxtTween:FlxTween;
 
+	public static var fakeRatingPercent:Float = 0;
+	public static var fakeRankingFC:String = "";
 	public static var fakeCombo:Int = 0;
 	public static var fakeScore:Int = 0;
 	public static var fakeHits:Int = 0;
@@ -936,7 +938,7 @@ class PlayState extends MusicBeatState
 		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		botplayTxt.scrollFactor.set();
 		botplayTxt.borderSize = 1.25;
-		botplayTxt.visible = cpuControlled;
+		botplayTxt.visible = ModifierVars.botplay;
 		add(botplayTxt);
 		if(ClientPrefs.downScroll) {
 			botplayTxt.y = timeBarBG.y - 78;
@@ -1061,9 +1063,11 @@ class PlayState extends MusicBeatState
 
 		#if desktop
 		// Updating Discord Rich Presence.
-		DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
+		DiscordClient.changePresence(detailsText, SONG.song + " - " + SONG.credit + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 		#end
 		super.create();
+
+		SONG.speed = SONG.speed + ModifierVars.songSpeed;
 	}
 
 	public function addTextToDebug(text:String) {
@@ -1502,7 +1506,7 @@ class PlayState extends MusicBeatState
 
 		#if desktop
 		// Updating Discord Rich Presence (with Time Left)
-		DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter(), true, songLength);
+		DiscordClient.changePresence(detailsText, SONG.song + " - " + SONG.credit + " (" + storyDifficultyText + ")", iconP2.getCharacter(), true, songLength);
 		#end
 		setOnLuas('songLength', songLength);
 		callOnLuas('onSongStart', []);
@@ -1840,11 +1844,11 @@ class PlayState extends MusicBeatState
 			#if desktop
 			if (startTimer.finished)
 			{
-				DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter(), true, songLength - Conductor.songPosition - ClientPrefs.noteOffset);
+				DiscordClient.changePresence(detailsText, SONG.song + " - " + SONG.credit + " (" + storyDifficultyText + ")", iconP2.getCharacter(), true, songLength - Conductor.songPosition - ClientPrefs.noteOffset);
 			}
 			else
 			{
-				DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
+				DiscordClient.changePresence(detailsText, SONG.song + " - " + SONG.credit + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 			}
 			#end
 		}
@@ -2064,11 +2068,11 @@ class PlayState extends MusicBeatState
 			extraSongDets.text = SONG.song.toUpperCase() + '\n' + CoolUtil.difficultyString();
 		}
 
-		if(cpuControlled) {
+		if(ModifierVars.botplay) {
 			botplaySine += 180 * elapsed;
 			botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 180);
 		}
-		botplayTxt.visible = cpuControlled;
+		botplayTxt.visible = ModifierVars.botplay;
 
 		if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
 		{
@@ -2096,7 +2100,7 @@ class PlayState extends MusicBeatState
 				}
 			
 				#if desktop
-				DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
+				DiscordClient.changePresence(detailsPausedText, SONG.song + " - " + SONG.credit + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 				#end
 			}
 		}
@@ -2389,7 +2393,7 @@ class PlayState extends MusicBeatState
 					}
 				}
 
-				if(daNote.mustPress && cpuControlled) {
+				if(daNote.mustPress && ModifierVars.botplay) {
 					if(daNote.isSustainNote) {
 						if(daNote.canBeHit) {
 							goodNoteHit(daNote);
@@ -2407,7 +2411,7 @@ class PlayState extends MusicBeatState
 
 				if (doKill)
 				{
-					if (daNote.mustPress && !cpuControlled &&!daNote.ignoreNote && !endingSong && (daNote.tooLate || !daNote.wasGoodHit)) {
+					if (daNote.mustPress && !ModifierVars.botplay &&!daNote.ignoreNote && !endingSong && (daNote.tooLate || !daNote.wasGoodHit)) {
 						noteMiss(daNote);
 					}
 
@@ -2423,7 +2427,7 @@ class PlayState extends MusicBeatState
 		checkEventNote();
 
 		if (!inCutscene) {
-			if(!cpuControlled) {
+			if(!ModifierVars.botplay) {
 				keyShit();
 			} else if(boyfriend.holdTimer > Conductor.stepCrochet * 0.001 * boyfriend.singDuration && boyfriend.animation.curAnim.name.startsWith('sing') && !boyfriend.animation.curAnim.name.endsWith('miss')) {
 				boyfriend.dance();
@@ -2475,7 +2479,7 @@ class PlayState extends MusicBeatState
 
 		setOnLuas('cameraX', camFollowPos.x);
 		setOnLuas('cameraY', camFollowPos.y);
-		setOnLuas('botPlay', PlayState.cpuControlled);
+		setOnLuas('botPlay', ModifierVars.botplay);
 		callOnLuas('onUpdatePost', [elapsed]);
 		#end
 	}
@@ -2508,7 +2512,7 @@ class PlayState extends MusicBeatState
 				
 				#if desktop
 				// Game Over doesn't get his own variable because it's only used here
-				DiscordClient.changePresence("Game Over - " + detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
+				DiscordClient.changePresence("Game Over - " + detailsText, SONG.song + " - " + SONG.credit + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 				#end
 				isDead = true;
 				return true;
@@ -2935,6 +2939,21 @@ class PlayState extends MusicBeatState
 		}
 	}
 
+	function resetShit() {
+		songScore = 0;
+		deathCounter = 0;
+		songHits = 0;
+		songShits = 0;
+		songBads = 0;
+		songGoods = 0;
+		songSicks = 0;
+		combo = 0;
+		songMisses = 0;
+		ghostMisses = 0;
+		ratingPercent = 0;
+		ratingString = "?";
+		ratingFC = "N/A";
+	}
 
 	var transitioning = false;
 	public function endSong():Void
@@ -2966,6 +2985,8 @@ class PlayState extends MusicBeatState
 		inCutscene = false;
 		updateTime = false;
 
+		fakeRatingPercent = ratingPercent;
+		fakeRankingFC = ratingFC;
 		fakeCombo = combo;
 		fakeScore = songScore;
 		fakeHits = songHits;
@@ -2975,6 +2996,10 @@ class PlayState extends MusicBeatState
 		fakeShits = songShits;
 		fakeMisses = songMisses;
 		fakeGhostMisses = ghostMisses;
+
+		if (ModifierVars.botplay) {
+			resetShit();
+		}
 
 		seenCutscene = false;
 
@@ -3031,6 +3056,7 @@ class PlayState extends MusicBeatState
 						if(FlxTransitionableState.skipNextTransIn) {
 							CustomFadeTransition.nextCamera = null;
 						}
+						resetShit();
 						MusicBeatState.switchState(new StoryMenuState());
 					}
 
@@ -3049,7 +3075,7 @@ class PlayState extends MusicBeatState
 
 					usedPractice = false;
 					changedDifficulty = false;
-					cpuControlled = false;
+					// cpuControlled = false;
 
 				}
 				else
@@ -3080,6 +3106,8 @@ class PlayState extends MusicBeatState
 					PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0] + difficulty, PlayState.storyPlaylist[0]);
 					FlxG.sound.music.stop();
 
+					resetShit();
+
 					if(winterHorrorlandNext) {
 						new FlxTimer().start(1.5, function(tmr:FlxTimer) {
 							cancelFadeTween();
@@ -3102,13 +3130,14 @@ class PlayState extends MusicBeatState
 					if(FlxTransitionableState.skipNextTransIn) {
 						CustomFadeTransition.nextCamera = null;
 					}
+					resetShit();
 					MusicBeatState.switchState(new FreeplayState());
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 				}
 				
 				usedPractice = false;
 				changedDifficulty = false;
-				cpuControlled = false;
+				// cpuControlled = false;
 
 				if (ClientPrefs.allowVictoryScreen) {
 					new FlxTimer().start(0.1, function(tmr:FlxTimer) {
@@ -3196,7 +3225,7 @@ class PlayState extends MusicBeatState
 			spawnNoteSplashOnNote(note);
 		}
 
-		if(!practiceMode && !cpuControlled) {
+		if(!practiceMode) {
 			songScore += score;
 			songHits++;
 			RecalculateRating();
@@ -3543,7 +3572,7 @@ class PlayState extends MusicBeatState
 	{
 		if (!note.wasGoodHit)
 		{
-			if(cpuControlled && (note.ignoreNote || note.hitCausesMiss)) return;
+			if(ModifierVars.botplay && (note.ignoreNote || note.hitCausesMiss)) return;
 
 			if(note.hitCausesMiss) {
 				noteMiss(note);
@@ -3620,7 +3649,7 @@ class PlayState extends MusicBeatState
 				}
 			}
 
-			if(cpuControlled) {
+			if(ModifierVars.botplay) {
 				var time:Float = 0.15;
 				if(note.isSustainNote && !note.animation.curAnim.name.endsWith('end')) {
 					time += 0.15;
@@ -4107,12 +4136,12 @@ class PlayState extends MusicBeatState
 							return arrayIDs[i];
 						}
 					case 8:
-						if(ratingPercent < 0.2 && !practiceMode && !cpuControlled) {
+						if(ratingPercent < 0.2 && !practiceMode && !ModifierVars.botplay) {
 							Achievements.unlockAchievement(arrayIDs[i]);
 							return arrayIDs[i];
 						}
 					case 9:
-						if(ratingPercent >= 1 && !usedPractice && !cpuControlled) {
+						if(ratingPercent >= 1 && !usedPractice && !ModifierVars.botplay) {
 							Achievements.unlockAchievement(arrayIDs[i]);
 							return arrayIDs[i];
 						}
