@@ -117,7 +117,7 @@ class FunkinLua {
 		
 		set('inGameOver', false);
 		set('mustHitSection', false);
-		set('botPlay', PlayState.cpuControlled);
+		set('botPlay', ModifierVars.botplay);
 
 		for (i in 0...4) {
 			set('defaultPlayerStrumX' + i, 0);

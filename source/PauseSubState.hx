@@ -20,7 +20,7 @@ class PauseSubState extends MusicBeatSubstate
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
 	var menuItems:Array<String> = [];
-	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Toggle Practice Mode', 'Botplay', 'Exit to menu'];
+	var menuItemsOG:Array<String> = ['Resume', 'Restart Song', 'Toggle Practice Mode', 'Exit to menu'];
 	var difficultyChoices = [];
 	var curSelected:Int = 0;
 
@@ -91,7 +91,7 @@ class PauseSubState extends MusicBeatSubstate
 		botplayText.setFormat(Paths.font('vcr.ttf'), 32);
 		botplayText.x = FlxG.width - (botplayText.width + 20);
 		botplayText.updateHitbox();
-		botplayText.visible = PlayState.cpuControlled;
+		botplayText.visible = ModifierVars.botplay;
 		add(botplayText);
 
 		blueballedTxt.alpha = 0;
@@ -156,7 +156,7 @@ class PauseSubState extends MusicBeatSubstate
 					MusicBeatState.resetState();
 					FlxG.sound.music.volume = 0;
 					PlayState.changedDifficulty = true;
-					PlayState.cpuControlled = false;
+					// PlayState.cpuControlled = false;
 					return;
 				}
 			} 
@@ -187,11 +187,11 @@ class PauseSubState extends MusicBeatSubstate
 					CustomFadeTransition.nextCamera = transCamera;
 					MusicBeatState.resetState();
 					FlxG.sound.music.volume = 0;
-				case 'Botplay':
-					resetShit();
-					PlayState.cpuControlled = !PlayState.cpuControlled;
-					PlayState.usedPractice = true;
-					botplayText.visible = PlayState.cpuControlled;
+				// case 'Botplay':
+				// 	resetShit();
+				// 	PlayState.cpuControlled = !PlayState.cpuControlled;
+				// 	PlayState.usedPractice = true;
+				// 	botplayText.visible = PlayState.cpuControlled;
 				case "Exit to menu":
 					resetShit();
 					PlayState.deathCounter = 0;
@@ -208,7 +208,7 @@ class PauseSubState extends MusicBeatSubstate
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
 					PlayState.usedPractice = false;
 					PlayState.changedDifficulty = false;
-					PlayState.cpuControlled = false;
+					// PlayState.cpuControlled = false;
 
 				case 'BACK':
 					menuItems = menuItemsOG;
