@@ -207,7 +207,7 @@ class GamemodeSelectionSubState extends MusicBeatSubstate
 			}
 		} else {
 			if(controls.UI_LEFT || controls.UI_RIGHT) {
-				var addFloat:Float = controls.UI_LEFT ? -0.01 : 0.01;
+				var addFloat:Float = controls.UI_LEFT ? -0.1 : 0.1;
 				if(holdTime > 0.5 || controls.UI_LEFT_P || controls.UI_RIGHT_P)
 				switch(options[curSelected]) {
 					case 'Song Speed':
@@ -335,6 +335,8 @@ class GamemodeSelectionSubState extends MusicBeatSubstate
 			if(text != null) {
 				var daText:String = '';
 				switch(options[textNumber[i]]) {
+					case 'Song Speed':
+						daText = '' + ModifierVars.songSpeed;
 					case 'Slow Song Multiplier':
 						daText = '' + ModifierVars.slowSpeed;
 					case 'Health Drain Amount':
