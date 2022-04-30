@@ -30,6 +30,7 @@ class VictoryScreenSubState extends MusicBeatSubstate
 	var whitePulse:FlxSprite;
 	var allowExit:Bool = false;
 	var graphicToLoad:String = "";
+	var graphicSize:Float = 0;
 	var songStats:FlxText;
 	var songScore:Int = PlayState.songScore;
 
@@ -62,12 +63,11 @@ class VictoryScreenSubState extends MusicBeatSubstate
 			grpVictoryItems.add(shit);
 		}
 
-		
-		switch(PlayState.ratingFC) { // For loading the rating pics
+		switch(PlayState.fakeRankingFC) { // For loading the rating pics
 			case "N/A":
 				graphicToLoad = "NA";
 			default:
-				graphicToLoad = PlayState.ratingFC;
+				graphicToLoad = PlayState.fakeRankingFC;
 		}
 		
 		var ratingSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image("rankings/" + graphicToLoad));
@@ -95,7 +95,7 @@ class VictoryScreenSubState extends MusicBeatSubstate
 		
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 
-		switch(PlayState.ratingFC) { // For sounds
+		switch(PlayState.fakeRankingFC) { // For sounds
 			case 'N/A':
 				soundImpact = 'nanda';
 				cheerSound = 'nacheer';
@@ -152,8 +152,10 @@ class VictoryScreenSubState extends MusicBeatSubstate
 
 		songStats.text = "TOTAL STATISTICS:\n\n"
 		+ "Score: " + PlayState.fakeScore 
-		+ "\nCombo: " + PlayState.fakeCombo
+		+ "\nAccuracy: " + Highscore.floorDecimal(PlayState.fakeRatingPercent * 100, 2) + "%"
+		+ "\nMisses: " + PlayState.fakeMisses
 		+ "\nHits: " + PlayState.fakeHits
+		+ "\nCombo: " + PlayState.fakeCombo
 		+ "\nSick: " + PlayState.fakeSicks
 		+ "\nGood: " + PlayState.fakeGoods
 		+ "\nBad: " + PlayState.fakeBads
