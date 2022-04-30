@@ -181,6 +181,16 @@ class VictoryScreenSubState extends MusicBeatSubstate
 							FlxG.sound.music.volume = 0;
 						case "Continue":
 							if (PlayState.isStoryMode) {
+								if (PlayState.storyPlaylist.length <= 0) {
+									FlxG.sound.playMusic(Paths.music('freakyMenu'));
+								} else {
+									var difficulty:String = CoolUtil.difficultyStuff[PlayState.storyDifficulty][1];
+									trace('LOADING NEXT SONG');
+									trace(PlayState.storyPlaylist[0].toLowerCase() + difficulty);
+									PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0].toLowerCase() + difficulty, PlayState.storyPlaylist[0]);
+									// FlxG.sound.music.stop();
+									MusicBeatState.switchState(new PlayState());
+								}
 								MusicBeatState.switchState(new StoryMenuState());
 							} else {
 								MusicBeatState.switchState(new FreeplayState());
