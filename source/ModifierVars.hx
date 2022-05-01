@@ -19,8 +19,8 @@ class ModifierVars {
 	public static var screenShake:Bool = false;
 	public static var enigma:Bool = false;
 	public static var songSpeed:Float = 0;
-	public static var healthDrainAmount:Float = 0;
-	public static var screenShakeIntensity:Float = 0;
+	public static var healthDrainAmount:Float = 0.1;
+	public static var screenShakeIntensity:Float = 0.005;
 
 	/* Difficulty Reduction */
 	// public static var lofi:Bool = false;
@@ -58,6 +58,8 @@ class ModifierVars {
 		FlxG.save.data.screenShake = screenShake;
 		FlxG.save.data.enigma = enigma;
 		FlxG.save.data.songSpeed = songSpeed;
+		FlxG.save.data.healthDrainAmount = healthDrainAmount;
+		FlxG.save.data.screenShakeIntensity = screenShakeIntensity;
 
 		/* Difficulty Reduction */
 		// FlxG.save.data.lofi = lofi;
