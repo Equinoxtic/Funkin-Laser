@@ -3698,7 +3698,7 @@ class PlayState extends MusicBeatState
 			}
 
 			if (ModifierVars.healthDrain) {
-				health += ModifierVars.healthDrainAmount + 0.1;
+				health += ModifierVars.healthDrainAmount + 0.05;
 			}
 
 			if(ModifierVars.botplay) {
