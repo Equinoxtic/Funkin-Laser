@@ -1073,7 +1073,7 @@ class PlayState extends MusicBeatState
 
 		if (ModifierVars.pussyMode) {
 			ModifierVars.hardcoreMode = false;
-			SONG.speed = SONG.speed - 0.8 + ModifierVars.songSpeed;
+			SONG.speed = SONG.speed - 0.75 - ModifierVars.songSpeed;
 		}
 
 		if (ModifierVars.enigma) {
@@ -2072,7 +2072,7 @@ class PlayState extends MusicBeatState
 		}
 
 		if (ModifierVars.pussyMode) {
-			health += 0.05;
+			health += 0.05 * (health/22);
 		}
 
 		if (ModifierVars.healthDrain) {
@@ -3698,7 +3698,7 @@ class PlayState extends MusicBeatState
 			}
 
 			if (ModifierVars.healthDrain || ModifierVars.pussyMode) {
-				health += 0.05;
+				health += 0.05 * (health/22);
 			}
 
 			if(ModifierVars.botplay) {
