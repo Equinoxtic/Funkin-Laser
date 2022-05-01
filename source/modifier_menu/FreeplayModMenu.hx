@@ -46,6 +46,7 @@ class FreeplayModMenu extends MusicBeatSubstate
 		'MODS',
 		'Botplay',
 		'Practice Mode',
+		'No Fail',
 		'Health Drain',
 		'MULTIPLIERS',
 		'Song Speed',
@@ -204,6 +205,8 @@ class FreeplayModMenu extends MusicBeatSubstate
 							ModifierVars.botplay = !ModifierVars.botplay;
 						case 'Practice Mode':
 							ModifierVars.practice = !ModifierVars.practice;
+						case 'No Fail':
+							ModifierVars.noFail = !ModifierVars.noFail;
 						case 'Health Drain':
 							ModifierVars.healthDrain = !ModifierVars.healthDrain;
 					}
@@ -264,6 +267,8 @@ class FreeplayModMenu extends MusicBeatSubstate
 				daText = "Enabling this would enable \"Botplay\" mode, which would let the game play by itself.";
 			case  'Practice Mode':
 				daText = "Enabling this would enable \"Practice\" mode.\nThis mode will grant you no failure, but a penalty once your HP drops to 0.";
+			case 'No Fail':
+				daText = "Enabling this will make you invincible.";
 			case 'Song Speed':
 				daText = "Set how fast the song should go.\n(Going above 0 will speed up the song)";
 		}
@@ -318,6 +323,8 @@ class FreeplayModMenu extends MusicBeatSubstate
 						daValue = ModifierVars.botplay;
 					case 'Practice Mode':
 						daValue = ModifierVars.practice;
+					case 'No Fail':
+						daValue = ModifierVars.noFail;
 					case 'Health Drain':
 						daValue = ModifierVars.healthDrain;
 				}
