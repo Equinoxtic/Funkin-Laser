@@ -886,10 +886,7 @@ class PlayState extends MusicBeatState
 		healthBarBG.y = FlxG.height * 0.89;
 		healthBarBG.screenCenter(X);
 		healthBarBG.scrollFactor.set();
-		if (!ClientPrefs.hideHud || !ModifierVars.enigma)
-			healthBarBG.visible = true;
-		else
-			healthBarBG.visible = false;
+		healthBarBG.visible = !ClientPrefs.hideHud;
 		healthBarBG.xAdd = -4;
 		healthBarBG.yAdd = -4;
 		add(healthBarBG);
@@ -1077,6 +1074,11 @@ class PlayState extends MusicBeatState
 		if (ModifierVars.pussyMode) {
 			ModifierVars.hardcoreMode = false;
 			SONG.speed = SONG.speed - 0.8 + ModifierVars.songSpeed;
+		}
+
+		if (ModifierVars.enigma) {
+			healthBar.alpha = 0;
+			healthBarBG.alpha = 0;
 		}
 	}
 
@@ -2052,16 +2054,25 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
+		if (ModifierVars.screenShake) {
+			camGame.shake(ModifierVars.screenShakeIntensity, 0.1);
+			camHUD.shake(ModifierVars.screenShakeIntensity, 0.1);
+		}
+
 		if (ModifierVars.hardcoreMode && !pausedHardcoreModchart) {
 			var songPos = Conductor.songPosition;
 			var curBpm = Conductor.bpm;
 			var currentBeat = (songPos/100)/(curBpm/70);
 			for (i in 0...strumLineNotes.members.length) {
-				FlxTween.tween(strumLineNotes.members[i], {y: strumLineNotes.members.length + 30 * Math.cos((currentBeat+i)+300)}, 0.1);
+				FlxTween.tween(strumLineNotes.members[i], {y: strumLineNotes.members.length + 80 * Math.cos((currentBeat+i)+300)}, 0.1);
 				FlxTween.tween(strumLineNotes.members[i], {angle: strumLineNotes.members.length - 360 * Math.sin((currentBeat+i)+300)}, 0.1);
 			}
 			FlxTween.tween(camHUD, {x: 0 - 10 * Math.cos((currentBeat * 0.25) * Math.PI), y: 0 - 15 * Math.cos((currentBeat * 0.25) * Math.PI), angle: -2 * 2 * Math.sin((currentBeat+1)+300)}, 0.1);
 			FlxTween.tween(camGame, {x: 0 - 10 * Math.cos((currentBeat * 0.25) * Math.PI), y: 0 - 15 * Math.cos((currentBeat * 0.25) * Math.PI), angle: -2 * 2 * Math.sin((currentBeat+1)+300)}, 0.1);
+		}
+
+		if (ModifierVars.pussyMode) {
+			health += 0.05 * (health/22);
 		}
 
 		if (ModifierVars.healthDrain) {
