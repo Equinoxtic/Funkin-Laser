@@ -257,7 +257,7 @@ class FreeplayModMenu extends MusicBeatSubstate
 		var daText:String = '';
 		switch(options[curSelected]) {
 			case 'Pussy Mode':
-				daText = "If checked, the song will be slowed down.\n(Make it slower with Song Speed)";
+				daText = "If checked, the song will be slowed down.";
 			case 'Hardcore Mode':
 				daText = "If checked, the song will be faster, and a hard modchart plays.\n(You can make the song faster with Song Speed)";
 			case 'Botplay':

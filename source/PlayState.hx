@@ -1072,8 +1072,9 @@ class PlayState extends MusicBeatState
 		}
 
 		if (ModifierVars.pussyMode) {
+			ModifierVars.songSpeed = 0;
 			ModifierVars.hardcoreMode = false;
-			SONG.speed = SONG.speed - 0.75 - ModifierVars.songSpeed;
+			SONG.speed = SONG.speed - 0.75;
 		}
 
 		if (ModifierVars.enigma) {
@@ -2430,6 +2431,10 @@ class PlayState extends MusicBeatState
 					daNote.hitByOpponent = true;
 
 					callOnLuas('opponentNoteHit', [notes.members.indexOf(daNote), Math.abs(daNote.noteData), daNote.noteType, daNote.isSustainNote]);
+
+					if (ModifierVars.pussyMode) {
+						health -= 0.05 * (health/22);
+					}
 
 					if (!daNote.isSustainNote)
 					{
@@ -4004,10 +4009,17 @@ class PlayState extends MusicBeatState
 		{
 			moveCameraSection(Std.int(curStep / 16));
 		}
-		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 4 == 0)
-		{
-			FlxG.camera.zoom += 0.015 * 2;
-			camHUD.zoom += 0.03 * 2;
+
+		if (!ModifierVars.hardcoreMode) {
+			if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 4 == 0) {
+				FlxG.camera.zoom += 0.015 * 2;
+				camHUD.zoom += 0.03 * 2;
+			}
+		} else {
+			if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 2 == 0) {
+				FlxG.camera.zoom += 0.015 * 2;
+				camHUD.zoom += 0.03 * 2;
+			}
 		}
 
 		iconP1.setGraphicSize(Std.int(iconP1.width + 30));
