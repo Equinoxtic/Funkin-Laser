@@ -318,6 +318,8 @@ class FreeplayModMenu extends MusicBeatSubstate
 						daValue = ModifierVars.botplay;
 					case 'Practice Mode':
 						daValue = ModifierVars.practice;
+					case 'Health Drain':
+						daValue = ModifierVars.healthDrain;
 				}
 				checkbox.daValue = daValue;
 			}
