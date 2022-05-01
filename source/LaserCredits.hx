@@ -22,7 +22,8 @@ class LaserCredits extends MusicBeatSubstate
 	var grpCreditIcons:FlxTypedGroup<FlxSprite>;
 	var grpCreditNames:FlxTypedGroup<Alphabet>;
 	var creditShit:Array<String> = [
-		"Vertic"
+		"Vertic",
+		"Verwex"
 	];
 
 	var canDoShit:Bool = false;
