@@ -3697,8 +3697,9 @@ class PlayState extends MusicBeatState
 				}
 			}
 
-			if (ModifierVars.healthDrain) {
-				health += ModifierVars.healthDrainAmount + 0.05;
+			if (ModifierVars.healthDrain || ModifierVars.pussyMode) {
+				var hd:Float = ModifierVars.healthDrainAmount;
+				health += 0.05 * (health/22);
 			}
 
 			if(ModifierVars.botplay) {
