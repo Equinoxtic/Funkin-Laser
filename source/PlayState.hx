@@ -2055,6 +2055,10 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
+		if (ModifierVars.noFail) {
+			health = 1;
+		}
+
 		if (ModifierVars.screenShake) {
 			camGame.shake(ModifierVars.screenShakeIntensity, 0.1);
 			camHUD.shake(ModifierVars.screenShakeIntensity, 0.1);
@@ -2073,7 +2077,7 @@ class PlayState extends MusicBeatState
 		}
 
 		if (ModifierVars.pussyMode) {
-			health += 0.05 * (health/22);
+			health += 0.08;
 		}
 
 		if (ModifierVars.healthDrain) {
@@ -2433,7 +2437,7 @@ class PlayState extends MusicBeatState
 					callOnLuas('opponentNoteHit', [notes.members.indexOf(daNote), Math.abs(daNote.noteData), daNote.noteType, daNote.isSustainNote]);
 
 					if (ModifierVars.pussyMode) {
-						health -= 0.05 * (health/22);
+						health -= 0.08;
 					}
 
 					if (!daNote.isSustainNote)
