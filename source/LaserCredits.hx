@@ -23,7 +23,8 @@ class LaserCredits extends MusicBeatSubstate
 	var grpCreditNames:FlxTypedGroup<Alphabet>;
 	var creditShit:Array<String> = [
 		"Vertic",
-		"Verwex"
+		"Verwex",
+		"Shadow Mario"
 	];
 
 	var canDoShit:Bool = false;
@@ -100,6 +101,8 @@ class LaserCredits extends MusicBeatSubstate
 				txt = "Main Developer + Programmer of Funkin' Laser.";
 			case "Verwex":
 				txt = "Engine Inspiration + Ranking FC Spritesheets.";
+			case "Shadow Mario":
+				txt = "Main Programmer of Psych Engine";
 		}
 		descText.text = txt;
 		var bs:Int = 0;
