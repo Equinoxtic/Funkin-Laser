@@ -255,8 +255,12 @@ class MainMenuState extends MusicBeatState
 			}
 			#end
 
-			if (FlxG.keys.justPressed.C) {
+			if (FlxG.keys.justPressed.N) {
 				openShitSubState(new NavigationBar());
+			}
+
+			if (FlxG.keys.justPressed.C) {
+				openShitSubState(new LaserCredits());
 			}
 		}
 
