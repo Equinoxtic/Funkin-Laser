@@ -208,14 +208,21 @@ class GamemodeSelectionSubState extends MusicBeatSubstate
 		} else {
 			if(controls.UI_LEFT || controls.UI_RIGHT) {
 				var addFloat:Float = controls.UI_LEFT ? -0.1 : 0.1;
+				var addShake:Float = controls.UI_LEFT ? -0.001 : 0.001;
 				if(holdTime > 0.5 || controls.UI_LEFT_P || controls.UI_RIGHT_P)
 				switch(options[curSelected]) {
 					case 'Song Speed':
 						ModifierVars.songSpeed += addFloat;
+						if (ModifierVars.songSpeed < 0) ModifierVars.songSpeed = 0;
+						if (ModifierVars.songSpeed > 3) ModifierVars.songSpeed = 3;
 					case 'Health Drain Amount':
 						ModifierVars.healthDrainAmount += addFloat;
+						if (ModifierVars.healthDrainAmount < 0) ModifierVars.healthDrainAmount = 0;
+						if (ModifierVars.healthDrainAmount > 5) ModifierVars.healthDrainAmount = 5;
 					case 'Screen Shake Intensity':
-						ModifierVars.screenShakeIntensity += addFloat;
+						ModifierVars.screenShakeIntensity += addShake;
+						if (ModifierVars.screenShakeIntensity < 0) ModifierVars.screenShakeIntensity = 0;
+						if (ModifierVars.screenShakeIntensity > 0.015) ModifierVars.screenShakeIntensity = 0.015;
 				}
 				reloadValues();
 
