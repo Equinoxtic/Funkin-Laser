@@ -98,7 +98,7 @@ class LaserCredits extends MusicBeatSubstate
 			curSelected = creditShit.length - 1;
 		if (curSelected >= creditShit.length)
 			curSelected = 0;
-		var txt:String = "";
+		/* var txt:String = "";
 		switch(creditShit[curSelected]) {
 			case "Vertic":
 				txt = "Main Developer + Programmer of Funkin' Laser.";
@@ -107,7 +107,7 @@ class LaserCredits extends MusicBeatSubstate
 			case "Shadow Mario":
 				txt = "Main Programmer of Psych Engine";
 		}
-		descText.text = txt;
+		descText.text = txt; */
 		var bs:Int = 0;
 		for (item in grpCreditNames.members) {
 			item.targetY = bs - curSelected;
