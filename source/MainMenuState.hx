@@ -259,9 +259,9 @@ class MainMenuState extends MusicBeatState
 				openShitSubState(new NavigationBar());
 			}
 
-			if (FlxG.keys.justPressed.C) {
-				openShitSubState(new LaserCredits());
-			}
+			// if (FlxG.keys.justPressed.C) {
+			// 	openShitSubState(new LaserCredits());
+			// }
 		}
 
 		super.update(elapsed);
