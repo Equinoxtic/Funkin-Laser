@@ -49,7 +49,8 @@ class LaserCredits extends MusicBeatSubstate
 		for (i in 0...creditShit.length) {
 			var icons:FlxSprite = new FlxSprite().loadGraphic(Paths.font('laser-icons/' + creditShit[i].toLowerCase()));
 			icons.antialiasing = ClientPrefs.globalAntialiasing;
-			add(icons);
+			grpCreditIcons.add(icons);
+			icons.updateHitbox();
 		}
 
 		changeSelection();
