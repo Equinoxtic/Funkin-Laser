@@ -41,6 +41,7 @@ class LaserCredits extends MusicBeatSubstate
 		bg.alpha = 0;
 		add(bg);
 
+		/*
 		grpCreditIcons = new FlxTypedGroup<FlxSprite>();
 		add(grpCreditIcons);
 		grpCreditNames = new FlxTypedGroup<Alphabet>();
@@ -52,6 +53,7 @@ class LaserCredits extends MusicBeatSubstate
 			grpCreditIcons.add(icons);
 			icons.updateHitbox();
 		}
+		*/
 
 		changeSelection();
 
