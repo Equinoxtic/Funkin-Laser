@@ -1760,7 +1760,11 @@ class PlayState extends MusicBeatState
 			{
 				babyArrow.y -= 10;
 				babyArrow.alpha = 0;
-				FlxTween.tween(babyArrow, {y: babyArrow.y + 10, alpha: ModifierVars.ghostNoteAlpha}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
+				if (ModifierVars.ghostNotes) {
+					FlxTween.tween(babyArrow, {y: babyArrow.y + 10, alpha: ModifierVars.ghostNoteAlpha}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
+				} else {
+					FlxTween.tween(babyArrow, {y: babyArrow.y + 10, alpha: 1}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
+				}
 			}
 
 			if (player == 1)
@@ -3818,6 +3822,7 @@ class PlayState extends MusicBeatState
 			startedMoving = true;
 			gf.playAnim('hairBlow');
 			gf.specialAnim = true;
+			FlxG.camera.shake(0.003, 0.15);
 		}
 
 		if (startedMoving)
