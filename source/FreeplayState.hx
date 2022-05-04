@@ -174,6 +174,7 @@ class FreeplayState extends MusicBeatState
 
 	override function closeSubState() {
 		changeSelection();
+		ModifierVars.saveMods();
 		super.closeSubState();
 	}
 
