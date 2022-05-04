@@ -216,6 +216,7 @@ class PlayState extends MusicBeatState
 	public static var songShits:Int = 0;
 	public static var songMisses:Int = 0;
 	public static var ghostMisses:Int = 0;
+	public static var rankingShit:String = "";
 	public var scoreTxt:FlxText;
 	public var judgementData:FlxText;
 	public var extraSongDets:FlxText;
@@ -234,6 +235,7 @@ class PlayState extends MusicBeatState
 	public static var fakeShits:Int = 0;
 	public static var fakeMisses:Int = 0;
 	public static var fakeGhostMisses:Int = 0;
+	public static var fakeRankingShit:String = "";
 
 	public static var campaignScore:Int = 0;
 	public static var campaignMisses:Int = 0;
@@ -1072,9 +1074,13 @@ class PlayState extends MusicBeatState
 		}
 
 		if (ModifierVars.pussyMode) {
-			ModifierVars.songSpeed = 0;
 			ModifierVars.hardcoreMode = false;
+			ModifierVars.songSpeed = 0;
 			SONG.speed = SONG.speed - 0.75;
+		}
+
+		if (!ModifierVars.hardcoreMode && !ModifierVars.pussyMode) {
+			SONG.speed = SONG.speed + ModifierVars.songSpeed;
 		}
 
 		if (ModifierVars.enigma) {
@@ -2059,6 +2065,10 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
+		switch(curSong.toLowerCase().replace('', '-')) { // Hard-coded modcharts
+			case 'blammed':
+		}
+
 		if (ModifierVars.noFail) {
 			health = 1;
 		}
@@ -2092,9 +2102,9 @@ class PlayState extends MusicBeatState
 		// var origin:String = Assets.getText(Paths.txt(curSong.toLowerCase().replace(' ', '-') + "/" + "origin"));
 
 		if(ratingString == '?') {
-			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingString + ' - N/A';
+			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingString + ' - N/A (N/A)';
 		} else {
-			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingString + ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%) - ' + ratingFC;
+			scoreTxt.text = 'Score: ' + songScore + ' | Misses: ' + songMisses + ' | Rating: ' + ratingString + ' (' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%) - ' + ratingFC + ' - ' + rankingShit;
 		}
 
 		switch(curSong.toLowerCase().replace(' ', '-')) { // Hard-coded song credit shit
@@ -2558,6 +2568,7 @@ class PlayState extends MusicBeatState
 		ratingPercent = 0;
 		ratingString = "?";
 		ratingFC = "N/A";
+		rankingShit = "N/A";
 	}
 
 	function doDeathCheck() {
@@ -3029,6 +3040,7 @@ class PlayState extends MusicBeatState
 		ratingPercent = 0;
 		ratingString = "?";
 		ratingFC = "N/A";
+		rankingShit = "N/A";
 	}
 
 	var transitioning = false;
@@ -3081,6 +3093,7 @@ class PlayState extends MusicBeatState
 		fakeShits = songShits;
 		fakeMisses = songMisses;
 		fakeGhostMisses = ghostMisses;
+		fakeRankingShit = rankingShit;
 
 		if (ModifierVars.botplay) {
 			resetShit();
@@ -4178,11 +4191,11 @@ class PlayState extends MusicBeatState
 
 			ratingFC = "";
 
-			if (songMisses == 0 && songBads == 0 && songShits == 0 && songGoods == 0) // Marvelous (SICK) Full Combo
+			if (songMisses == 0 && songBads == 0 && songShits == 0 && songGoods == 0)
 				ratingFC= "PFC";
-			else if (songMisses == 0 && songBads == 0 && songShits == 0 && songGoods >= 1) // Good Full Combo (Nothing but Goods & Sicks)
+			else if (songMisses == 0 && songBads == 0 && songShits == 0 && songGoods >= 1)
 				ratingFC = "MFC";
-			else if (songMisses == 0 && songBads >= 1 && songShits == 0 && songGoods >= 0) // Alright Full Combo (Bads, Goods and Sicks)
+			else if (songMisses == 0 && songBads >= 1 && songShits == 0 && songGoods >= 0)
 				ratingFC = "GFC";
 			else if (songMisses == 0) // Regular FC
 				ratingFC = "FC";
@@ -4191,9 +4204,33 @@ class PlayState extends MusicBeatState
 			else if (songMisses >= 10) 
 				ratingFC = "N/A";
 
+			var acc:Float = Highscore.floorDecimal(ratingPercent * 100, 2);
+
+			if (acc >= 100)
+				rankingShit = "X";
+			else if (acc >= 99.99)
+				rankingShit = "SS";
+			else if (acc >= 99.17)
+				rankingShit = "S";
+			else if (acc >= 93.17)
+				rankingShit = "A";
+			else if (acc >= 86.67)
+				rankingShit = "B";
+			else if (acc >= 75.00)
+				rankingShit = "C";
+			else if (acc >= 66.67)
+				rankingShit = "D";
+			else if (acc < 60)
+				rankingShit = "E";
+
+			if (deathCounter >= 30 || acc < 16.67) {
+				rankingShit = "F";
+			}
+
 			setOnLuas('rating', ratingPercent);
 			setOnLuas('ratingName', ratingString);
 			setOnLuas('ratingFC', ratingFC);
+			setOnLuas('letterRanks', rankingShit);
 		}
 	}
 

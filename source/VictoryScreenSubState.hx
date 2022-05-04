@@ -33,6 +33,7 @@ class VictoryScreenSubState extends MusicBeatSubstate
 	var graphicSize:Float = 0;
 	var songStats:FlxText;
 	var songScore:Int = PlayState.songScore;
+	var rankingGraphic:String;
 
 	public static var transCamera:FlxCamera;
 
@@ -71,11 +72,35 @@ class VictoryScreenSubState extends MusicBeatSubstate
 		}
 		
 		var ratingSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image("rankings/" + graphicToLoad));
+		if (PlayState.fakeRankingFC == "PFC")
+			ratingSpr.setGraphicSize(Std.int(ratingSpr.width * 1.5));
 		ratingSpr.screenCenter(Y);
 		ratingSpr.x = FlxG.width - 44 * 12;
 		ratingSpr.antialiasing = ClientPrefs.globalAntialiasing;
 		ratingSpr.alpha = 0;
 		add(ratingSpr);
+
+		switch(PlayState.fakeRankingShit) {
+			default:
+				rankingGraphic = PlayState.fakeRankingShit;
+			case "N/A":
+				rankingGraphic = "NA";
+		}
+
+		var rankingSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image("rankings/" + rankingGraphic.toUpperCase()));
+		if (PlayState.fakeRankingShit != "X") {
+			rankingSpr.setGraphicSize(Std.int(rankingSpr.width * 0.25));
+			rankingSpr.x = FlxG.width - 44 * 10;
+			rankingSpr.y = ratingSpr.y - 50;
+		} else {
+			rankingSpr.setGraphicSize(Std.int(rankingSpr.width * 0.15));
+			rankingSpr.x = FlxG.width - 44 * 18;
+			rankingSpr.y = ratingSpr.y - 25;
+		}
+		rankingSpr.screenCenter(Y);
+		rankingSpr.antialiasing = ClientPrefs.globalAntialiasing;
+		rankingSpr.alpha = 0;
+		add(rankingSpr);
 
 		songStats = new FlxText(0, 0, FlxG.width, "", 18);
 		songStats.setFormat(Paths.font('vcr.ttf'), 18, FlxColor.WHITE, LEFT);
@@ -140,6 +165,7 @@ class VictoryScreenSubState extends MusicBeatSubstate
 			FlxG.sound.play(Paths.sound("results_sounds/" + soundImpact));
 			FlxG.sound.play(Paths.sound("cheer_sounds/" + cheerSound));
 			FlxTween.tween(ratingSpr, {alpha: 1}, 0.15, {ease: FlxEase.backOut});
+			FlxTween.tween(rankingSpr, {alpha: 1}, 0.15, {ease: FlxEase.backOut});
 			FlxTween.tween(songStats, {alpha: 1}, 0.15, {ease: FlxEase.backOut});
 			allowExit = true;
 		});
@@ -241,6 +267,7 @@ class VictoryScreenSubState extends MusicBeatSubstate
 			PlayState.ratingPercent = 0;
 			PlayState.ratingString = "?";
 			PlayState.ratingFC = "N/A";
+			PlayState.rankingShit = "N/A";
 		});
 	}
 }

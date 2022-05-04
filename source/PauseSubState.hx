@@ -282,6 +282,7 @@ class PauseSubState extends MusicBeatSubstate
 			PlayState.ratingPercent = 0;
 			PlayState.ratingString = "?";
 			PlayState.ratingFC = "N/A";
+			PlayState.rankingShit = "N/A";
 		});
 	}
 }
