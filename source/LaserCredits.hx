@@ -100,7 +100,7 @@ class LaserCredits extends MusicBeatSubstate
 			case "Vertic":
 				txt = "Main Developer + Programmer of Funkin' Laser.";
 			case "Verwex":
-				txt = "Engine Inspiration + Ranking FC Spritesheets.";
+				txt = "Main Developer of Mic'd Up. (Engine Inspiration)";
 			case "Shadow Mario":
 				txt = "Main Programmer of Psych Engine";
 		}
