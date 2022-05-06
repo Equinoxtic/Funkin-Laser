@@ -432,11 +432,11 @@ class TitleState extends MusicBeatState
 			switch (curBeat)
 			{
 				case 1:
-					createCoolText(['Psych Engine by'], 45);
+					createCoolText(['Funkin\' Laser by'], 45);
 				// credTextShit.visible = true;
 				case 3:
-					addMoreText('Shadow Mario', 45);
-					addMoreText('RiverOaken', 45);
+					addMoreText('Vertic', 45);
+					addMoreText('Only me :[', 45);
 				// credTextShit.text += '\npresent...';
 				// credTextShit.addText();
 				case 4:
