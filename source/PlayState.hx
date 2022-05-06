@@ -4214,10 +4214,8 @@ class PlayState extends MusicBeatState
 
 		iconP1.scale.set(1.2, 1.2);
 		iconP2.scale.set(1.2, 1.2);
-
-		FlxTween.tween(iconP1, {'scale.x': 1, 'scale.y': 1}, Conductor.crochet / 1250 * gfSpeed, {ease: FlxEase.quadOut});
-		FlxTween.tween(iconP2, {'scale.x': 1, 'scale.y': 1}, Conductor.crochet / 1250 * gfSpeed, {ease: FlxEase.quadOut});
-
+		FlxTween.tween(iconP1, {'scale.x': 1, 'scale.y': 1}, 0.75);
+		FlxTween.tween(iconP2, {'scale.x': 1, 'scale.y': 1}, 0.75);
 		iconP1.updateHitbox();
 		iconP2.updateHitbox();
 
