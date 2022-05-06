@@ -25,7 +25,7 @@ using StringTools;
 class MainMenuState extends MusicBeatState
 {
 	public static var psychEngineVersion:String = '0.4.2'; //This is also used for Discord RPC
-	public static var funkinPlusVersion:String = '0.1.3';
+	public static var funkinPlusVersion:String = '0.3.6';
 	public static var curSelected:Int = 0;
 
 	var menuItems:FlxTypedGroup<FlxSprite>;
@@ -34,9 +34,10 @@ class MainMenuState extends MusicBeatState
 	
 	var optionShit:Array<String> = [
 		'story_mode', 
-		'freeplay', 
-		'options'
-	]; // Only going to be three because fakyou
+		'freeplay',
+		'options',
+		'credits'
+	]; // Only going to be four because fakyou
 
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
@@ -236,9 +237,9 @@ class MainMenuState extends MusicBeatState
 									case 'freeplay':
 										MusicBeatState.switchState(new FreeplayState());
 									/* case 'awards':
-										MusicBeatState.switchState(new AchievementsMenuState());
+										MusicBeatState.switchState(new AchievementsMenuState()); */
 									case 'credits':
-										MusicBeatState.switchState(new CreditsState()); */
+										MusicBeatState.switchState(new CreditsState());
 									case 'options':
 										MusicBeatState.switchState(new options_menu.OptionsState());
 								}

@@ -54,8 +54,10 @@ class PreferencesSubstate extends MusicBeatSubstate
 		'Ghost Tapping',
 		'Note Delay',
 		'Note Splashes',
+		'Advanced Score System',
 		'Show Judgement Data',
 		'Hide HUD',
+		'Show Song Name on Song Length',
 		'Hide Song Length',
 		'Flashing Lights',
 		'Camera Zooms'
@@ -246,12 +248,18 @@ class PreferencesSubstate extends MusicBeatSubstate
 					case 'Hide HUD':
 						ClientPrefs.hideHud = !ClientPrefs.hideHud;
 
+					case 'Advanced Score System':
+						ClientPrefs.advancedScoring = !ClientPrefs.advancedScoring;
+
 					case 'Show Judgement Data':
 						ClientPrefs.showJudgementData = !ClientPrefs.showJudgementData;
 
 					case 'Persistent Cached Data':
 						ClientPrefs.imagesPersist = !ClientPrefs.imagesPersist;
 						FlxGraphic.defaultPersist = ClientPrefs.imagesPersist;
+
+					case 'Show Song Name on Song Length':
+						ClientPrefs.showSongName = !ClientPrefs.showSongName;
 					
 					case 'Hide Song Length':
 						ClientPrefs.hideTime = !ClientPrefs.hideTime;
@@ -346,10 +354,14 @@ class PreferencesSubstate extends MusicBeatSubstate
 				daText = "Uncheck this if you're sensitive to flashing lights!";
 			case 'Camera Zooms':
 				daText = "If unchecked, the camera won't zoom in on a beat hit.";
+			case 'Advanced Score System':
+				daText = "If checked, you will enable the Advanced Scoring System.\n(Hotline 024 inspiration)";
 			case 'Show Judgement Data':
 				daText = "Hides the Judgement Counter when unchecked.";
 			case 'Hide HUD':
 				daText = "If checked, hides most HUD elements.";
+			case 'Show Song Name on Song Length':
+				daText = "If unchecked, the song name on the time bar will be hidden.";
 			case 'Hide Song Length':
 				daText = "If checked, the bar showing how much time is left\nwill be hidden.";
 		}
@@ -420,12 +432,16 @@ class PreferencesSubstate extends MusicBeatSubstate
 						daValue = ClientPrefs.violence;
 					case 'Camera Zooms':
 						daValue = ClientPrefs.camZooms;
+					case 'Advanced Score System':
+						daValue = ClientPrefs.advancedScoring;
 					case 'Show Judgement Data':
 						daValue = ClientPrefs.showJudgementData;
 					case 'Hide HUD':
 						daValue = ClientPrefs.hideHud;
 					case 'Persistent Cached Data':
 						daValue = ClientPrefs.imagesPersist;
+					case 'Show Song Name on Song Length':
+						daValue = ClientPrefs.showSongName;
 					case 'Hide Song Length':
 						daValue = ClientPrefs.hideTime;
 				}

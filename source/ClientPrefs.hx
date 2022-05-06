@@ -31,6 +31,11 @@ class ClientPrefs {
 	public static var winningIcons:Bool = true;
 	public static var noteOpacity:Float = 1;
 	public static var noteTailOpacity:Float = 1;
+	public static var showSongName:Bool = true;
+	public static var advancedScoring:Bool = false;
+	public static var sickWindow:Int = 45;
+	public static var goodWindow:Int = 90;
+	public static var badWindow:Int = 135;
 
 	public static var defaultKeys:Array<FlxKey> = [
 		A, LEFT,			//Note Left
@@ -92,6 +97,11 @@ class ClientPrefs {
 		FlxG.save.data.winningIcons = winningIcons;
 		FlxG.save.data.noteOpacity = noteOpacity;
 		FlxG.save.data.noteTailOpacity = noteTailOpacity;
+		FlxG.save.data.showSongName = showSongName;
+		FlxG.save.data.advancedScoring = advancedScoring;
+		FlxG.save.data.sickWindow = sickWindow;
+		FlxG.save.data.goodWindow = goodWindow;
+		FlxG.save.data.badWindow = badWindow;
 
 		var achieves:Array<String> = [];
 		for (i in 0...Achievements.achievementsUnlocked.length) {
@@ -190,6 +200,21 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.noteTailOpacity != null) {
 			noteTailOpacity = FlxG.save.data.noteTailOpacity;
+		}
+		if(FlxG.save.data.showSongName != null) {
+			showSongName = FlxG.save.data.showSongName;
+		}
+		if(FlxG.save.data.advancedScoring != null) {
+			advancedScoring = FlxG.save.data.advancedScoring;
+		}
+		if(FlxG.save.data.sickWindow != null) {
+			sickWindow = FlxG.save.data.sickWindow;
+		}
+		if(FlxG.save.data.goodWindow != null) {
+			goodWindow = FlxG.save.data.goodWindow;
+		}
+		if(FlxG.save.data.badWindow != null) {
+			badWindow = FlxG.save.data.badWindow;
 		}
 
 		var save:FlxSave = new FlxSave();

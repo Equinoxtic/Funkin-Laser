@@ -328,24 +328,6 @@ class ChartingState extends MusicBeatState
 		
 		updateGrid();
 		super.create();
-		resetShit(); // Just in case if it doesn't reset lol
-	}
-
-	function resetShit() {
-		PlayState.songScore = 0;
-		PlayState.deathCounter = 0;
-		PlayState.songHits = 0;
-		PlayState.songShits = 0;
-		PlayState.songBads = 0;
-		PlayState.songGoods = 0;
-		PlayState.songSicks = 0;
-		PlayState.combo = 0;
-		PlayState.songMisses = 0;
-		PlayState.ghostMisses = 0;
-		PlayState.ratingPercent = 0;
-		PlayState.ratingString = "?";
-		PlayState.ratingFC = "N/A";
-		PlayState.rankingShit = "N/A";
 	}
 
 	var check_mute_inst:FlxUICheckBox = null;

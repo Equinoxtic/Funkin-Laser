@@ -35,6 +35,9 @@ class PauseSubState extends MusicBeatSubstate
 
 	public static var transCamera:FlxCamera;
 
+	var exited:Bool = false;
+	var restarted:Bool = false;
+
 	public function new(x:Float, y:Float)
 	{
 		super();
@@ -130,6 +133,10 @@ class PauseSubState extends MusicBeatSubstate
 
 		super.update(elapsed);
 
+		if (exited || restarted) {
+			resetShit();
+		}
+
 		var upP = controls.UI_UP_P;
 		var downP = controls.UI_DOWN_P;
 		var accepted = controls.ACCEPT;
@@ -183,7 +190,7 @@ class PauseSubState extends MusicBeatSubstate
 				// 	PlayState.usedPractice = true;
 					// practiceText.visible = ModifierVars.practice;
 				case "Restart Song":
-					resetShit();
+					restarted = true;
 					CustomFadeTransition.nextCamera = transCamera;
 					MusicBeatState.resetState();
 					FlxG.sound.music.volume = 0;
@@ -193,7 +200,7 @@ class PauseSubState extends MusicBeatSubstate
 				// 	PlayState.usedPractice = true;
 					// botplayText.visible = ModifierVars.botplay;
 				case "Exit to menu":
-					resetShit();
+					exited = true;
 					PlayState.deathCounter = 0;
 					PlayState.seenCutscene = false;
 					CustomFadeTransition.nextCamera = transCamera;
