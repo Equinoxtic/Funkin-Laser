@@ -3483,6 +3483,8 @@ class PlayState extends MusicBeatState
 		rating.velocity.y -= FlxG.random.int(140, 175);
 		rating.velocity.x -= FlxG.random.int(0, 10);
 		rating.visible = !ClientPrefs.hideHud;
+		rating.x += ClientPrefs.comboOffset[0];
+		rating.y -= ClientPrefs.comboOffset[1];
 
 		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image(pixelShitPart1 + 'combo' + pixelShitPart2));
 		comboSpr.screenCenter();
@@ -3491,6 +3493,9 @@ class PlayState extends MusicBeatState
 		comboSpr.velocity.y -= 150;
 		comboSpr.visible = !ClientPrefs.hideHud;
 		comboSpr.velocity.x += FlxG.random.int(1, 10);
+		comboSpr.x += ClientPrefs.comboOffset[0];
+		comboSpr.y -= ClientPrefs.comboOffset[1];
+
 
 		add(rating);
 		add(comboSpr);
@@ -3546,6 +3551,8 @@ class PlayState extends MusicBeatState
 			numScore.screenCenter();
 			numScore.x = coolText.x + (43 * daLoop) - 90;
 			numScore.y += 80;
+			numScore.x += ClientPrefs.comboOffset[2];
+			numScore.y -= ClientPrefs.comboOffset[3];
 
 			if (!PlayState.isPixelStage)
 			{
@@ -4398,7 +4405,7 @@ class PlayState extends MusicBeatState
 				rankingShit = "S+";
 			else if (acc >= 99)
 				rankingShit = "S";
-			else if (acc < 96.50)
+			else if (acc >= 96.50)
 				rankingShit = "S-";
 			else if (acc >= 93)
 				rankingShit = "A+";
