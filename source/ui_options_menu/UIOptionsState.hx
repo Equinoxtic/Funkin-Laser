@@ -37,7 +37,7 @@ class UIOptionsState extends MusicBeatState
 	function openSelectedSubstate(label:String) {
 		switch(label) {
 			case 'UI Layout':
-				openSubState(new UILayoutSubState());	
+				openSubState(new UILayoutSubState());
 			case 'UI Behaviour':
 				openSubState(new UIBehaviourSubState());
 		}

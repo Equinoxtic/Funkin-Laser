@@ -34,41 +34,42 @@ class UIBehaviourSubState extends BaseOptionsMenu
 		title = 'UI Behaviour';
 		rpcTitle = 'UI Options - UI Behaviour';
 
-		var option:Option = new Option('Score Zooms on Hit',
-			'Whether to zoom the Score Text on Note hits.',
-			'scoreZooming',
-			'bool',
-			true);
-		addOption(option);
-
-		var option:Option = new Option('Icon Bopping',
-			'Whether the icons should bop on the beat hit.',
-			'iconBop',
-			'bool',
-			true);
-		addOption(option);
-
-		var option:Option = new Option('Advanced UI',
-			'If enabled, it will show advanced statistics.\n(i.e. current step and beat and etc.)',
-			'advancedUI',
-			'bool',
-			false);
-		addOption(option);
-
 		var option:Option = new Option('Noteskin',
-			'Set your noteskin!',
+			"Set your noteskin!",
 			'noteskin',
 			'string',
 			'Arrows',
 			['Arrows', 'Circles', 'Stepmania']);
 		addOption(option);
-
+		
+		var option:Option = new Option('Time Bar:',
+			"What should the Time bar display?",
+			'timeShowing',
+			'string',
+			'Time Left',
+			['Time Left', 'Elapsed', 'Song Name - Time', 'Song Name Only']);
+		addOption(option);
+			
 		var option:Option = new Option('Pause Music',
-			'Choose what the Pause Menu music should play!',
+			"Choose what the Pause Menu music should play!",
 			'pauseMusic',
 			'string',
 			'Breakfast',
 			['Breakfast', 'Osu', 'Osu Bacon Boi', 'Tea Time']);
+		addOption(option);
+
+		var option:Option = new Option('Score Zooms on Hit',
+			"Whether to zoom the Score Text on Note hits.",
+			'scoreZooming',
+			'bool',
+			true);
+		addOption(option);
+	
+		var option:Option = new Option('Icon Bopping',
+			"Whether the icons should bop on the beat hit.",
+			'iconBop',
+			'bool',
+			true);
 		addOption(option);
 
 		super();

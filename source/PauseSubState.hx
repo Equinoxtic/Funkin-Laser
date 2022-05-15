@@ -56,8 +56,6 @@ class PauseSubState extends MusicBeatSubstate
 		switch(UIPrefs.pauseMusic) {
 			default:
 				parsedMusic = UIPrefs.pauseMusic.toLowerCase().replace(' ', '-');
-			case 'PE Pause Menu (Tea Time)':
-				parsedMusic = 'tea-time';
 		}
 
 		pauseMusic = new FlxSound().loadEmbedded(Paths.music('pause-' + parsedMusic, 'shared'), true, true);

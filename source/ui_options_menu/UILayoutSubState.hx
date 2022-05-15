@@ -35,7 +35,7 @@ class UILayoutSubState extends BaseOptionsMenu
 		rpcTitle = 'UI Options - UI Layout';
 
 		var option:Option = new Option('UI Style',
-			'Set the UI Style to something fancy!',
+			"Set the UI Style to something fancy!",
 			'uiStyle',
 			'string',
 			'Standard',
@@ -43,7 +43,7 @@ class UILayoutSubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('Judgement Style',
-			'Cool-ass Judgement skins :sunglasses:',
+			"Cool-ass Judgement skins :sunglasses:",
 			'judgementStyle',
 			'string',
 			'FNF',
@@ -51,7 +51,7 @@ class UILayoutSubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('Icon Set',
-			'Set what icon set you\'re gonna use!',
+			"Set what icon set you\'re gonna use!",
 			'iconSet',
 			'string',
 			'FNF',
@@ -59,11 +59,18 @@ class UILayoutSubState extends BaseOptionsMenu
 		addOption(option);
 
 		var option:Option = new Option('Strum Style',
-			'Set the style of the strumline!',
+			"Set the style of the strumline!",
 			'strumStyle',
 			'string',
 			'Normal',
 			['Normal', 'Middle Scroll (Old)', 'Middle Scroll (New)', 'Opaque Enemy Strums']);
+		addOption(option);
+
+		var option:Option = new Option('Advanced UI',
+			"If enabled, it will show advanced statistics.\n(i.e. current step and beat and etc.)",
+			'advancedUI',
+			'bool',
+			false);
 		addOption(option);
 
 		super();

@@ -1506,7 +1506,7 @@ class PlayState extends MusicBeatState
 				notes.forEachAlive(function(note:Note) {
 					note.copyAlpha = false;
 					note.alpha = note.multAlpha;
-					if(ClientPrefs.middleScroll && !note.mustPress) {
+					if(ClientPrefs.middleScroll && !note.mustPress && UIPrefs.strumStyle == 'Middle Scroll (New)') {
 						note.alpha *= 0.5;
 					}
 				});
@@ -1728,7 +1728,7 @@ class PlayState extends MusicBeatState
 							{
 								sustainNote.x += FlxG.width / 2; // general offset
 							}
-							else if(ClientPrefs.middleScroll)
+							else if(ClientPrefs.middleScroll && UIPrefs.strumStyle == 'Middle Scroll (New)')
 							{
 								sustainNote.x += 310;
 								if(daNoteData > 1) //Up and Right
@@ -1743,7 +1743,7 @@ class PlayState extends MusicBeatState
 					{
 						swagNote.x += FlxG.width / 2; // general offset
 					}
-					else if(ClientPrefs.middleScroll)
+					else if(ClientPrefs.middleScroll && UIPrefs.strumStyle == 'Middle Scroll (New)')
 					{
 						swagNote.x += 310;
 						if(daNoteData > 1) //Up and Right
@@ -1845,7 +1845,7 @@ class PlayState extends MusicBeatState
 			}
 			else
 			{
-				if(ClientPrefs.middleScroll)
+				if(ClientPrefs.middleScroll && UIPrefs.strumStyle == 'Middle Scroll (New)')
 				{
 					babyArrow.x += 310;
 					if(i > 1) { //Up and Right
@@ -2427,7 +2427,7 @@ class PlayState extends MusicBeatState
 			var fakeCrochet:Float = (60 / SONG.bpm) * 1000;
 			notes.forEachAlive(function(daNote:Note)
 			{
-				if(!daNote.mustPress && ClientPrefs.middleScroll)
+				if(!daNote.mustPress && ClientPrefs.middleScroll && UIPrefs.strumStyle == 'Middle Scroll (New)')
 				{
 					daNote.active = true;
 					daNote.visible = false;
@@ -4286,8 +4286,6 @@ class PlayState extends MusicBeatState
 			iconP2.setGraphicSize(Std.int(iconP2.width + (50 * (2 - bop))),Std.int(iconP2.height - (25 * (2 - bop))));
 			iconP1.scale.set(1.1, 1.1);
 			iconP2.scale.set(1.1, 1.1);
-			FlxTween.angle(iconP1, -15, 0, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
-			FlxTween.angle(iconP2, 15, 0, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut}); 
 			FlxTween.tween(iconP1, {'scale.x': 1, 'scale.y': 1}, Conductor.crochet / 1250 * gfSpeed, {ease: FlxEase.quadOut});
 			FlxTween.tween(iconP2, {'scale.x': 1, 'scale.y': 1}, Conductor.crochet / 1250 * gfSpeed, {ease: FlxEase.quadOut});
 			iconP1.updateHitbox();
