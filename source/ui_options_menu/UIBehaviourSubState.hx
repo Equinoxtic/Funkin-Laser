@@ -58,20 +58,6 @@ class UIBehaviourSubState extends BaseOptionsMenu
 			['Breakfast', 'Osu', 'Osu Bacon Boi', 'Tea Time']);
 		addOption(option);
 
-		var option:Option = new Option('Score Zooms on Hit',
-			"Whether to zoom the Score Text on Note hits.",
-			'scoreZooming',
-			'bool',
-			true);
-		addOption(option);
-	
-		var option:Option = new Option('Icon Bopping',
-			"Whether the icons should bop on the beat hit.",
-			'iconBop',
-			'bool',
-			true);
-		addOption(option);
-
 		super();
 	}
 }

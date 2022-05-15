@@ -3491,15 +3491,13 @@ class PlayState extends MusicBeatState
 					cockScoreZoom.cancel();
 				}
 			}
-			if (UIPrefs.scoreZooming) {
-				scoreTxt.scale.x = 1.07;
-				scoreTxt.scale.y = 1.07;
-				scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 0.4, {
-					onComplete: function(twn:FlxTween) {
-						scoreTxtTween = null;
-					}
-				});
-			}
+			scoreTxt.scale.x = 1.07;
+			scoreTxt.scale.y = 1.07;
+			scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 0.4, {
+				onComplete: function(twn:FlxTween) {
+					scoreTxtTween = null;
+				}
+			});
 			if (ClientPrefs.advancedScoring) {
 				cockScoreTxt.alpha = 1;
 				cockScoreTwn = FlxTween.tween(cockScoreTxt, {alpha: 0}, 0.75, {
@@ -4280,17 +4278,15 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (UIPrefs.iconBop) {
-			var bop:Float = (healthBar.percent * 0.01) + 0.01;
-			iconP1.setGraphicSize(Std.int(iconP1.width + (50 * (2 + bop))),Std.int(iconP2.height - (25 * (2 + bop))));
-			iconP2.setGraphicSize(Std.int(iconP2.width + (50 * (2 - bop))),Std.int(iconP2.height - (25 * (2 - bop))));
-			iconP1.scale.set(1.1, 1.1);
-			iconP2.scale.set(1.1, 1.1);
-			FlxTween.tween(iconP1, {'scale.x': 1, 'scale.y': 1}, Conductor.crochet / 1250 * gfSpeed, {ease: FlxEase.quadOut});
-			FlxTween.tween(iconP2, {'scale.x': 1, 'scale.y': 1}, Conductor.crochet / 1250 * gfSpeed, {ease: FlxEase.quadOut});
-			iconP1.updateHitbox();
-			iconP2.updateHitbox();
-		}
+		var bop:Float = (healthBar.percent * 0.01) + 0.01;
+		iconP1.setGraphicSize(Std.int(iconP1.width + (50 * (2 + bop))),Std.int(iconP2.height - (25 * (2 + bop))));
+		iconP2.setGraphicSize(Std.int(iconP2.width + (50 * (2 - bop))),Std.int(iconP2.height - (25 * (2 - bop))));
+		iconP1.scale.set(1.1, 1.1);
+		iconP2.scale.set(1.1, 1.1);
+		FlxTween.tween(iconP1, {'scale.x': 1, 'scale.y': 1}, Conductor.crochet / 1250 * gfSpeed, {ease: FlxEase.quadOut});
+		FlxTween.tween(iconP2, {'scale.x': 1, 'scale.y': 1}, Conductor.crochet / 1250 * gfSpeed, {ease: FlxEase.quadOut});
+		iconP1.updateHitbox();
+		iconP2.updateHitbox();
 
 		if (curBeat % gfSpeed == 0 && !gf.stunned && gf.animation.curAnim.name != null && !gf.animation.curAnim.name.startsWith("sing"))
 		{

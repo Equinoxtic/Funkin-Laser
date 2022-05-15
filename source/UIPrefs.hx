@@ -24,8 +24,6 @@ class UIPrefs
 
 	/* UI Behaviour */
 	public static var noteskin:String = 'Arrows';
-	public static var scoreZooming:Bool = true;
-	public static var iconBop:Bool = true;
 	public static var timeShowing:String = 'Time Left';
 	public static var pauseMusic:String = 'Breakfast';
 	
@@ -45,8 +43,6 @@ class UIPrefs
 
 		/* UI Behaviour */
 		FlxG.save.data.noteskin = noteskin;
-		FlxG.save.data.scoreZooming = scoreZooming;
-		FlxG.save.data.iconBop = iconBop;
 		FlxG.save.data.timeShowing = timeShowing;
 		FlxG.save.data.pauseMusic = pauseMusic;
 	}
@@ -90,14 +86,6 @@ class UIPrefs
 		/* UI Behaviour */
 		if (FlxG.save.data.noteskin != null) {
 			noteskin = FlxG.save.data.noteskin;
-		}
-
-		if (FlxG.save.data.scoreZooming != null) {
-			scoreZooming = FlxG.save.data.scoreZooming;
-		}
-
-		if (FlxG.save.data.iconBop != null) {
-			iconBop = FlxG.save.data.iconBop;
 		}
 
 		if (FlxG.save.data.timeShowing != null) {
