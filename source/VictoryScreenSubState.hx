@@ -234,6 +234,7 @@ class VictoryScreenSubState extends MusicBeatSubstate
 					switch(ecksdee) {
 						case "Replay":
 							replayed = true;
+							PlayState.resetted = replayed;
 							CustomFadeTransition.nextCamera = transCamera;
 							MusicBeatState.resetState();
 							FlxG.sound.music.volume = 0;

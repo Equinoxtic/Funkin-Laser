@@ -220,7 +220,15 @@ class Note extends FlxSprite
 		if(texture.length < 1) {
 			skin = PlayState.SONG.arrowSkin;
 			if(skin == null || skin.length < 1) {
-				skin = 'NOTE_assets';
+				switch(UIPrefs.noteskin)
+				{
+					case 'Arrows':
+						skin = 'NOTE_assets'; // Normal
+					case 'Circles':
+						skin = 'noteskins/Circles_NOTE_assets'; // Circles
+					case 'Stepmania':
+						skin = 'noteskins/newStepnotes'; // Stepmania
+				}
 			}
 		}
 

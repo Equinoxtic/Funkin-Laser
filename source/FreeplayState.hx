@@ -312,6 +312,7 @@ class FreeplayState extends MusicBeatState
 				openSubState(new modifier_menu.FreeplayModMenu());
 			}
 		}
+
 		super.update(elapsed);
 	}
 

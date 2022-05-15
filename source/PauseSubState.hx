@@ -15,6 +15,8 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.FlxCamera;
 
+using StringTools; // No wonder why string.replace() isn't working :facepalm:
+
 class PauseSubState extends MusicBeatSubstate
 {
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
@@ -38,6 +40,8 @@ class PauseSubState extends MusicBeatSubstate
 	var exited:Bool = false;
 	var restarted:Bool = false;
 
+	var parsedMusic:String = '';
+
 	public function new(x:Float, y:Float)
 	{
 		super();
@@ -49,9 +53,16 @@ class PauseSubState extends MusicBeatSubstate
 		}
 		difficultyChoices.push('BACK');
 
-		pauseMusic = new FlxSound().loadEmbedded(Paths.music('breakfast'), true, true);
+		switch(UIPrefs.pauseMusic) {
+			default:
+				parsedMusic = UIPrefs.pauseMusic.toLowerCase().replace(' ', '-');
+			case 'PE Pause Menu (Tea Time)':
+				parsedMusic = 'tea-time';
+		}
+
+		pauseMusic = new FlxSound().loadEmbedded(Paths.music('pause-' + parsedMusic, 'shared'), true, true);
 		pauseMusic.volume = 0;
-		pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
+		pauseMusic.play(false);
 
 		FlxG.sound.list.add(pauseMusic);
 
@@ -128,14 +139,14 @@ class PauseSubState extends MusicBeatSubstate
 
 	override function update(elapsed:Float)
 	{
-		if (pauseMusic.volume < 0.5)
-			pauseMusic.volume += 0.01 * elapsed;
+		if (pauseMusic.volume < 0.75)
+			pauseMusic.volume += 0.075 * elapsed;
 
 		super.update(elapsed);
 
-		if (exited || restarted) {
-			resetShit();
-		}
+		// if (exited || restarted) {
+		// 	resetShit();
+		// }
 
 		var upP = controls.UI_UP_P;
 		var downP = controls.UI_DOWN_P;
@@ -191,6 +202,7 @@ class PauseSubState extends MusicBeatSubstate
 					// practiceText.visible = ModifierVars.practice;
 				case "Restart Song":
 					restarted = true;
+					PlayState.resetted = restarted;
 					CustomFadeTransition.nextCamera = transCamera;
 					MusicBeatState.resetState();
 					FlxG.sound.music.volume = 0;
@@ -201,6 +213,7 @@ class PauseSubState extends MusicBeatSubstate
 					// botplayText.visible = ModifierVars.botplay;
 				case "Exit to menu":
 					exited = true;
+					PlayState.exited = exited;
 					PlayState.deathCounter = 0;
 					PlayState.seenCutscene = false;
 					CustomFadeTransition.nextCamera = transCamera;
@@ -274,7 +287,7 @@ class PauseSubState extends MusicBeatSubstate
 		changeSelection();
 	}
 
-	function resetShit() {
+	/* function resetShit() {
 		new FlxTimer().start(0.2, function(tmr:FlxTimer) {
 			PlayState.songScore = 0;
 			PlayState.deathCounter = 0;
@@ -291,5 +304,5 @@ class PauseSubState extends MusicBeatSubstate
 			PlayState.ratingFC = "N/A";
 			PlayState.rankingShit = "N/A";
 		});
-	}
+	} */
 }

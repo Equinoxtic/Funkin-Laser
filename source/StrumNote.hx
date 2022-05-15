@@ -22,7 +22,15 @@ class StrumNote extends FlxSprite
 		this.noteData = leData;
 		super(x, y);
 
-		var skin:String = 'NOTE_assets';
+		var skin:String = '';
+		switch(UIPrefs.noteskin) {
+			case 'Arrows':
+				skin = 'NOTE_assets'; // Normal
+			case 'Circles':
+				skin = 'noteskins/Circles_NOTE_assets'; // Circles
+			case 'Stepmania':
+				skin = 'noteskins/newStepnotes'; // Stepmania
+		}
 		if(PlayState.SONG.arrowSkin != null && PlayState.SONG.arrowSkin.length > 1) skin = PlayState.SONG.arrowSkin;
 
 		if(PlayState.isPixelStage)
