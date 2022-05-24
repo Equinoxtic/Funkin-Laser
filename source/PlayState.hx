@@ -2043,7 +2043,6 @@ class PlayState extends MusicBeatState
 	var limoSpeed:Float = 0;
 	var hudTwn:FlxTween;
 	var gameTwn:FlxTween;
-	var scoreStr:String = "";
 	var lerpScore:Int = 0;
 	var sustainingg:Bool = false;
 	var dirssss:String = "";
@@ -2243,8 +2242,6 @@ class PlayState extends MusicBeatState
 
 		// var credit:String = Assets.getText(Paths.txt(curSong.toLowerCase().replace(' ', '-') + "/" + "credit"));
 		// var origin:String = Assets.getText(Paths.txt(curSong.toLowerCase().replace(' ', '-') + "/" + "origin"));
-
-		scoreStr = 'Score: ' + songScore;
 
 		if (!ModifierVars.botplay) {
 			if(ratingString == '?') {
