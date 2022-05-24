@@ -168,6 +168,10 @@ class PlayState extends MusicBeatState
 	var botplaySine:Float = 0;
 	var botplayTxt:FlxText;
 
+	var extraShitText:FlxText;
+	var moreExtraShit:FlxText;
+	var moreMoreExtraShit:FlxText;
+
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
 	public var camHUD:FlxCamera;
@@ -986,6 +990,27 @@ class PlayState extends MusicBeatState
 			botplayTxt.y = timeBarBG.y - 78;
 		}
 
+		extraShitText = new FlxText(-10 * 2, extraSongDets.y - (20 * 4), FlxG.width, "", 20);
+		extraShitText.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		extraShitText.scrollFactor.set();
+		extraShitText.borderSize = 1.25;
+		
+		moreExtraShit = new FlxText(-10 * 2, extraSongDets.y - (20 * 8), FlxG.width, "", 20);
+		moreExtraShit.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		moreExtraShit.scrollFactor.set();
+		moreExtraShit.borderSize = 1.25;
+		
+		moreMoreExtraShit = new FlxText(10 * 2, extraSongDets.y - (20 * 4), FlxG.width, "", 20);
+		moreMoreExtraShit.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		moreMoreExtraShit.scrollFactor.set();
+		moreMoreExtraShit.borderSize = 1.25;
+		
+		if (UIPrefs.uiType == "Advanced") {
+			add(extraShitText);
+			add(moreExtraShit);
+			add(moreMoreExtraShit);
+		}
+
 		strumLineNotes.cameras = [camHUD];
 		grpNoteSplashes.cameras = [camHUD];
 		notes.cameras = [camHUD];
@@ -999,6 +1024,9 @@ class PlayState extends MusicBeatState
 		judgementData.cameras = [camHUD];
 		extraSongDets.cameras = [camHUD];
 		botplayTxt.cameras = [camHUD];
+		extraShitText.cameras = [camHUD];
+		moreExtraShit.cameras = [camHUD];
+		moreMoreExtraShit.cameras = [camHUD];
 		timeBar.cameras = [camHUD];
 		timeBarBG.cameras = [camHUD];
 		timeTxt.cameras = [camHUD];
@@ -1110,6 +1138,10 @@ class PlayState extends MusicBeatState
 		DiscordClient.changePresence(detailsText, SONG.song + " - " + SONG.credit + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 		#end
 		super.create();
+
+		if (UIPrefs.testBool) {
+			trace("Testing");
+		}
 
 		if (ModifierVars.hardcoreMode && ModifierVars.songSpeed != 0 && !isInSongEditor && !hasDied && !resetted) {
 			ModifierVars.pussyMode = false;
@@ -2013,6 +2045,9 @@ class PlayState extends MusicBeatState
 	var gameTwn:FlxTween;
 	var scoreStr:String = "";
 	var lerpScore:Int = 0;
+	var sustainingg:Bool = false;
+	var dirssss:String = "";
+	var isAlt:Bool = false;
 
 	override public function update(elapsed:Float)
 	{
@@ -2221,6 +2256,28 @@ class PlayState extends MusicBeatState
 			scoreTxt.text = 'Score: ' + songScore;
 		}
 
+		if (UIPrefs.uiType == "Advanced") {
+			var ratingParse:String = "";
+			var sustainStr:String = "";
+			var altStr:String = "";
+			(sustainingg) ? sustainStr = "O" : sustainStr = "X";
+			(isAlt) ? altStr = "alt-note" : altStr = "note";
+			if (ratingParse != null || ratingParse != "" || ratingParse != " ") {
+				ratingParse = daRating;
+			} else {
+				ratingParse = "None";
+			}
+			if (Conductor.songPosition/1000 < 0 || curStep < 0 || curBeat < 0) {
+				extraShitText.text = "songPos: 0" + "\ncurStep: 0" + "\ncurBeat: 0";
+				moreExtraShit.text = "Sustain Note: ?" + "\nNote Direction: ?" + "\nIs Alt Note: ?";
+				moreMoreExtraShit.text = "Rating: ?" + "\nGained Score: 0" + "\nTotal Notes Hit: 0";
+			} else {
+				extraShitText.text = "songPos: " + Conductor.songPosition/1000 + "\ncurStep: " + curStep + "\ncurBeat: " + curBeat;
+				moreExtraShit.text = "Sustain Note: " + sustainStr + "\nNote Direction: " + dirssss + "\nIs Alt Note: " + altStr;
+				moreMoreExtraShit.text = "Rating: " + ratingParse + "\nGained Score: " + score + "\nTotal Notes Hit: " + totalNotesHit;
+			}
+		}
+
 		if (ClientPrefs.advancedScoring) {
 			cockScoreTxt.text = 'x' + adCombo + ' | +' + score;
 		}
@@ -2296,17 +2353,18 @@ class PlayState extends MusicBeatState
 
 		// FlxG.watch.addQuick('VOL', vocals.amplitudeLeft);
 		// FlxG.watch.addQuick('VOLRight', vocals.amplitudeRight);
+	
+		if (UIPrefs.iconBop) {
+			var mult:Float = FlxMath.lerp(1, iconP1.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
+			iconP1.scale.set(mult, mult);
+			iconP1.updateHitbox();
 
-		var mult:Float = FlxMath.lerp(1, iconP1.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
-		iconP1.scale.set(mult, mult);
-		iconP1.updateHitbox();
-
-		var mult:Float = FlxMath.lerp(1, iconP2.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
-		iconP2.scale.set(mult, mult);
-		iconP2.updateHitbox();
+			var mult:Float = FlxMath.lerp(1, iconP2.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
+			iconP2.scale.set(mult, mult);
+			iconP2.updateHitbox();
+		}
 
 		var iconOffset:Int = 26;
-
 		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) + (150 * iconP1.scale.x - 150) / 2 - iconOffset;
 		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (150 * iconP2.scale.x) / 2 - iconOffset * 2;
 
@@ -3464,7 +3522,7 @@ class PlayState extends MusicBeatState
 		if(daRating == 'sick' && !note.noteSplashDisabled) {
 			spawnNoteSplashOnNote(note);
 		}
-
+		
 		if (ClientPrefs.advancedScoring) {
 			if (adCombo >= 2) {
 				adScore = score * adCombo;
@@ -3493,13 +3551,15 @@ class PlayState extends MusicBeatState
 					cockScoreZoom.cancel();
 				}
 			}
-			scoreTxt.scale.x = 1.07;
-			scoreTxt.scale.y = 1.07;
-			scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 0.4, {
-				onComplete: function(twn:FlxTween) {
-					scoreTxtTween = null;
-				}
-			});
+			if (UIPrefs.scoreZooming) {
+				scoreTxt.scale.x = 1.07;
+				scoreTxt.scale.y = 1.07;
+				scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 0.4, {
+					onComplete: function(twn:FlxTween) {
+						scoreTxtTween = null;
+					}
+				});
+			}
 			if (ClientPrefs.advancedScoring) {
 				cockScoreTxt.alpha = 1;
 				cockScoreTwn = FlxTween.tween(cockScoreTxt, {alpha: 0}, 0.75, {
@@ -3537,6 +3597,8 @@ class PlayState extends MusicBeatState
 			rating.loadGraphic(Paths.image(pixelShitPart1 + daRating + pixelShitPart2));
 		}
 
+		rating.loadGraphic(Paths.image(pixelShitPart1 + daRating + pixelShitPart2));
+		rating.cameras = [camHUD];
 		rating.screenCenter();
 		rating.x = coolText.x - 40;
 		rating.y -= 60;
@@ -3548,14 +3610,15 @@ class PlayState extends MusicBeatState
 		rating.y -= ClientPrefs.comboOffset[1];
 
 		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image(pixelShitPart1 + 'combo' + pixelShitPart2));
+		comboSpr.cameras = [camHUD];
 		comboSpr.screenCenter();
 		comboSpr.x = coolText.x;
 		comboSpr.acceleration.y = 600;
 		comboSpr.velocity.y -= 150;
 		comboSpr.visible = !ClientPrefs.hideHud;
-		comboSpr.velocity.x += FlxG.random.int(1, 10);
 		comboSpr.x += ClientPrefs.comboOffset[0];
 		comboSpr.y -= ClientPrefs.comboOffset[1];
+
 
 
 		add(rating);
@@ -3609,9 +3672,11 @@ class PlayState extends MusicBeatState
 		for (i in seperatedScore)
 		{
 			var numScore:FlxSprite = new FlxSprite().loadGraphic(Paths.image(pixelShitPart1 + 'num' + Std.int(i) + pixelShitPart2));
+			numScore.cameras = [camHUD];
 			numScore.screenCenter();
 			numScore.x = coolText.x + (43 * daLoop) - 90;
 			numScore.y += 80;
+
 			numScore.x += ClientPrefs.comboOffset[2];
 			numScore.y -= ClientPrefs.comboOffset[3];
 
@@ -3843,8 +3908,12 @@ class PlayState extends MusicBeatState
 
 			if(!ModifierVars.practice) songScore -= 10;
 			if(!endingSong) {
-				if(ghostMiss) ghostMisses++;
-				songMisses++;
+				if(ghostMiss)  {
+					combo = 0;
+					adCombo = 0;
+					ghostMisses++;
+					songMisses++;
+				}
 			}
 			totalPlayed++;
 			RecalculateRating();
@@ -3908,6 +3977,7 @@ class PlayState extends MusicBeatState
 
 			if (!note.isSustainNote)
 			{
+				sustainingg = false;
 				popUpScore(note);
 				combo += 1;
 				adCombo += 1;
@@ -3915,13 +3985,20 @@ class PlayState extends MusicBeatState
 				if(ClientPrefs.hitsounds) {
 					FlxG.sound.play(Paths.sound('hitsound'));
 				}
+			} else {
+				sustainingg = true;
 			}
 			health += note.hitHealth;
 
 			if(!note.noAnimation) {
 				var daAlt = '';
-				if(note.noteType == 'Alt Animation') daAlt = '-alt';
-	
+				if(note.noteType == 'Alt Animation')  {
+					daAlt = '-alt';
+					if (UIPrefs.uiType == "Advanced") {
+						isAlt = true;
+					}
+				}
+
 				var animToPlay:String = '';
 				switch (Std.int(Math.abs(note.noteData)))
 				{
@@ -3933,6 +4010,16 @@ class PlayState extends MusicBeatState
 						animToPlay = 'singUP';
 					case 3:
 						animToPlay = 'singRIGHT';
+				}
+
+				if (UIPrefs.uiType == "Advanced") {
+					var dirParse:String = "";
+					dirParse = animToPlay.replace('sing', '');
+					if (dirParse != null || dirParse != "" || dirParse != " ") {
+						dirssss = dirParse;
+					} else {
+						dirssss = "NONE";
+					}
 				}
 
 				if(note.noteType == 'GF Sing') {
@@ -4280,11 +4367,12 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		iconP1.scale.set(1.2, 1.2);
-		iconP2.scale.set(1.2, 1.2);
-		
-		iconP1.updateHitbox();
-		iconP2.updateHitbox();
+		if (UIPrefs.iconBop) {
+			iconP1.scale.set(1.2, 1.2);
+			iconP2.scale.set(1.2, 1.2);
+			iconP1.updateHitbox();
+			iconP2.updateHitbox();
+		}
 
 		if (curBeat % gfSpeed == 0 && !gf.stunned && gf.animation.curAnim.name != null && !gf.animation.curAnim.name.startsWith("sing"))
 		{

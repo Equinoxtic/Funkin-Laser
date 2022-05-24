@@ -139,12 +139,13 @@ class Option
 	private function get_type()
 	{
 		var newValue:String = 'bool';
-		switch(type.toLowerCase().trim())
+		switch(type.toLowerCase())
 		{
-			case 'int' | 'float' | 'percent' | 'string': newValue = type;
+			case 'int' | 'float' | 'percent' | 'string' | 'bool': newValue = type;
 			case 'integer': newValue = 'int';
 			case 'str': newValue = 'string';
 			case 'fl': newValue = 'float';
+			case 'boolean': newValue = 'bool';
 		}
 		type = newValue;
 		return type;

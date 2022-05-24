@@ -34,7 +34,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 	private var optionsArray:Array<Option>;
 
 	private var grpOptions:FlxTypedGroup<Alphabet>;
-	private var checkboxGroup:FlxTypedGroup<CheckboxThingie>;
+	private var checkboxGroup:FlxTypedGroup<CheckboxThingieNew>;
 	private var grpTexts:FlxTypedGroup<AttachedTextNew>;
 
 	private var boyfriend:Character = null;
@@ -68,7 +68,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		grpTexts = new FlxTypedGroup<AttachedTextNew>();
 		add(grpTexts);
 
-		checkboxGroup = new FlxTypedGroup<CheckboxThingie>();
+		checkboxGroup = new FlxTypedGroup<CheckboxThingieNew>();
 		add(checkboxGroup);
 
 		descBox = new FlxSprite().makeGraphic(1, 1, FlxColor.BLACK);
@@ -99,7 +99,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 			grpOptions.add(optionText);
 
 			if(optionsArray[i].type == 'bool') {
-				var checkbox:CheckboxThingie = new CheckboxThingie(optionText.x - 105, optionText.y, optionsArray[i].getValue() == true);
+				var checkbox:CheckboxThingieNew = new CheckboxThingieNew(optionText.x - 105, optionText.y, optionsArray[i].getValue() == true);
 				checkbox.sprTracker = optionText;
 				checkbox.ID = i;
 				checkboxGroup.add(checkbox);

@@ -14,18 +14,24 @@ class UIPrefs
 	public static var judgementStyle:String = 'FNF';
 	public static var iconSet:String = 'FNF';
 	public static var strumStyle:String = 'Normal';
-	public static var advancedUI:Bool = false;
+	public static var uiType:String = "Normal";
 	
-	/* Visual Effects */
+	/* Visual Effects
 	public static var highscoreVignette:Bool = false;
 	public static var vfxModcharts:Bool = false;
 	public static var motionBlur:Bool = false;
 	public static var allowShader:Bool = false;
+	*/
 
 	/* UI Behaviour */
 	public static var noteskin:String = 'Arrows';
 	public static var timeShowing:String = 'Time Left';
 	public static var pauseMusic:String = 'Breakfast';
+	public static var iconBop:Bool = true;
+	public static var scoreZooming:Bool = true;
+
+	// Testing
+	public static var testBool:Bool = false;
 	
 	public static function saveUIPrefs()
 	{
@@ -34,17 +40,23 @@ class UIPrefs
 		FlxG.save.data.judgementStyle = judgementStyle;
 		FlxG.save.data.iconSet = iconSet;
 		FlxG.save.data.strumStyle = strumStyle;
-		FlxG.save.data.advancedUI = advancedUI;
+		FlxG.save.data.uiType = uiType;
 
-		/* Visual Effects */
+		/* Visual Effects
 		FlxG.save.data.vfxModcharts = vfxModcharts;
 		FlxG.save.data.motionBlur = motionBlur;
 		FlxG.save.data.allowShader = allowShader;
+		*/
 
 		/* UI Behaviour */
 		FlxG.save.data.noteskin = noteskin;
 		FlxG.save.data.timeShowing = timeShowing;
 		FlxG.save.data.pauseMusic = pauseMusic;
+		FlxG.save.data.iconBop = iconBop;
+		FlxG.save.data.scoreZooming = scoreZooming;
+
+		// Testing
+		FlxG.save.data.testBool = testBool;
 	}
 
 	public static function loadUIPrefs()
@@ -66,11 +78,11 @@ class UIPrefs
 			strumStyle = FlxG.save.data.strumStyle;
 		}
 
-		if (FlxG.save.data.advancedUI != null) {
-			advancedUI = FlxG.save.data.advancedUI;
+		if (FlxG.save.data.uiType != null) {
+			uiType = FlxG.save.data.uiType;
 		}
 
-		/* Visual Effects */
+		/* Visual Effects
 		if (FlxG.save.data.vfxModcharts != null) {
 			vfxModcharts = FlxG.save.data.vfxModcharts;
 		}
@@ -82,6 +94,7 @@ class UIPrefs
 		if (FlxG.save.data.allowShader != null) {
 			allowShader = FlxG.save.data.allowShader;
 		}
+		*/
 
 		/* UI Behaviour */
 		if (FlxG.save.data.noteskin != null) {
@@ -94,6 +107,19 @@ class UIPrefs
 
 		if (FlxG.save.data.pauseMusic != null) {
 			pauseMusic = FlxG.save.data.pauseMusic;
+		}
+
+		if (FlxG.save.data.iconBop != null) {
+			iconBop = FlxG.save.data.iconBop;
+		}
+
+		if (FlxG.save.data.scoreZooming != null) {
+			scoreZooming = FlxG.save.data.scoreZooming;
+		}
+
+		// Testing
+		if (FlxG.save.data.testBool != null) {
+			testBool = FlxG.save.data.testBool;
 		}
 	}
 }

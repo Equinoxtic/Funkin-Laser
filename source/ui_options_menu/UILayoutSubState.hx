@@ -66,9 +66,17 @@ class UILayoutSubState extends BaseOptionsMenu
 			['Normal', 'Middle Scroll (Old)', 'Middle Scroll (New)', 'Opaque Enemy Strums']);
 		addOption(option);
 
-		var option:Option = new Option('Advanced UI',
+		var option:Option = new Option('UI Type',
 			"If enabled, it will show advanced statistics.\n(i.e. current step and beat and etc.)",
-			'advancedUI',
+			'uiType',
+			'string',
+			'Normal',
+			['Normal', 'Advanced']);
+		addOption(option);
+
+		var option:Option = new Option("Test",
+			'test',
+			'testBool',
 			'bool',
 			false);
 		addOption(option);

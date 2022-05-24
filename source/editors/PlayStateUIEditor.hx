@@ -1,4 +1,4 @@
-package options_menu;
+package editors;
 
 import flixel.util.FlxStringUtil;
 import flixel.tweens.FlxEase;
@@ -16,7 +16,7 @@ import flixel.math.FlxPoint;
 
 using StringTools;
 
-class NoteOffsetState extends MusicBeatState
+class PlayStateUIEditor extends MusicBeatState
 {
 	var boyfriend:Character;
 	var gf:Character;

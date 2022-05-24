@@ -22,7 +22,8 @@ class MasterEditorMenu extends MusicBeatState
 		'Menu Character Editor',
 		'Dialogue Editor',
 		'Dialogue Portrait Editor',
-		'Character Editor'
+		'Character Editor',
+		'Gameplay UI Editor',
 	];
 	private var grpTexts:FlxTypedGroup<Alphabet>;
 
@@ -85,6 +86,8 @@ class MasterEditorMenu extends MusicBeatState
 					LoadingState.loadAndSwitchState(new DialogueCharacterEditorState(), false);
 				case 'Dialogue Editor':
 					LoadingState.loadAndSwitchState(new DialogueEditorState(), false);
+				case 'Gameplay UI Editor':
+					LoadingState.loadAndSwitchState(new PlayStateUIEditor(), false);
 			}
 			FlxG.sound.music.volume = 0;
 			FreeplayState.destroyFreeplayVocals();
