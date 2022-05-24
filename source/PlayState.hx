@@ -2262,11 +2262,7 @@ class PlayState extends MusicBeatState
 			var altStr:String = "";
 			(sustainingg) ? sustainStr = "O" : sustainStr = "X";
 			(isAlt) ? altStr = "alt-note" : altStr = "note";
-			if (ratingParse != null || ratingParse != "" || ratingParse != " ") {
-				ratingParse = daRating;
-			} else {
-				ratingParse = "None";
-			}
+			(ratingParse != null || ratingParse != "" || ratingParse != " ") ? ratingParse = daRating : ratingParse = "None";
 			if (Conductor.songPosition/1000 < 0 || curStep < 0 || curBeat < 0) {
 				extraShitText.text = "songPos: 0" + "\ncurStep: 0" + "\ncurBeat: 0";
 				moreExtraShit.text = "Sustain Note: ?" + "\nNote Direction: ?" + "\nIs Alt Note: ?";
