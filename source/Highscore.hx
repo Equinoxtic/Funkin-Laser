@@ -43,19 +43,20 @@ class Highscore
 		return newValue / tempMult;
 	}
 
-	public static function saveScore(song:String, score:Int = 0, ?diff:Int = 0, ?rating:Float = -1):Void
+	public static function saveScore(song:String, score:Int = 0, ?diff:Int = 0, ?rating:Float = -1, ?isAdvanced:Bool = false):Void
 	{
-		var daSong:String = formatSong(song, diff);
-
-		if (songScores.exists(daSong)) {
-			if (songScores.get(daSong) < score) {
+		if (!isAdvanced) {
+			var daSong:String = formatSong(song, diff);
+			if (songScores.exists(daSong)) {
+				if (songScores.get(daSong) < score) {
+					setScore(daSong, score);
+					if(rating >= 0) setRating(daSong, rating);
+				}
+			}
+			else {
 				setScore(daSong, score);
 				if(rating >= 0) setRating(daSong, rating);
 			}
-		}
-		else {
-			setScore(daSong, score);
-			if(rating >= 0) setRating(daSong, rating);
 		}
 	}
 
