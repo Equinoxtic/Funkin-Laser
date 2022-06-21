@@ -39,7 +39,7 @@ class UIBehaviourSubState extends BaseOptionsMenu
 			'noteskin',
 			'string',
 			'Arrows',
-			['Arrows', 'Circles', 'Stepmania']);
+			['Arrows', 'Circles']);
 		addOption(option);
 		
 		var option:Option = new Option('Time Bar:',

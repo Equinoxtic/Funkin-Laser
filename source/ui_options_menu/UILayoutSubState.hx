@@ -74,13 +74,6 @@ class UILayoutSubState extends BaseOptionsMenu
 			['Normal', 'Advanced']);
 		addOption(option);
 
-		var option:Option = new Option("Test",
-			'test',
-			'testBool',
-			'bool',
-			false);
-		addOption(option);
-
 		super();
 	}
 }
