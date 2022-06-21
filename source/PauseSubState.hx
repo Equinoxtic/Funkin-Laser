@@ -37,9 +37,6 @@ class PauseSubState extends MusicBeatSubstate
 
 	public static var transCamera:FlxCamera;
 
-	var exited:Bool = false;
-	var restarted:Bool = false;
-
 	var parsedMusic:String = '';
 
 	public function new(x:Float, y:Float)
@@ -191,27 +188,11 @@ class PauseSubState extends MusicBeatSubstate
 					new FlxTimer().start(0.45, function(tmr:FlxTimer) {
 						close();
 					});
-				/* case 'Change Difficulty':
-					menuItems = difficultyChoices;
-					regenMenu(); */
-				// case 'Toggle Practice Mode':
-				// 	PlayState.practiceMode = !PlayState.practiceMode;
-				// 	PlayState.usedPractice = true;
-					// practiceText.visible = ModifierVars.practice;
 				case "Restart Song":
-					restarted = true;
-					PlayState.resetted = restarted;
 					CustomFadeTransition.nextCamera = transCamera;
 					MusicBeatState.resetState();
 					FlxG.sound.music.volume = 0;
-				// case 'Botplay':
-				// 	resetShit();
-				// 	PlayState.cpuControlled = !PlayState.cpuControlled;
-				// 	PlayState.usedPractice = true;
-					// botplayText.visible = ModifierVars.botplay;
 				case "Exit to menu":
-					exited = true;
-					PlayState.exited = exited;
 					PlayState.deathCounter = 0;
 					PlayState.seenCutscene = false;
 					CustomFadeTransition.nextCamera = transCamera;
@@ -284,23 +265,4 @@ class PauseSubState extends MusicBeatSubstate
 		curSelected = 0;
 		changeSelection();
 	}
-
-	/* function resetShit() {
-		new FlxTimer().start(0.2, function(tmr:FlxTimer) {
-			PlayState.songScore = 0;
-			PlayState.deathCounter = 0;
-			PlayState.songHits = 0;
-			PlayState.songShits = 0;
-			PlayState.songBads = 0;
-			PlayState.songGoods = 0;
-			PlayState.songSicks = 0;
-			PlayState.combo = 0;
-			PlayState.songMisses = 0;
-			PlayState.ghostMisses = 0;
-			PlayState.ratingPercent = 0;
-			PlayState.ratingString = "?";
-			PlayState.ratingFC = "N/A";
-			PlayState.rankingShit = "N/A";
-		});
-	} */
 }

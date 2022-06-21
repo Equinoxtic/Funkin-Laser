@@ -21,9 +21,6 @@ class GameOverSubstate extends MusicBeatSubstate
 
 	var lePlayState:PlayState;
 
-	var resetted:Bool = false;
-	var exited:Bool = false;
-
 	public static var characterName:String = 'bf';
 	public static var deathSoundName:String = 'fnf_loss_sfx';
 	public static var loopSoundName:String = 'gameOver';
@@ -77,15 +74,11 @@ class GameOverSubstate extends MusicBeatSubstate
 
 		if (controls.ACCEPT)
 		{
-			resetted = true;
-			PlayState.resetted = resetted;
 			endBullshit();
 		}
 
 		if (controls.BACK)
 		{
-			exited = true;
-			PlayState.exited = exited;
 			FlxG.sound.music.stop();
 			PlayState.deathCounter = 0;
 			PlayState.seenCutscene = false;
