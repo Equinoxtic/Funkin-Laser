@@ -59,6 +59,8 @@ using StringTools;
 
 class PlayState extends MusicBeatState
 {
+	public static var instance:PlayState = null;
+
 	public static var STRUM_X = 42;
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
@@ -236,26 +238,11 @@ class PlayState extends MusicBeatState
 	var cockScoreZoom:FlxTween;
 	var cockScoreTmr:FlxTimer;
 
-	public static var fakeRatingPercent:Float = 0;
-	public static var fakeRankingFC:String = "";
-	public static var fakeCombo:Int = 0;
-	public static var fakeScore:Int = 0;
-	public static var fakeHits:Int = 0;
-	public static var fakeSicks:Int = 0;
-	public static var fakeGoods:Int = 0;
-	public static var fakeBads:Int = 0;
-	public static var fakeShits:Int = 0;
-	public static var fakeMisses:Int = 0;
-	public static var fakeGhostMisses:Int = 0;
-	public static var fakeRankingShit:String = "";
-	public static var fakePerfectChains:Int = 0;
-
 	public static var campaignScore:Int = 0;
 	public static var campaignMisses:Int = 0;
 	public static var seenCutscene:Bool = false;
 	public static var deathCounter:Int = 0;
 
-	public static var resetted:Bool = false;
 	public static var exited:Bool = false;
 
 	public var defaultCamZoom:Float = 1.05;
@@ -285,10 +272,6 @@ class PlayState extends MusicBeatState
 	public var introSoundsSuffix:String = '';
 
 	var pausedHardcoreModchart:Bool = false;
-	var isInCharMenu:Bool = false;
-	var isInSongEditor:Bool = false;
-	var songIsEnded:Bool = false;
-	var hasDied:Bool = false;
 
 	var glitchShader:GlitchEffect;
 
@@ -298,6 +281,8 @@ class PlayState extends MusicBeatState
 		Paths.destroyLoadedImages(resetSpriteCache);
 		#end
 		resetSpriteCache = false;
+
+		resetStats();
 
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
@@ -331,6 +316,7 @@ class PlayState extends MusicBeatState
 			SONG = Song.loadFromJson('tutorial');
 
 		Conductor.mapBPMChanges(SONG);
+
 		Conductor.changeBPM(SONG.bpm);
 
 		#if desktop
@@ -1143,20 +1129,6 @@ class PlayState extends MusicBeatState
 			trace("Testing");
 		}
 
-		if (ModifierVars.hardcoreMode && ModifierVars.songSpeed != 0 && !isInSongEditor && !hasDied && !resetted) {
-			ModifierVars.pussyMode = false;
-			SONG.speed = SONG.speed + 1.5;
-		}
-		
-		if (ModifierVars.pussyMode && ModifierVars.songSpeed != 0 && !isInSongEditor && !hasDied && !resetted) {
-			ModifierVars.hardcoreMode = false;
-			SONG.speed = SONG.speed - 0.75;
-		}
-
-		if (!ModifierVars.hardcoreMode && !ModifierVars.pussyMode && ModifierVars.songSpeed != 0 && !isInSongEditor && !hasDied && !resetted) {
-			SONG.speed = SONG.speed + ModifierVars.songSpeed;
-		}
-		
 		if (ModifierVars.enigma) {
 			healthBar.alpha = 0;
 			healthBarBG.alpha = 0;
@@ -1807,13 +1779,13 @@ class PlayState extends MusicBeatState
 	}
 
 	function eventPushed(event:Array<Dynamic>) {
-		switch(event[2]) {
+		switch(event[1]) {
 			case 'Change Character':
 				var charType:Int = 0;
-				switch(event[3].toLowerCase()) {
-					case 'gf' | 'girlfriend':
+				switch(event[2].toLowerCase()) {
+					case 'gf' | 'girlfriend' | '1':
 						charType = 2;
-					case 'dad' | 'opponent':
+					case 'dad' | 'opponent' | '0':
 						charType = 1;
 					default:
 						charType = Std.parseInt(event[3]);
@@ -2184,10 +2156,6 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
-		if (isInCharMenu || isInSongEditor || songIsEnded || hasDied || resetted || exited) {
-			resetShit(); // Technically, this should work without no issues
-		}
-
 		if (songScore >= 200000000) {
 			songScore = 200000000;
 		}
@@ -2332,7 +2300,6 @@ class PlayState extends MusicBeatState
 		if (FlxG.keys.justPressed.SEVEN && !endingSong && !inCutscene)
 		{
 			// resetShit();
-			isInSongEditor = true;
 			persistentUpdate = false;
 			paused = true;
 			cancelFadeTween();
@@ -2376,7 +2343,6 @@ class PlayState extends MusicBeatState
 
 		if (FlxG.keys.justPressed.EIGHT && !endingSong && !inCutscene) {
 			// resetShit();
-			isInCharMenu = true;
 			persistentUpdate = false;
 			paused = true;
 			cancelFadeTween();
@@ -2734,26 +2700,24 @@ class PlayState extends MusicBeatState
 
 	var isDead:Bool = false;
 
-	/* function resetShitButDeath() {
+	function resetStats() {
 		songScore = 0;
-		songHits = 0;
-		songShits = 0;
-		songBads = 0;
-		songGoods = 0;
-		songSicks = 0;
 		combo = 0;
+		songHits = 0;
+		songSicks = 0;
+		songGoods = 0;
+		songBads = 0;
 		songMisses = 0;
 		ghostMisses = 0;
-		ratingPercent = 0;
-		ratingString = "?";
-		ratingFC = "N/A";
+		perfectChains = 0;
 		rankingShit = "N/A";
-	} */
+		ratingFC = "N/A";
+		ratingPercent = 0.00;
+	}
 
 	function doDeathCheck() {
 		if (health <= 0 && !ModifierVars.practice && !isDead)
 		{
-			hasDied = true;
 			var ret:Dynamic = callOnLuas('onGameOver', []);
 			if(ret != FunkinLua.Function_Stop) {
 				boyfriend.stunned = true;
@@ -3059,8 +3023,16 @@ class PlayState extends MusicBeatState
 				}
 
 			case 'Change Character':
-				var charType:Int = Std.parseInt(value1);
-				if(Math.isNaN(charType)) charType = 0;
+				var charType:Int = 0;
+				switch(value1) {
+					case 'gf' | 'girlfriend':
+						charType = 2;
+					case 'dad' | 'opponent':
+						charType = 1;
+					default:
+						charType = Std.parseInt(value1);
+						if(Math.isNaN(charType)) charType = 0;
+				}
 
 				switch(charType) {
 					case 0:
@@ -3069,15 +3041,13 @@ class PlayState extends MusicBeatState
 								addCharacterToList(value2, charType);
 							}
 
-							boyfriend.visible = false;
+							var lastAlpha:Float = boyfriend.alpha;
+							boyfriend.alpha = 0.00001;
 							boyfriend = boyfriendMap.get(value2);
-							if(!boyfriend.alreadyLoaded) {
-								boyfriend.alpha = 1;
-								boyfriend.alreadyLoaded = true;
-							}
-							boyfriend.visible = true;
+							boyfriend.alpha = lastAlpha;
 							iconP1.changeIcon(boyfriend.healthIcon);
 						}
+						setOnLuas('boyfriendName', boyfriend.curCharacter);
 
 					case 1:
 						if(dad.curCharacter != value2) {
@@ -3086,7 +3056,8 @@ class PlayState extends MusicBeatState
 							}
 
 							var wasGf:Bool = dad.curCharacter.startsWith('gf');
-							dad.visible = false;
+							var lastAlpha:Float = dad.alpha;
+							dad.alpha = 0.00001;
 							dad = dadMap.get(value2);
 							if(!dad.curCharacter.startsWith('gf')) {
 								if(wasGf) {
@@ -3095,13 +3066,10 @@ class PlayState extends MusicBeatState
 							} else {
 								gf.visible = false;
 							}
-							if(!dad.alreadyLoaded) {
-								dad.alpha = 1;
-								dad.alreadyLoaded = true;
-							}
-							dad.visible = true;
+							dad.alpha = lastAlpha;
 							iconP2.changeIcon(dad.healthIcon);
 						}
+						setOnLuas('dadName', dad.curCharacter);
 
 					case 2:
 						if(gf.curCharacter != value2) {
@@ -3109,13 +3077,12 @@ class PlayState extends MusicBeatState
 								addCharacterToList(value2, charType);
 							}
 
-							gf.visible = false;
+							var lastAlpha:Float = gf.alpha;
+							gf.alpha = 0.00001;
 							gf = gfMap.get(value2);
-							if(!gf.alreadyLoaded) {
-								gf.alpha = 1;
-								gf.alreadyLoaded = true;
-							}
+							gf.alpha = lastAlpha;
 						}
+						setOnLuas('gfName', gf.curCharacter);
 				}
 				reloadHealthBarColors();
 			
@@ -3220,30 +3187,11 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	function resetShit() {
-		perfectChains = 0;
-		songScore = 0;
-		deathCounter = 0;
-		songHits = 0;
-		songShits = 0;
-		songBads = 0;
-		songGoods = 0;
-		songSicks = 0;
-		combo = 0;
-		songMisses = 0;
-		ghostMisses = 0;
-		ratingPercent = 0;
-		ratingString = "?";
-		ratingFC = "N/A";
-		rankingShit = "N/A";
-		resetted = false;
-		exited = false;
-	}
-
 	var transitioning = false;
+	// public static var publicRating:String = "";
+	// public static var publicRanking:String = "";
 	public function endSong():Void
 	{
-		songIsEnded = true;
 		pausedHardcoreModchart = true;
 		var shitty:Float = Highscore.floorDecimal(ratingPercent * 100, 2);
 		if (ModifierVars.ssMode) {
@@ -3269,6 +3217,9 @@ class PlayState extends MusicBeatState
 				return;
 			}
 		}
+
+		// publicRating = ratingFC;
+		// publicRanking = rankingShit;
 		
 		timeBarBG.visible = false;
 		timeBar.visible = false;
@@ -3279,20 +3230,6 @@ class PlayState extends MusicBeatState
 		camZooming = false;
 		inCutscene = false;
 		updateTime = false;
-
-		fakeRatingPercent = ratingPercent;
-		fakeRankingFC = ratingFC;
-		fakeCombo = combo;
-		fakeScore = songScore;
-		fakeHits = songHits;
-		fakeSicks = songSicks;
-		fakeGoods = songGoods;
-		fakeBads = songBads;
-		fakeShits = songShits;
-		fakeMisses = songMisses;
-		fakeGhostMisses = ghostMisses;
-		fakeRankingShit = rankingShit;
-		fakePerfectChains = perfectChains;
 
 		seenCutscene = false;
 
@@ -3315,17 +3252,6 @@ class PlayState extends MusicBeatState
 		#end
 
 		if(ret != FunkinLua.Function_Stop && !transitioning) {
-			if (SONG.validScore)
-			{
-				#if !switch
-				var percent:Float = ratingPercent;
-				if(Math.isNaN(percent)) percent = 0;
-				if (!ModifierVars.botplay) {
-					Highscore.saveScore(SONG.song, songScore, storyDifficulty, percent);
-				}
-				#end
-			}
-			
 			if (isStoryMode)
 			{
 				campaignScore += songScore;
@@ -3387,14 +3313,10 @@ class PlayState extends MusicBeatState
 					prevCamFollowPos = camFollowPos;
 
 					if (ClientPrefs.allowVictoryScreen) {
-						trace("Resetting Score...");
 						new FlxTimer().start(0.1, function(tmr:FlxTimer) {
 							FlxTween.tween(camHUD, {alpha: 0}, 0.5, {ease: FlxEase.quartInOut});
 						});
-						new FlxTimer().start(0.55, function(tmr:FlxTimer) {
-							trace("SCORE RESETTED.");
-							openSubState(new VictoryScreenSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
-						});
+						openSubState(new VictoryScreenSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 					}
 				}
 			}
@@ -3416,14 +3338,10 @@ class PlayState extends MusicBeatState
 				// cpuControlled = false;
 
 				if (ClientPrefs.allowVictoryScreen) {
-					trace("Resetting Score...");
 					new FlxTimer().start(0.1, function(tmr:FlxTimer) {
 						FlxTween.tween(camHUD, {alpha: 0}, 0.5, {ease: FlxEase.quartInOut});
 					});
-					new FlxTimer().start(0.55, function(tmr:FlxTimer) {
-						trace("SCORE RESETTED.");
-						openSubState(new VictoryScreenSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
-					});
+					openSubState(new VictoryScreenSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 				}
 			}
 			transitioning = true;
@@ -3512,7 +3430,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if(daRating == 'sick' && !note.noteSplashDisabled) {
+		if(daRating == 'marvelous' && !note.noteSplashDisabled) {
 			spawnNoteSplashOnNote(note);
 		}
 		
@@ -4479,7 +4397,7 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	public static var ratingString:String;
+	public var ratingString:String;
 	public static var ratingPercent:Float;
 	public function RecalculateRating() {
 		setOnLuas('score', songScore);
@@ -4516,7 +4434,7 @@ class PlayState extends MusicBeatState
 			}
 
 			ratingFC = "";
-
+			
 			if (songMisses == 0 && songBads == 0 && songShits == 0 && songGoods == 0)
 				ratingFC= "PFC";
 			else if (songMisses == 0 && songBads == 0 && songShits == 0 && songGoods >= 1)
@@ -4529,43 +4447,56 @@ class PlayState extends MusicBeatState
 				ratingFC = "SDCB";
 			else if (songMisses >= 10) 
 				ratingFC = "N/A";
-
+			
 			var acc:Float = Highscore.floorDecimal(ratingPercent * 100, 2);
 
-			if (acc >= 99.99)
-				rankingShit = "X";
-			else if (acc >= 99.98)
-				rankingShit = "X-";
-			else if (acc >= 99.90)
-				rankingShit = "SS+";
-			else if (acc >= 99.80)
-				rankingShit = "SS";
-			else if (acc >= 99.70)
-				rankingShit = "SS-";
-			else if (acc >= 99.50)
-				rankingShit = "S+";
-			else if (acc >= 99)
-				rankingShit = "S";
-			else if (acc >= 96.50)
-				rankingShit = "S-";
-			else if (acc >= 93)
-				rankingShit = "A+";
-			else if (acc >= 90)
-				rankingShit = "A";
-			else if (acc >= 85)
-				rankingShit = "A-";
-			else if (acc >= 80)
-				rankingShit = "B";
-			else if (acc >= 70)
-				rankingShit = "C";
-			else if (acc >= 60)
-				rankingShit = "D";
-			else if (acc < 60)
-				rankingShit = "E";
+			var conditions:Array<Bool> = [
+				acc >= 99.99,
+				acc >= 99.98,
+				acc >= 99.90,
+				acc >= 99.80,
+				acc >= 99.70,
+				acc >= 99.50,
+				acc >= 99,
+				acc >= 96.50,
+				acc >= 93,
+				acc >= 90,
+				acc >= 85,
+				acc >= 80,
+				acc >= 70,
+				acc >= 60,
+				acc < 60
+			];
 
-			if (deathCounter >= 30 || acc < 16.67) {
-				rankingShit = "F";
+			for (i in 0...conditions.length) {
+				if(conditions[i]) {
+					switch(i) {
+						case 0: rankingShit = "X";
+						case 1: rankingShit = "X-";
+						case 2: rankingShit = "SS+";
+						case 3: rankingShit = "SS";
+						case 4: rankingShit = "SS-";
+						case 5: rankingShit = "S+";
+						case 6: rankingShit = "S";
+						case 7: rankingShit = "S-";
+						case 8: rankingShit = "A+";
+						case 9: rankingShit = "A";
+						case 10: rankingShit = "A-";
+						case 11: rankingShit = "B";
+						case 12: rankingShit = "C";
+						case 13: rankingShit = "D";
+						case 14: rankingShit = "E";
+					}
+					if (deathCounter >= 30 || acc < 16.67) {
+						rankingShit = "F";
+					}
+					break;
+				}
 			}
+
+			// if (deathCounter >= 30 || acc < 16.67) {
+			// 	rankingShit = "F";
+			// }
 
 			setOnLuas('rating', ratingPercent);
 			setOnLuas('ratingName', ratingString);
