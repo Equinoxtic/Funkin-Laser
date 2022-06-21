@@ -47,7 +47,7 @@ class UILayoutSubState extends BaseOptionsMenu
 			'judgementStyle',
 			'string',
 			'FNF',
-			['FNF', 'Kade', 'VS Camellia']); // NO PIXEL SUPPORT FOR CAMELLIA JUDGEMENTS
+			['FNF', 'Kade']);
 		addOption(option);
 
 		var option:Option = new Option('Icon Set',
