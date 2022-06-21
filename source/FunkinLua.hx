@@ -134,6 +134,11 @@ class FunkinLua {
 		set('defaultGirlfriendX', lePlayState.GF_X);
 		set('defaultGirlfriendY', lePlayState.GF_Y);
 
+		// Character Shit
+		set('boyfriendName', PlayState.SONG.player1);
+		set('dadName', PlayState.SONG.player2);
+		set('gfName', PlayState.SONG.player3);
+
 		// Some settings, no jokes
 		set('downscroll', ClientPrefs.downScroll);
 		set('middlescroll', ClientPrefs.middleScroll);
@@ -628,7 +633,7 @@ class FunkinLua {
 			PlayState.ratingPercent = value;
 		});
 		Lua_helper.add_callback(lua, "setRatingString", function(value:String) {
-			PlayState.ratingString = value;
+			lePlayState.ratingString = value;
 		});
 		Lua_helper.add_callback(lua, "getMouseX", function(camera:String) {
 			var cam:FlxCamera = cameraFromString(camera);
