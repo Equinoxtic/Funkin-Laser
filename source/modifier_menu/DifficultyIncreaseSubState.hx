@@ -240,8 +240,8 @@ class DifficultyIncreaseSubState extends MusicBeatSubstate
 
 		var daText:String = '';
 		switch(options[curSelected]) {
-			case 'Hi-Fi':
-				daText = "Make it intense with Hi-Fi songs.";
+			/* case 'Hi-Fi':
+				daText = "Make it intense with Hi-Fi songs."; */
 			case 'Ghost Notes':
 				daText = "If checked, the Notes will become more transparent.";
 			case 'Limited Vision':
