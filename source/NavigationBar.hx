@@ -11,6 +11,7 @@ import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 import flixel.group.FlxGroup.FlxTypedGroup;
+import menus.MainMenuState;
 
 using StringTools;
 

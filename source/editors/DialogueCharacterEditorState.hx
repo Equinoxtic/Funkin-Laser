@@ -33,6 +33,8 @@ import lime.system.Clipboard;
 import sys.io.File;
 #end
 import character_classes.Character;
+import preference_vars.ClientPrefs;
+import menus.TitleState;
 
 using StringTools;
 

@@ -30,6 +30,8 @@ import lime.system.Clipboard;
 #if sys
 import sys.io.File;
 #end
+import preference_vars.ClientPrefs;
+import menus.TitleState;
 
 using StringTools;
 

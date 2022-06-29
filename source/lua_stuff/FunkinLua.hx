@@ -30,6 +30,10 @@ import Type.ValueType;
 import Controls;
 import dialogue_box_utils.DialogueBoxPsych;
 import funkin_stuff.CoolUtil;
+import preference_vars.ClientPrefs;
+import preference_vars.ModifierVars;
+import note_stuff.StrumNote;
+import funkin_stuff.Conductor;
 
 using StringTools;
 

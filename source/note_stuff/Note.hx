@@ -7,6 +7,10 @@ import flixel.math.FlxMath;
 import flixel.util.FlxColor;
 import flash.display.BitmapData;
 import editors.ChartingState;
+import preference_vars.ClientPrefs;
+import preference_vars.UIPrefs;
+import funkin_stuff.Conductor;
+import PlayState;
 
 using StringTools;
 

@@ -16,6 +16,10 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import lime.net.curl.CURLCode;
+import preference_vars.ClientPrefs;
+import funkin_stuff.CoolUtil;
+import funkin_stuff.Highscore;
+import PlayState;
 import WeekData;
 
 using StringTools;

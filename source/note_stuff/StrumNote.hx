@@ -3,6 +3,8 @@ package note_stuff;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
+import preference_vars.UIPrefs;
+import preference_vars.ClientPrefs;
 
 using StringTools;
 

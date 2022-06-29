@@ -9,6 +9,7 @@ import sys.FileSystem;
 import openfl.utils.Assets;
 import haxe.Json;
 import haxe.format.JsonParser;
+import preference_vars.ClientPrefs;
 
 typedef MenuCharacterFile = {
 	var image:String;

@@ -51,6 +51,22 @@ import funkin_stuff.StageData;
 import lua_stuff.FunkinLua;
 import dialogue_box_utils.DialogueBoxPsych;
 import character_classes.Character;
+import note_stuff.Note;
+import note_stuff.StrumNote;
+import note_stuff.NoteSplash;
+import attached_utils.AttachedSprite;
+import attached_utils.BGSprite;
+import character_classes.HealthIcon;
+import preference_vars.ClientPrefs;
+import preference_vars.UIPrefs;
+import preference_vars.ModifierVars;
+import dialogue_box_utils.DialogueBox;
+import funkin_stuff.Conductor;
+import funkin_stuff.CoolUtil;
+import funkin_stuff.Song;
+import funkin_stuff.Highscore;
+import menus.StoryMenuState;
+import menus.FreeplayState;
 
 #if sys
 import sys.FileSystem;

@@ -5,6 +5,8 @@ import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.math.FlxMath;
 import flixel.util.FlxColor;
+import preference_vars.ClientPrefs;
+import funkin_stuff.CoolUtil;
 
 class MenuItem extends FlxSprite
 {

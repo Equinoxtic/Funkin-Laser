@@ -17,6 +17,8 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import lime.app.Application;
+import preference_vars.ClientPrefs;
+import funkin_stuff.CoolUtil;
 import Achievements;
 import editors.MasterEditorMenu;
 

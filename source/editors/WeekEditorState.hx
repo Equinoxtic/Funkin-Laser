@@ -32,6 +32,8 @@ import sys.io.File;
 import sys.FileSystem;
 #end
 import character_classes.HealthIcon;
+import preference_vars.ClientPrefs;
+import menus.TitleState;
 import WeekData;
 
 using StringTools;
