@@ -27,6 +27,11 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import lime.app.Application;
 import openfl.Assets;
+import preference_vars.ClientPrefs;
+import preference_vars.ModifierVars;
+import preference_vars.UIPrefs;
+import funkin_stuff.Highscore;
+import funkin_stuff.Conductor;
 
 using StringTools;
 

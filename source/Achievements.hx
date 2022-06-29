@@ -6,6 +6,7 @@ import flixel.tweens.FlxTween;
 import flixel.group.FlxSpriteGroup;
 import flixel.util.FlxColor;
 import flixel.text.FlxText;
+import preference_vars.ClientPrefs;
 
 using StringTools;
 

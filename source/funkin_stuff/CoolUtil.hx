@@ -11,6 +11,7 @@ import sys.FileSystem;
 #else
 import openfl.utils.Assets;
 #end
+import PlayState;
 
 using StringTools;
 

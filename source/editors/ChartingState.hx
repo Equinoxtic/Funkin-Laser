@@ -3,9 +3,10 @@ package editors;
 #if desktop
 import Discord.DiscordClient;
 #end
-import Conductor.BPMChangeEvent;
-import Section.SwagSection;
-import Song.SwagSong;
+import funkin_stuff.Conductor.BPMChangeEvent;
+import funkin_stuff.Section.SwagSection;
+import funkin_stuff.Song.SwagSong;
+import note_stuff.Note;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxObject;

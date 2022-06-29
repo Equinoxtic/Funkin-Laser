@@ -3,8 +3,8 @@ package;
 #if desktop
 import Discord.DiscordClient;
 #end
-import Section.SwagSection;
-import Song.SwagSong;
+import funkin_stuff.Section.SwagSection;
+import funkin_stuff.Song.SwagSong;
 import WiggleEffect.WiggleEffectType;
 import flixel.FlxBasic;
 import flixel.FlxCamera;
@@ -47,9 +47,9 @@ import editors.CharacterEditorState;
 import flixel.group.FlxSpriteGroup;
 import Shaders;
 import Achievements;
-import StageData;
+import funkin_stuff.StageData;
 import lua_stuff.FunkinLua;
-import DialogueBoxPsych;
+import dialogue_box_utils.DialogueBoxPsych;
 
 #if sys
 import sys.FileSystem;

@@ -2,6 +2,7 @@ package;
 
 import Sys.sleep;
 import discord_rpc.DiscordRpc;
+import menus.MainMenuState;
 
 using StringTools;
 

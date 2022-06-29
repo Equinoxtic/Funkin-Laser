@@ -7,6 +7,7 @@ import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
 import flixel.util.FlxTimer;
 import flixel.system.FlxSound;
+import preference_vars.ClientPrefs;
 
 using StringTools;
 
