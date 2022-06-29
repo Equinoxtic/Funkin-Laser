@@ -16,7 +16,7 @@ import flixel.math.FlxRect;
 import flixel.system.FlxSound;
 import flixel.util.FlxSort;
 import flixel.util.FlxTimer;
-import FunkinLua;
+import lua_stuff.FunkinLua;
 
 using StringTools;
 

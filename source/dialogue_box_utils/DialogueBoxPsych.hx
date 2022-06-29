@@ -1,4 +1,4 @@
-package;
+package dialogue_box_utils;
 
 import flixel.FlxG;
 import flixel.FlxSprite;

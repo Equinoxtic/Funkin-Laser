@@ -1,6 +1,6 @@
-package;
+package funkin_stuff;
 
-import Section.SwagSection;
+import funkin_stuff.Section.SwagSection;
 import haxe.Json;
 import haxe.format.JsonParser;
 import lime.utils.Assets;

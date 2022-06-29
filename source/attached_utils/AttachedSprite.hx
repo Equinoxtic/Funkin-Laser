@@ -1,4 +1,4 @@
-package;
+package attached_utils;
 
 import flixel.FlxSprite;
 

@@ -48,7 +48,7 @@ import flixel.group.FlxSpriteGroup;
 import Shaders;
 import Achievements;
 import StageData;
-import FunkinLua;
+import lua_stuff.FunkinLua;
 import DialogueBoxPsych;
 
 #if sys
@@ -1124,10 +1124,6 @@ class PlayState extends MusicBeatState
 		DiscordClient.changePresence(detailsText, SONG.song + " - " + SONG.credit + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 		#end
 		super.create();
-
-		if (UIPrefs.testBool) {
-			trace("Testing");
-		}
 
 		if (ModifierVars.enigma) {
 			healthBar.alpha = 0;

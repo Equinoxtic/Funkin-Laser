@@ -1,4 +1,4 @@
-package;
+package note_stuff;
 
 import flixel.FlxG;
 import flixel.FlxSprite;

@@ -1,4 +1,4 @@
-package;
+package funkin_stuff;
 
 #if MODS_ALLOWED
 import sys.io.File;
@@ -8,7 +8,7 @@ import openfl.utils.Assets;
 #end
 import haxe.Json;
 import haxe.format.JsonParser;
-import Song;
+import funkin_stuff.Song;
 
 using StringTools;
 

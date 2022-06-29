@@ -1,4 +1,4 @@
-package;
+package character_classes;
 
 import flixel.FlxG;
 import flixel.FlxSprite;

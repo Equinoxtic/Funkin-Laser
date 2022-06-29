@@ -1,4 +1,4 @@
-package;
+package preference_vars;
 
 import flixel.FlxG;
 import flixel.util.FlxSave;

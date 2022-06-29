@@ -1,3 +1,5 @@
+package lua_stuff;
+
 #if LUA_ALLOWED
 import llua.Lua;
 import llua.LuaL;

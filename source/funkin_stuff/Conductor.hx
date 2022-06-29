@@ -1,6 +1,8 @@
-package;
+package funkin_stuff;
 
-import Song.SwagSong;
+import funkin_stuff.Song.SwagSong;
+import preference_vars.ClientPrefs;
+import note_stuff.Note;
 
 /**
  * ...
