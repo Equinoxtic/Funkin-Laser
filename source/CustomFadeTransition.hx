@@ -1,6 +1,7 @@
 package;
 
-import Conductor.BPMChangeEvent;
+import funkin_stuff.Conductor.BPMChangeEvent;
+import funkin_stuff.CoolUtil;
 import flixel.FlxG;
 import flixel.addons.ui.FlxUIState;
 import flixel.math.FlxRect;

@@ -12,6 +12,9 @@ import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.system.FlxSound;
+import menus.MainMenuState;
+import menus.FreeplayState;
+import character_classes.Character;
 
 using StringTools;
 

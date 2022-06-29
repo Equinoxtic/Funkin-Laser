@@ -50,6 +50,7 @@ import Achievements;
 import funkin_stuff.StageData;
 import lua_stuff.FunkinLua;
 import dialogue_box_utils.DialogueBoxPsych;
+import character_classes.Character;
 
 #if sys
 import sys.FileSystem;

@@ -22,6 +22,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
 import flixel.input.keyboard.FlxKey;
+import checkbox_utils.CheckboxThingie;
 import flixel.graphics.FlxGraphic;
 
 using StringTools;

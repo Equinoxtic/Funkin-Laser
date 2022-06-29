@@ -17,6 +17,7 @@ import sys.FileSystem;
 import sys.io.File;
 #end
 import openfl.utils.Assets;
+import preference_vars.ClientPrefs;
 
 using StringTools;
 

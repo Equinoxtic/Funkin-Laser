@@ -23,6 +23,8 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
 import flixel.input.keyboard.FlxKey;
 import flixel.graphics.FlxGraphic;
+import checkbox_utils.CheckboxThingieNew;
+import character_classes.Character;
 import Controls;
 
 using StringTools;

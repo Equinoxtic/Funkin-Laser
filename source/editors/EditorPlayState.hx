@@ -1,7 +1,7 @@
 package editors;
 
-import Section.SwagSection;
-import Song.SwagSong;
+import funkin_stuff.Section.SwagSection;
+import funkin_stuff.Song.SwagSong;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.util.FlxColor;

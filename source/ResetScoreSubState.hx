@@ -2,6 +2,8 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
 import flixel.util.FlxColor;
+import funkin_stuff.Highscore;
+import character_classes.HealthIcon;
 
 using StringTools;
 

@@ -28,7 +28,8 @@ import sys.io.File;
 #end
 import Type.ValueType;
 import Controls;
-import DialogueBoxPsych;
+import dialogue_box_utils.DialogueBoxPsych;
+import funkin_stuff.CoolUtil;
 
 using StringTools;
 

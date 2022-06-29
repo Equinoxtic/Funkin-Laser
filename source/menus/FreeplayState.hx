@@ -16,6 +16,12 @@ import flixel.tweens.FlxTween;
 import lime.utils.Assets;
 import flixel.system.FlxSound;
 import openfl.utils.Assets as OpenFlAssets;
+import character_classes.HealthIcon;
+import funkin_stuff.CoolUtil;
+import funkin_stuff.Highscore;
+import funkin_stuff.Song;
+import preference_vars.ClientPrefs;
+import preference_vars.ModifierVars;
 import WeekData;
 
 using StringTools;

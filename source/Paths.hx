@@ -6,6 +6,7 @@ import openfl.utils.AssetType;
 import openfl.utils.Assets as OpenFlAssets;
 import lime.utils.Assets;
 import flixel.FlxSprite;
+import preference_vars.ClientPrefs;
 #if MODS_ALLOWED
 import sys.io.File;
 import sys.FileSystem;

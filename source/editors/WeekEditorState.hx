@@ -31,6 +31,7 @@ import haxe.Json;
 import sys.io.File;
 import sys.FileSystem;
 #end
+import character_classes.HealthIcon;
 import WeekData;
 
 using StringTools;

@@ -25,13 +25,14 @@ import openfl.events.Event;
 import openfl.events.IOErrorEvent;
 import flash.net.FileFilter;
 import haxe.Json;
-import DialogueBoxPsych;
+import dialogue_box_utils.DialogueBoxPsych;
 import flixel.FlxCamera;
 import flixel.group.FlxSpriteGroup;
 import lime.system.Clipboard;
 #if sys
 import sys.io.File;
 #end
+import character_classes.Character;
 
 using StringTools;
 

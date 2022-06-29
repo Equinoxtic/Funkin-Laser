@@ -13,6 +13,9 @@ import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.ui.FlxBar;
 import flixel.math.FlxPoint;
+import character_classes.Character;
+import preference_vars.ClientPrefs;
+import funkin_stuff.Conductor;
 
 using StringTools;
 
