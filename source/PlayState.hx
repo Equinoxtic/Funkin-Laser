@@ -3461,7 +3461,7 @@ class PlayState extends MusicBeatState
 		} else {
 			songScore += score;
 		}
-		
+
 		songHits++;
 		totalPlayed++;
 		RecalculateRating();
@@ -3491,7 +3491,14 @@ class PlayState extends MusicBeatState
 
 		if (ClientPrefs.advancedScoring) {
 			cockScoreTxt.alpha = 1;
+			cockScoreTxt.scale.x = 1.15;
+			cockScoreTxt.scale.y = 1.15;
 			cockScoreTwn = FlxTween.tween(cockScoreTxt, {alpha: 0}, 0.45, {
+				onComplete: function(twn:FlxTween) {
+					cockScoreTwn = null;
+				}
+			});
+			cockScoreTwn = FlxTween.tween(cockScoreTxt.scale, {x: 1, y: 1}, 0.45, {
 				onComplete: function(twn:FlxTween) {
 					cockScoreTwn = null;
 				}
