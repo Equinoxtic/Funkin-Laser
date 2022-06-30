@@ -45,7 +45,7 @@ import openfl.utils.Assets as OpenFlAssets;
 import editors.ChartingState;
 import editors.CharacterEditorState;
 import flixel.group.FlxSpriteGroup;
-import Shaders;
+import shader_classes.Shaders;
 import Achievements;
 import funkin_stuff.StageData;
 import lua_stuff.FunkinLua;
@@ -290,8 +290,6 @@ class PlayState extends MusicBeatState
 
 	var pausedHardcoreModchart:Bool = false;
 
-	var glitchShader:GlitchEffect;
-
 	override public function create()
 	{
 		#if MODS_ALLOWED
@@ -303,11 +301,6 @@ class PlayState extends MusicBeatState
 
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
-
-		glitchShader = new GlitchEffect();
-		glitchShader.waveSpeed = 0;
-		glitchShader.waveFrequency = 0;
-		glitchShader.waveAmplitude = 0;
 
 		// practiceMode = false;
 		// var gameCam:FlxCamera = FlxG.camera;
@@ -2703,12 +2696,12 @@ class PlayState extends MusicBeatState
 				vocals.play();
 			}
 		}
+		#end
 
 		setOnLuas('cameraX', camFollowPos.x);
 		setOnLuas('cameraY', camFollowPos.y);
 		setOnLuas('botPlay', ModifierVars.botplay);
 		callOnLuas('onUpdatePost', [elapsed]);
-		#end
 	}
 
 	var isDead:Bool = false;
