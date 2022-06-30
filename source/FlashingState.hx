@@ -10,8 +10,6 @@ import lime.app.Application;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
-import preference_vars.ClientPrefs;
-import menus.TitleState;
 
 class FlashingState extends MusicBeatState
 {

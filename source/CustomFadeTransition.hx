@@ -1,7 +1,6 @@
 package;
 
-import funkin_stuff.Conductor.BPMChangeEvent;
-import funkin_stuff.CoolUtil;
+import Conductor.BPMChangeEvent;
 import flixel.FlxG;
 import flixel.addons.ui.FlxUIState;
 import flixel.math.FlxRect;
@@ -83,11 +82,6 @@ class CustomFadeTransition extends MusicBeatSubstate {
 
 	override function destroy() {
 		if(leTween != null) {
-			#if MODS_ALLOWED
-			if(isTransIn) {
-				Paths.destroyLoadedImages();
-			}
-			#end
 			finishCallback();
 			leTween.cancel();
 		}
