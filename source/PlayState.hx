@@ -2720,6 +2720,7 @@ class PlayState extends MusicBeatState
 		songSicks = 0;
 		songGoods = 0;
 		songBads = 0;
+		songShits = 0;
 		songMisses = 0;
 		ghostMisses = 0;
 		perfectChains = 0;
