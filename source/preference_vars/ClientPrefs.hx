@@ -37,6 +37,7 @@ class ClientPrefs {
 	public static var goodWindow:Int = 90;
 	public static var badWindow:Int = 135;
 	public static var comboOffset:Array<Int> = [0, 0, 0, 0];
+	public static var checkForUpdates:Bool = false;
 
 	public static var defaultKeys:Array<FlxKey> = [
 		A, LEFT,			//Note Left
@@ -104,6 +105,7 @@ class ClientPrefs {
 		FlxG.save.data.goodWindow = goodWindow;
 		FlxG.save.data.badWindow = badWindow;
 		FlxG.save.data.comboOffset = comboOffset;
+		FlxG.save.data.checkForUpdates = checkForUpdates;
 
 		var achieves:Array<String> = [];
 		for (i in 0...Achievements.achievementsUnlocked.length) {
@@ -220,6 +222,9 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.comboOffset != null) {
 			comboOffset = FlxG.save.data.comboOffset;
+		}
+		if (FlxG.save.data.checkForUpdates != null) {
+			checkForUpdates = FlxG.save.data.checkForUpdates;
 		}
 
 		var save:FlxSave = new FlxSave();
