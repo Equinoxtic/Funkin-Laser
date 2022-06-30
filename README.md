@@ -11,7 +11,7 @@ This rewrite includes:
 * Winning Icons?
 * More Lua variables :)
 
-This engine uses Psych Engine 0.6.
+NOTE: This engine uses Psych Engine 0.6.
 
 Sadly, this engine only supports x64-based machines (I think) so... Sad day for all of 32-based machine users :(
 
