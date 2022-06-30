@@ -1,16 +1,336 @@
-package shader_classes;
+package;
 
 // STOLEN FROM HAXEFLIXEL DEMO LOL
 import flixel.system.FlxAssets.FlxShader;
 import openfl.display.BitmapData;
-import openfl.display.Shader;
 import openfl.display.ShaderInput;
 import openfl.utils.Assets;
 import flixel.FlxG;
 import openfl.Lib;
+import flixel.math.FlxPoint;
+
 using StringTools;
 typedef ShaderEffect = {
   var shader:Dynamic;
+}
+
+class NoteEffect {
+  public var shader: NoteShader = new NoteShader();
+  public function new(){
+    shader.flash.value = [0];
+  }
+
+  public function setFlash(val: Float){
+    shader.flash.value=[val];
+  }
+
+}
+
+
+class ColorSwap {
+  public var shader:ColorSwapShader = new ColorSwapShader();
+  public var hasOutline(default, set):Bool = false;
+  public var hue(default, set):Float = 0;
+  public var sat(default, set):Float = 0;
+  public var val(default, set):Float = 0;
+
+  private function set_hasOutline(value:Bool){
+    hasOutline=value;
+    shader.awesomeOutline.value[0]=value;
+    return hasOutline;
+  }
+
+  private function set_hue(value:Float){
+    hue=value;
+    shader.hue.value[0]=value;
+    return hue;
+  }
+
+  private function set_sat(value:Float){
+    sat=value;
+    shader.sat.value[0]=value;
+    return sat;
+  }
+
+  private function set_val(value:Float){
+    val=value;
+    shader.val.value[0]=value;
+    return val;
+  }
+
+  public function new(){
+    shader.hue.value = [hue];
+    shader.sat.value = [sat];
+    shader.val.value = [val];
+    shader.awesomeOutline.value = [hasOutline];
+  }
+}
+
+class NoteShader extends FlxShader
+{
+  @:glFragmentSource('
+    #pragma header
+    uniform float flash;
+
+    float scaleNum(float x, float l1, float h1, float l2, float h2){
+        return ((x - l1) * (h2 - l2) / (h1 - l1) + l2);
+    }
+
+    void main()
+    {
+        vec4 col = flixel_texture2D(bitmap, openfl_TextureCoordv);
+        vec4 newCol = col;
+        if(flash!=0.0 && col.a>0.0)
+          newCol = mix(col,vec4(1.0,1.0,1.0,col.a),flash) * col.a;
+
+        gl_FragColor = newCol;
+    }
+  ')
+  public function new()
+  {
+    super();
+  }
+
+}
+
+class ColorSwapShader extends FlxShader
+{
+  @:glFragmentSource('
+    #pragma header
+    uniform float hue;
+    uniform float sat;
+    uniform float val;
+    uniform bool awesomeOutline;
+
+
+    const float offset = 1.0 / 128.0;
+
+
+
+    vec3 normalizeColor(vec3 color)
+    {
+        return vec3(
+            color[0] / 255.0,
+            color[1] / 255.0,
+            color[2] / 255.0
+        );
+    }
+
+    vec3 rgb2hsv(vec3 c)
+    {
+        vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+        vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
+        vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
+
+        float d = q.x - min(q.w, q.y);
+        float e = 1.0e-10;
+        return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
+    }
+
+    vec3 hsv2rgb(vec3 c)
+    {
+        vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+        vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+        return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+    }
+
+    void main()
+    {
+        vec4 color = flixel_texture2D(bitmap, openfl_TextureCoordv);
+
+        vec4 swagColor = vec4(rgb2hsv(vec3(color[0], color[1], color[2])), color[3]);
+
+        // [0] is the hue???
+        swagColor[0] += hue;
+        swagColor[1] += sat;
+        swagColor[2] *= (1.0+val);
+
+        // swagColor[1] += uTime;
+
+        if(swagColor[1] < 0.0)
+  			{
+  				swagColor[1] = 0.0;
+  			}
+  			else if(swagColor[1] > 1.0)
+  			{
+  				swagColor[1] = 1.0;
+  			}
+
+        color = vec4(hsv2rgb(vec3(swagColor[0], swagColor[1], swagColor[2])), swagColor[3]);
+
+
+        if (awesomeOutline)
+        {
+             // Outline bullshit?
+            vec2 size = vec2(3, 3);
+
+            if (color.a <= 0.5) {
+                float w = size.x / openfl_TextureSize.x;
+                float h = size.y / openfl_TextureSize.y;
+
+                if (flixel_texture2D(bitmap, vec2(openfl_TextureCoordv.x + w, openfl_TextureCoordv.y)).a != 0.
+                || flixel_texture2D(bitmap, vec2(openfl_TextureCoordv.x - w, openfl_TextureCoordv.y)).a != 0.
+                || flixel_texture2D(bitmap, vec2(openfl_TextureCoordv.x, openfl_TextureCoordv.y + h)).a != 0.
+                || flixel_texture2D(bitmap, vec2(openfl_TextureCoordv.x, openfl_TextureCoordv.y - h)).a != 0.)
+                    color = vec4(1.0, 1.0, 1.0, 1.0);
+            }
+
+
+        }
+
+
+
+        gl_FragColor = color;
+
+
+        /*
+        if (color.a > 0.5)
+            gl_FragColor = color;
+        else
+        {
+            float a = flixel_texture2D(bitmap, vec2(openfl_TextureCoordv + offset, openfl_TextureCoordv.y)).a +
+                      flixel_texture2D(bitmap, vec2(openfl_TextureCoordv, openfl_TextureCoordv.y - offset)).a +
+                      flixel_texture2D(bitmap, vec2(openfl_TextureCoordv - offset, openfl_TextureCoordv.y)).a +
+                      flixel_texture2D(bitmap, vec2(openfl_TextureCoordv, openfl_TextureCoordv.y + offset)).a;
+            if (color.a < 1.0 && a > 0.0)
+                gl_FragColor = vec4(0.0, 0.0, 0.0, 0.8);
+            else
+                gl_FragColor = color;
+        } */
+      }
+  ')
+  public function new()
+  {
+    super();
+  }
+}
+
+// https://www.shadertoy.com/view/WtGXDD
+
+class RaymarchEffect {
+  var rad = Math.PI/180;
+  public var shader:RaymarchShader = new RaymarchShader();
+  public function new(){
+    shader.yaw.value = [0];
+    shader.pitch.value = [0];
+  }
+  public function addYaw(yaw:Float){
+    shader.yaw.value[0]+=yaw*rad;
+  }
+  public function setYaw(yaw:Float){
+    shader.yaw.value[0]=yaw*rad;
+  }
+
+  public function addPitch(pitch:Float){
+    shader.pitch.value[0]+=pitch*rad;
+  }
+  public function setPitch(pitch:Float){
+    shader.pitch.value[0]=pitch*rad;
+  }
+}
+
+class RaymarchShader extends FlxShader {
+  @:glFragmentSource('
+    #pragma header
+
+    // "RayMarching starting point"
+    // Modified by Nebula_Zorua
+    // by Martijn Steinrucken aka The Art of Code/BigWings - 2020
+    // The MIT License
+    // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, moy, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+    // Email: countfrolic@gmail.com
+    // Twitter: @The_ArtOfCode
+    // YouTube: youtube.com/TheArtOfCodeIsCool
+    // Facebook: https://www.facebook.com/groups/theartofcode/
+    //
+    // You can use this shader as a template for ray marching shaders
+
+    #define MAX_STEPS 100
+    #define MAX_DIST 100.
+    #define SURF_DIST 0.01
+
+    uniform float yaw;
+    uniform float pitch;
+
+    mat2 Rot(float a) {
+        float s=sin(a), c=cos(a);
+        return mat2(c, -s, s, c);
+    }
+
+    float sdBox(vec3 p, vec3 s) {
+        p = abs(p)-s;
+    	return length(max(p, 0.))+min(max(p.x, max(p.y, p.z)), 0.);
+    }
+
+    float GetDist(vec3 p) {
+        float d = sdBox(p, vec3(1.,1.,0));
+
+        return d;
+    }
+
+
+
+    float RayMarch(vec3 ro, vec3 rd) {
+    	float dO=0.;
+
+        for(int i=0; i<MAX_STEPS; i++) {
+        	vec3 p = ro + rd*dO;
+            float dS = GetDist(p);
+            dO += dS;
+            if(dO>MAX_DIST || abs(dS)<SURF_DIST) break;
+        }
+
+        return dO;
+    }
+
+    vec3 GetNormal(vec3 p) {
+    	float d = GetDist(p);
+        vec2 e = vec2(.001, 0);
+
+        vec3 n = d - vec3(
+            GetDist(p-e.xyy),
+            GetDist(p-e.yxy),
+            GetDist(p-e.yyx));
+
+        return normalize(n);
+    }
+
+    vec3 GetRayDir(vec2 uv, vec3 p, vec3 l, float z) {
+        vec3 f = normalize(l-p),
+            r = normalize(cross(vec3(0,1,0), f)),
+            u = cross(f,r),
+            c = f*z,
+            i = c + uv.x*r + uv.y*u,
+            d = normalize(i);
+        return d;
+    }
+
+    void main()
+    {
+        vec2 uv = openfl_TextureCoordv - vec2(0.5);
+        vec3 ro = vec3(0, 0., -2);
+
+        ro.xz *= Rot(yaw);
+        ro.yz *= Rot(pitch);
+
+        vec3 rd = GetRayDir(uv, ro, vec3(0,0.,0.), 1.);
+        vec4 col = vec4(0);
+
+        float d = RayMarch(ro, rd);
+
+        if(d<MAX_DIST) {
+            vec3 p = ro + rd * d;
+            vec3 n = GetNormal(p);
+            uv = vec2(p.x,p.y) * .5 + vec2(0.5);
+            col = flixel_texture2D(bitmap,uv);
+        }
+        gl_FragColor = col;
+    }
+  ')
+  public function new()
+  {
+    super();
+  }
 }
 
 class BuildingEffect {
@@ -19,7 +339,6 @@ class BuildingEffect {
     shader.alphaShit.value = [0];
   }
   public function addAlpha(alpha:Float){
-    trace(shader.alphaShit.value[0]);
     shader.alphaShit.value[0]+=alpha;
   }
   public function setAlpha(alpha:Float){
@@ -48,415 +367,22 @@ class BuildingShader extends FlxShader
   }
 }
 
-class ChromaticAberrationShader extends FlxShader
-{
-	@:glFragmentSource('
-		#pragma header
 
-		uniform float rOffset;
-		uniform float gOffset;
-		uniform float bOffset;
-
-		void main()
-		{
-			vec4 col1 = texture2D(bitmap, openfl_TextureCoordv.st - vec2(rOffset, 0.0));
-			vec4 col2 = texture2D(bitmap, openfl_TextureCoordv.st - vec2(gOffset, 0.0));
-			vec4 col3 = texture2D(bitmap, openfl_TextureCoordv.st - vec2(bOffset, 0.0));
-			vec4 toUse = texture2D(bitmap, openfl_TextureCoordv);
-			toUse.r = col1.r;
-			toUse.g = col2.g;
-			toUse.b = col3.b;
-			//float someshit = col4.r + col4.g + col4.b;
-
-			gl_FragColor = toUse;
-		}')
-	public function new()
-	{
-		super();
-	}
-}
-
-class ChromaticAberrationEffect extends Effect
-{
-	public var shader:ChromaticAberrationShader;
-  public function new(offset:Float = 0.00){
-	shader = new ChromaticAberrationShader();
-    shader.rOffset.value = [offset];
-    shader.gOffset.value = [0.0];
-    shader.bOffset.value = [-offset];
-  }
-	
-	public function setChrome(chromeOffset:Float):Void
-	{
-		shader.rOffset.value = [chromeOffset];
-		shader.gOffset.value = [0.0];
-		shader.bOffset.value = [chromeOffset * -1];
-	}
-
-}
-
-
-class ScanlineEffect extends Effect
-{
-	
-	public var shader:Scanline;
-	public function new (lockAlpha){
-		shader = new Scanline();
-		shader.lockAlpha.value = [lockAlpha];
-	}
-	
-	
-}
-
-
-class Scanline extends FlxShader
-{
-	@:glFragmentSource('
-		#pragma header
-		const float scale = 1.0;
-	uniform bool lockAlpha = false;
-		void main()
-		{
-			if (mod(floor(openfl_TextureCoordv.y * openfl_TextureSize.y / scale), 2.0) == 0.0 ){
-				float bitch = 1.0;
-	
-				vec4 texColor = texture2D(bitmap, openfl_TextureCoordv);
-				if (lockAlpha) bitch = texColor.a;
-				gl_FragColor = vec4(0.0, 0.0, 0.0, bitch);
-			}else{
-				gl_FragColor = texture2D(bitmap, openfl_TextureCoordv);
-			}
-		}')
-	public function new()
-	{
-		super();
-	}
-}
-
-class TiltshiftEffect extends Effect{
-	
-	public var shader:Tiltshift;
-	public function new (blurAmount:Float, center:Float){
-		shader = new Tiltshift();
-		shader.bluramount.value = [blurAmount];
-		shader.center.value = [center];
-	}
-	
-	
-}
-
-class Tiltshift extends FlxShader
-{
-	@:glFragmentSource('
-		#pragma header
-
-		// Modified version of a tilt shift shader from Martin Jonasson (http://grapefrukt.com/)
-		// Read http://notes.underscorediscovery.com/ for context on shaders and this file
-		// License : MIT
-		 
-			/*
-				Take note that blurring in a single pass (the two for loops below) is more expensive than separating
-				the x and the y blur into different passes. This was used where bleeding edge performance
-				was not crucial and is to illustrate a point. 
-		 
-				The reason two passes is cheaper? 
-				   texture2D is a fairly high cost call, sampling a texture.
-		 
-				   So, in a single pass, like below, there are 3 steps, per x and y. 
-		 
-				   That means a total of 9 "taps", it touches the texture to sample 9 times.
-		 
-				   Now imagine we apply this to some geometry, that is equal to 16 pixels on screen (tiny)
-				   (16 * 16) * 9 = 2304 samples taken, for width * height number of pixels, * 9 taps
-				   Now, if you split them up, it becomes 3 for x, and 3 for y, a total of 6 taps
-				   (16 * 16) * 6 = 1536 samples
-			
-				   That\'s on a *tiny* sprite, let\'s scale that up to 128x128 sprite...
-				   (128 * 128) * 9 = 147,456
-				   (128 * 128) * 6 =  98,304
-		 
-				   That\'s 33.33..% cheaper for splitting them up.
-				   That\'s with 3 steps, with higher steps (more taps per pass...)
-		 
-				   A really smooth, 6 steps, 6*6 = 36 taps for one pass, 12 taps for two pass
-				   You will notice, the curve is not linear, at 12 steps it\'s 144 vs 24 taps
-				   It becomes orders of magnitude slower to do single pass!
-				   Therefore, you split them up into two passes, one for x, one for y.
-			*/
-		 
-		// I am hardcoding the constants like a jerk
-			
-		uniform float bluramount  = 1.0;
-		uniform float center      = 1.0;
-		const float stepSize    = 0.004;
-		const float steps       = 3.0;
-		 
-		const float minOffs     = (float(steps-1.0)) / -2.0;
-		const float maxOffs     = (float(steps-1.0)) / +2.0;
-		 
-		void main() {
-			float amount;
-			vec4 blurred;
-				
-			// Work out how much to blur based on the mid point 
-			amount = pow((openfl_TextureCoordv.y * center) * 2.0 - 1.0, 2.0) * bluramount;
-				
-			// This is the accumulation of color from the surrounding pixels in the texture
-			blurred = vec4(0.0, 0.0, 0.0, 1.0);
-				
-			// From minimum offset to maximum offset
-			for (float offsX = minOffs; offsX <= maxOffs; ++offsX) {
-				for (float offsY = minOffs; offsY <= maxOffs; ++offsY) {
-		 
-					// copy the coord so we can mess with it
-					vec2 temp_tcoord = openfl_TextureCoordv.xy;
-		 
-					//work out which uv we want to sample now
-					temp_tcoord.x += offsX * amount * stepSize;
-					temp_tcoord.y += offsY * amount * stepSize;
-		 
-					// accumulate the sample 
-					blurred += texture2D(bitmap, temp_tcoord);
-				}
-			} 
-				
-			// because we are doing an average, we divide by the amount (x AND y, hence steps * steps)
-			blurred /= float(steps * steps);
-		 
-			// return the final blurred color
-			gl_FragColor = blurred;
-		}')
-	public function new()
-	{
-		super();
-	}
-}
-class GreyscaleEffect extends Effect{
-	
-	public var shader:GreyscaleShader = new GreyscaleShader();
-	
-	public function new(){
-		
-	}
-	
-	
-}
-class GreyscaleShader extends FlxShader{
-	@:glFragmentSource('
-	#pragma header
-	void main() {
-		vec4 color = texture2D(bitmap, openfl_TextureCoordv);
-		float gray = dot(color.rgb, vec3(0.299, 0.587, 0.114));
-		gl_FragColor = vec4(vec3(gray), color.a);
-	}
-	
-	
-	')
-	
-	public function new(){
-		super();
-	}
-	
-	
-	
-}
-
-
-
-
-
-
-
-class GrainEffect extends Effect {
-	
-	public var shader:Grain;
-	public function new (grainsize, lumamount,lockAlpha){
-		shader = new Grain();
-		shader.lumamount.value = [lumamount];
-		shader.grainsize.value = [grainsize];
-		shader.lockAlpha.value = [lockAlpha];
-		shader.uTime.value = [FlxG.random.float(0,8)];
-	}
-	public function update(elapsed){
-		shader.uTime.value[0] += elapsed;
-	}
-	
-	
-	
-	
-}
-
-
-class Grain extends FlxShader
-{
-	@:glFragmentSource('
-		#pragma header
-
-		/*
-		Film Grain post-process shader v1.1
-		Martins Upitis (martinsh) devlog-martinsh.blogspot.com
-		2013
-
-		--------------------------
-		This work is licensed under a Creative Commons Attribution 3.0 Unported License.
-		So you are free to share, modify and adapt it for your needs, and even use it for commercial use.
-		I would also love to hear about a project you are using it.
-
-		Have fun,
-		Martins
-		--------------------------
-
-		Perlin noise shader by toneburst:
-		http://machinesdontcare.wordpress.com/2009/06/25/3d-perlin-noise-sphere-vertex-shader-sourcecode/
-		*/
-		uniform float uTime;
-
-		const float permTexUnit = 1.0/256.0;        // Perm texture texel-size
-		const float permTexUnitHalf = 0.5/256.0;    // Half perm texture texel-size
-
-		float width = openfl_TextureSize.x;
-		float height = openfl_TextureSize.y;
-
-		const float grainamount = 0.05; //grain amount
-		bool colored = false; //colored noise?
-		uniform float coloramount = 0.6;
-		uniform float grainsize = 1.6; //grain particle size (1.5 - 2.5)
-		uniform float lumamount = 1.0; //
-	uniform bool lockAlpha = false;
-
-		//a random texture generator, but you can also use a pre-computed perturbation texture
-	
-		vec4 rnm(in vec2 tc)
-		{
-			float noise =  sin(dot(tc + vec2(uTime,uTime),vec2(12.9898,78.233))) * 43758.5453;
-
-			float noiseR =  fract(noise)*2.0-1.0;
-			float noiseG =  fract(noise*1.2154)*2.0-1.0;
-			float noiseB =  fract(noise * 1.3453) * 2.0 - 1.0;
-			
-				
-			float noiseA =  (fract(noise * 1.3647) * 2.0 - 1.0);
-
-			return vec4(noiseR,noiseG,noiseB,noiseA);
-		}
-
-		float fade(in float t) {
-			return t*t*t*(t*(t*6.0-15.0)+10.0);
-		}
-
-		float pnoise3D(in vec3 p)
-		{
-			vec3 pi = permTexUnit*floor(p)+permTexUnitHalf; // Integer part, scaled so +1 moves permTexUnit texel
-			// and offset 1/2 texel to sample texel centers
-			vec3 pf = fract(p);     // Fractional part for interpolation
-
-			// Noise contributions from (x=0, y=0), z=0 and z=1
-			float perm00 = rnm(pi.xy).a ;
-			vec3  grad000 = rnm(vec2(perm00, pi.z)).rgb * 4.0 - 1.0;
-			float n000 = dot(grad000, pf);
-			vec3  grad001 = rnm(vec2(perm00, pi.z + permTexUnit)).rgb * 4.0 - 1.0;
-			float n001 = dot(grad001, pf - vec3(0.0, 0.0, 1.0));
-
-			// Noise contributions from (x=0, y=1), z=0 and z=1
-			float perm01 = rnm(pi.xy + vec2(0.0, permTexUnit)).a ;
-			vec3  grad010 = rnm(vec2(perm01, pi.z)).rgb * 4.0 - 1.0;
-			float n010 = dot(grad010, pf - vec3(0.0, 1.0, 0.0));
-			vec3  grad011 = rnm(vec2(perm01, pi.z + permTexUnit)).rgb * 4.0 - 1.0;
-			float n011 = dot(grad011, pf - vec3(0.0, 1.0, 1.0));
-
-			// Noise contributions from (x=1, y=0), z=0 and z=1
-			float perm10 = rnm(pi.xy + vec2(permTexUnit, 0.0)).a ;
-			vec3  grad100 = rnm(vec2(perm10, pi.z)).rgb * 4.0 - 1.0;
-			float n100 = dot(grad100, pf - vec3(1.0, 0.0, 0.0));
-			vec3  grad101 = rnm(vec2(perm10, pi.z + permTexUnit)).rgb * 4.0 - 1.0;
-			float n101 = dot(grad101, pf - vec3(1.0, 0.0, 1.0));
-
-			// Noise contributions from (x=1, y=1), z=0 and z=1
-			float perm11 = rnm(pi.xy + vec2(permTexUnit, permTexUnit)).a ;
-			vec3  grad110 = rnm(vec2(perm11, pi.z)).rgb * 4.0 - 1.0;
-			float n110 = dot(grad110, pf - vec3(1.0, 1.0, 0.0));
-			vec3  grad111 = rnm(vec2(perm11, pi.z + permTexUnit)).rgb * 4.0 - 1.0;
-			float n111 = dot(grad111, pf - vec3(1.0, 1.0, 1.0));
-
-			// Blend contributions along x
-			vec4 n_x = mix(vec4(n000, n001, n010, n011), vec4(n100, n101, n110, n111), fade(pf.x));
-
-			// Blend contributions along y
-			vec2 n_xy = mix(n_x.xy, n_x.zw, fade(pf.y));
-
-			// Blend contributions along z
-			float n_xyz = mix(n_xy.x, n_xy.y, fade(pf.z));
-
-			// We are done, return the final noise value.
-			return n_xyz;
-		}
-
-		//2d coordinate orientation thing
-		vec2 coordRot(in vec2 tc, in float angle)
-		{
-			float aspect = width/height;
-			float rotX = ((tc.x*2.0-1.0)*aspect*cos(angle)) - ((tc.y*2.0-1.0)*sin(angle));
-			float rotY = ((tc.y*2.0-1.0)*cos(angle)) + ((tc.x*2.0-1.0)*aspect*sin(angle));
-			rotX = ((rotX/aspect)*0.5+0.5);
-			rotY = rotY*0.5+0.5;
-			return vec2(rotX,rotY);
-		}
-
-		void main()
-		{
-			vec2 texCoord = openfl_TextureCoordv.st;
-
-			vec3 rotOffset = vec3(1.425,3.892,5.835); //rotation offset values
-			vec2 rotCoordsR = coordRot(texCoord, uTime + rotOffset.x);
-			vec3 noise = vec3(pnoise3D(vec3(rotCoordsR*vec2(width/grainsize,height/grainsize),0.0)));
-
-			if (colored)
-			{
-				vec2 rotCoordsG = coordRot(texCoord, uTime + rotOffset.y);
-				vec2 rotCoordsB = coordRot(texCoord, uTime + rotOffset.z);
-				noise.g = mix(noise.r,pnoise3D(vec3(rotCoordsG*vec2(width/grainsize,height/grainsize),1.0)),coloramount);
-				noise.b = mix(noise.r,pnoise3D(vec3(rotCoordsB*vec2(width/grainsize,height/grainsize),2.0)),coloramount);
-			}
-
-			vec3 col = texture2D(bitmap, openfl_TextureCoordv).rgb;
-
-			//noisiness response curve based on scene luminance
-			vec3 lumcoeff = vec3(0.299,0.587,0.114);
-			float luminance = mix(0.0,dot(col, lumcoeff),lumamount);
-			float lum = smoothstep(0.2,0.0,luminance);
-			lum += luminance;
-
-
-			noise = mix(noise,vec3(0.0),pow(lum,4.0));
-			col = col+noise*grainamount;
-
-				float bitch = 1.0;
-			vec4 texColor = texture2D(bitmap, openfl_TextureCoordv);
-				if (lockAlpha) bitch = texColor.a;
-			gl_FragColor =  vec4(col,bitch);
-		}')
-	public function new()
-	{
-		super();
-	}
-	
-	
-}
-
-class VCRDistortionEffect extends Effect
+class VCRDistortionEffect
 {
   public var shader:VCRDistortionShader = new VCRDistortionShader();
-  public function new(glitchFactor:Float,distortion:Bool=true,perspectiveOn:Bool=true,vignetteMoving:Bool=true){
+  public function new(){
     shader.iTime.value = [0];
     shader.vignetteOn.value = [true];
-    shader.perspectiveOn.value = [perspectiveOn];
-    shader.distortionOn.value = [distortion];
+    shader.perspectiveOn.value = [true];
+    shader.distortionOn.value = [true];
     shader.scanlinesOn.value = [true];
-    shader.vignetteMoving.value = [vignetteMoving];
-    shader.glitchModifier.value = [glitchFactor];
+    shader.vignetteMoving.value = [true];
+    shader.noiseOn.value = [true];
+    shader.glitchModifier.value = [1];
     shader.iResolution.value = [Lib.current.stage.stageWidth,Lib.current.stage.stageHeight];
-   // var noise = Assets.getBitmapData(Paths.image("noise2"));
-   // shader.noiseTex.input = noise;
+    var noise = Assets.getBitmapData(Paths.image("noise2"));
+    shader.noiseTex.input = noise;
   }
 
   public function update(elapsed:Float){
@@ -466,6 +392,10 @@ class VCRDistortionEffect extends Effect
 
   public function setVignette(state:Bool){
     shader.vignetteOn.value[0] = state;
+  }
+
+  public function setNoise(state:Bool){
+    shader.noiseOn.value[0] = state;
   }
 
   public function setPerspective(state:Bool){
@@ -501,9 +431,10 @@ class VCRDistortionShader extends FlxShader // https://www.shadertoy.com/view/ld
     uniform bool distortionOn;
     uniform bool scanlinesOn;
     uniform bool vignetteMoving;
-   // uniform sampler2D noiseTex;
+    uniform sampler2D noiseTex;
     uniform float glitchModifier;
     uniform vec3 iResolution;
+    uniform bool noiseOn;
 
     float onOff(float a, float b, float c)
     {
@@ -572,7 +503,7 @@ class VCRDistortionShader extends FlxShader // https://www.shadertoy.com/view/ld
     	float scan2 = clamp(cos(uv.y * 2.0 + iTime + 4.0) * 10.0, 0.0, 1.0) ;
     	float amount = scan1 * scan2 * uv.x;
 
-    	//uv.x -= 0.05 * mix(flixel_texture2D(noiseTex, vec2(uv.x, amount)).r * amount, amount, 0.9);
+    	uv.x -= 0.05 * mix(flixel_texture2D(noiseTex, vec2(uv.x, amount)).r * amount, amount, 0.9);
 
     	return uv;
 
@@ -603,12 +534,18 @@ class VCRDistortionShader extends FlxShader // https://www.shadertoy.com/view/ld
       if(vignetteOn)
     	 video *= vignette;
 
-
-      gl_FragColor = mix(video,vec4(noise(uv * 75.)),.05);
-
       if(curUV.x<0 || curUV.x>1 || curUV.y<0 || curUV.y>1){
         gl_FragColor = vec4(0,0,0,0);
+      }else{
+        if(noiseOn){
+          gl_FragColor = mix(video,vec4(noise(uv * 75.)),.05);
+        }else{
+          gl_FragColor = video;
+        }
+
       }
+
+
 
     }
   ')
@@ -616,719 +553,4 @@ class VCRDistortionShader extends FlxShader // https://www.shadertoy.com/view/ld
   {
     super();
   }
-}
-
-
-
-class ThreeDEffect extends Effect{
-	
-	public var shader:ThreeDShader = new ThreeDShader();
-	public function new(xrotation:Float=0,yrotation:Float=0,zrotation:Float=0,depth:Float=0){
-		shader.xrot.value = [xrotation];
-		shader.yrot.value = [yrotation];
-		shader.zrot.value = [zrotation];
-		shader.dept.value = [depth];
-	}
-	
-	
-}
-//coding is like hitting on women, you never start with the number
-//               -naether
-
-class ThreeDShader extends FlxShader{
-	@:glFragmentSource('
-	#pragma header
-	uniform float xrot = 0.0;
-	uniform float yrot = 0.0;
-	uniform float zrot = 0.0;
-	uniform float dept = 0.0;
-	float alph = 0;
-float plane( in vec3 norm, in vec3 po, in vec3 ro, in vec3 rd ) {
-    float de = dot(norm, rd);
-    de = sign(de)*max( abs(de), 0.001);
-    return dot(norm, po-ro)/de;
-}
-
-vec2 raytraceTexturedQuad(in vec3 rayOrigin, in vec3 rayDirection, in vec3 quadCenter, in vec3 quadRotation, in vec2 quadDimensions) {
-    //Rotations ------------------
-    float a = sin(quadRotation.x); float b = cos(quadRotation.x); 
-    float c = sin(quadRotation.y); float d = cos(quadRotation.y); 
-    float e = sin(quadRotation.z); float f = cos(quadRotation.z); 
-    float ac = a*c;   float bc = b*c;
-	
-	mat3 RotationMatrix  = 
-			mat3(	  d*f,      d*e,  -c,
-                 ac*f-b*e, ac*e+b*f, a*d,
-                 bc*f+a*e, bc*e-a*f, b*d );
-    //--------------------------------------
-    
-    vec3 right = RotationMatrix * vec3(quadDimensions.x, 0.0, 0.0);
-    vec3 up = RotationMatrix * vec3(0, quadDimensions.y, 0);
-    vec3 normal = cross(right, up);
-    normal /= length(normal);
-    
-    //Find the plane hit point in space
-    vec3 pos = (rayDirection * plane(normal, quadCenter, rayOrigin, rayDirection)) - quadCenter;
-    
-    //Find the texture UV by projecting the hit point along the plane dirs
-    return vec2(dot(pos, right) / dot(right, right),
-                dot(pos, up)    / dot(up,    up)) + 0.5;
-}
-
-void main() {
-	vec4 texColor = texture2D(bitmap, openfl_TextureCoordv);
-    //Screen UV goes from 0 - 1 along each axis
-    vec2 screenUV = openfl_TextureCoordv;
-    vec2 p = (2.0 * screenUV) - 1.0;
-    float screenAspect = 1280/720;
-    p.x *= screenAspect;
-    
-    //Normalized Ray Dir
-    vec3 dir = vec3(p.x, p.y, 1.0);
-    dir /= length(dir);
-    
-    //Define the plane
-    vec3 planePosition = vec3(0.0, 0.0, dept);
-    vec3 planeRotation = vec3(xrot, yrot, zrot);//this the shit you needa change
-    vec2 planeDimension = vec2(-screenAspect, 1.0);
-    
-    vec2 uv = raytraceTexturedQuad(vec3(0), dir, planePosition, planeRotation, planeDimension);
-	
-    //If we hit the rectangle, sample the texture
-    if (abs(uv.x - 0.5) < 0.5 && abs(uv.y - 0.5) < 0.5) {
-		
-		vec3 tex = flixel_texture2D(bitmap, uv).xyz;
-		float bitch = 1.0;
-		if (tex.z == 0.0){
-			bitch = 0.0;
-		}
-		
-	  gl_FragColor = vec4(flixel_texture2D(bitmap, uv).xyz, bitch);
-    }
-}
-
-
-	')
-	
-	public function new(){
-		super();
-	}
-	
-}
-
-//Boing! by ThaeHan
-
-class FuckingTriangleEffect extends Effect{
-	
-	public var shader:FuckingTriangle = new FuckingTriangle();
-	
-	public function new(rotx:Float, roty:Float){
-		shader.rotX.value = [rotx];
-		shader.rotY.value = [roty];
-		
-	}
-	
-}
-
-
-class FuckingTriangle extends FlxShader{
-	
-	@:glFragmentSource('
-	
-	
-			#pragma header
-			
-			const vec3 vertices[18] = vec3[18] (
-			vec3(-0.5, 0.0, -0.5),
-			vec3( 0.5, 0.0, -0.5),
-			vec3(-0.5, 0.0,  0.5),
-			
-			vec3(-0.5, 0.0,  0.5),
-			vec3( 0.5, 0.0, -0.5),
-			vec3( 0.5, 0.0,  0.5),
-			
-			vec3(-0.5, 0.0, -0.5),
-			vec3( 0.5, 0.0, -0.5),
-			vec3( 0.0, 1.0,  0.0),
-			
-			vec3(-0.5, 0.0,  0.5),
-			vec3( 0.5, 0.0,  0.5),
-			vec3( 0.0, 1.0,  0.0),
-			
-			vec3(-0.5, 0.0, -0.5),
-			vec3(-0.5, 0.0,  0.5),
-			vec3( 0.0, 1.0,  0.0),
-			
-			vec3( 0.5, 0.0, -0.5),
-			vec3( 0.5, 0.0,  0.5),
-			vec3( 0.0, 1.0,  0.0)
-		);
-
-		const vec2 texCoords[18] = vec2[18] (
-			vec2(0., 1.),
-			vec2(1., 1.),
-			vec2(0., 0.),
-			
-			vec2(0., 0.),
-			vec2(1., 1.),
-			vec2(1., 0.),
-			
-			vec2(0., 1.),
-			vec2(1., 1.),
-			vec2(.5, 0.),
-			
-			vec2(0., 1.),
-			vec2(1., 1.),
-			vec2(.5, 0.),
-			
-			vec2(0., 1.),
-			vec2(1., 1.),
-			vec2(.5, 0.),
-			
-			vec2(0., 1.),
-			vec2(1., 1.),
-			vec2(.5, 0.)
-		);
-
-		vec4 vertexShader(in vec3 vertex, in mat4 transform) {
-			return transform * vec4(vertex, 1.);
-		}
-
-		vec4 fragmentShader(in vec2 uv) {
-			return flixel_texture2D(bitmap, uv);
-		}
-
-
-		const float fov  = 70.0;
-		const float near = 0.1;
-		const float far  = 10.;
-
-		const vec3 cameraPos = vec3(0., 0.3, 2.);
-
-			uniform float rotX = -25.;
-			uniform float rotY = 45.;
-		vec4 pixel(in vec2 ndc, in float aspect, inout float depth, in int vertexIndex) {
-
-			
-			
-
-			mat4 proj  = perspective(fov, aspect, near, far);
-			mat4 view  = translate(-cameraPos);
-			mat4 model = rotateX(rotX) * rotateY(rotY);
-			
-			mat4 mvp  = proj * view * model;
-
-			vec4 v0 = vertexShader(vertices[vertexIndex  ], mvp);
-			vec4 v1 = vertexShader(vertices[vertexIndex+1], mvp);
-			vec4 v2 = vertexShader(vertices[vertexIndex+2], mvp);
-			
-			vec2 t0 = texCoords[vertexIndex  ] / v0.w; float oow0 = 1. / v0.w;
-			vec2 t1 = texCoords[vertexIndex+1] / v1.w; float oow1 = 1. / v1.w;
-			vec2 t2 = texCoords[vertexIndex+2] / v2.w; float oow2 = 1. / v2.w;
-			
-			v0 /= v0.w;
-			v1 /= v1.w;
-			v2 /= v2.w;
-			
-			vec3 tri = bary(v0.xy, v1.xy, v2.xy, ndc);
-			
-			if(tri.x < 0. || tri.x > 1. || tri.y < 0. || tri.y > 1. || tri.z < 0. || tri.z > 1.) {
-				return vec4(0.);
-			}
-			
-			float triDepth = baryLerp(v0.z, v1.z, v2.z, tri);
-			if(triDepth > depth || triDepth < -1. || triDepth > 1.) {
-				return vec4(0.);
-			}
-			
-			depth = triDepth;
-			
-			float oneOverW = baryLerp(oow0, oow1, oow2, tri);
-			vec2 uv        = uvLerp(t0, t1, t2, tri) / oneOverW;
-			return fragmentShader(uv);
-
-		}
-
-
-void main()
-{
-    vec2 ndc = ((gl_FragCoord.xy * 2.) / openfl_TextureSize.xy) - vec2(1.);
-    float aspect = openfl_TextureSize.x / openfl_TextureSize.y;
-    vec3 outColor = vec3(.4,.6,.9);
-    
-    float depth = 1.0;
-    for(int i = 0; i < 18; i += 3) {
-        vec4 tri = pixel(ndc, aspect, depth, i);
-        outColor = mix(outColor.rgb, tri.rgb, tri.a);
-    }
-    
-    gl_FragColor = vec4(outColor, 1.);
-}
-	
-	
-	
-	')
-	
-	
-	public function new(){
-		super();
-	}
-	
-	
-}
-class BloomEffect extends Effect{
-	
-	public var shader:BloomShader = new BloomShader();
-	public function new(blurSize:Float, intensity:Float){
-		shader.blurSize.value = [blurSize];
-		shader.intensity.value = [intensity];
-		
-	}
-	
-	
-}
-
-
-class BloomShader extends FlxShader{
-	
-	
-	@:glFragmentSource('
-	
-	#pragma header
-	
-	uniform float intensity = 0.35;
-	uniform float blurSize = 1.0/512.0;
-void main()
-{
-   vec4 sum = vec4(0);
-   vec2 texcoord = openfl_TextureCoordv;
-   int j;
-   int i;
-
-   //thank you! http://www.gamerendering.com/2008/10/11/gaussian-blur-filter-shader/ for the 
-   //blur tutorial
-   // blur in y (vertical)
-   // take nine samples, with the distance blurSize between them
-   sum += flixel_texture2D(bitmap, vec2(texcoord.x - 4.0*blurSize, texcoord.y)) * 0.05;
-   sum += flixel_texture2D(bitmap, vec2(texcoord.x - 3.0*blurSize, texcoord.y)) * 0.09;
-   sum += flixel_texture2D(bitmap, vec2(texcoord.x - 2.0*blurSize, texcoord.y)) * 0.12;
-   sum += flixel_texture2D(bitmap, vec2(texcoord.x - blurSize, texcoord.y)) * 0.15;
-   sum += flixel_texture2D(bitmap, vec2(texcoord.x, texcoord.y)) * 0.16;
-   sum += flixel_texture2D(bitmap, vec2(texcoord.x + blurSize, texcoord.y)) * 0.15;
-   sum += flixel_texture2D(bitmap, vec2(texcoord.x + 2.0*blurSize, texcoord.y)) * 0.12;
-   sum += flixel_texture2D(bitmap, vec2(texcoord.x + 3.0*blurSize, texcoord.y)) * 0.09;
-   sum += flixel_texture2D(bitmap, vec2(texcoord.x + 4.0*blurSize, texcoord.y)) * 0.05;
-	
-	// blur in y (vertical)
-   // take nine samples, with the distance blurSize between them
-   sum += flixel_texture2D(bitmap, vec2(texcoord.x, texcoord.y - 4.0*blurSize)) * 0.05;
-   sum += flixel_texture2D(bitmap, vec2(texcoord.x, texcoord.y - 3.0*blurSize)) * 0.09;
-   sum += flixel_texture2D(bitmap, vec2(texcoord.x, texcoord.y - 2.0*blurSize)) * 0.12;
-   sum += flixel_texture2D(bitmap, vec2(texcoord.x, texcoord.y - blurSize)) * 0.15;
-   sum += flixel_texture2D(bitmap, vec2(texcoord.x, texcoord.y)) * 0.16;
-   sum += flixel_texture2D(bitmap, vec2(texcoord.x, texcoord.y + blurSize)) * 0.15;
-   sum += flixel_texture2D(bitmap, vec2(texcoord.x, texcoord.y + 2.0*blurSize)) * 0.12;
-   sum += flixel_texture2D(bitmap, vec2(texcoord.x, texcoord.y + 3.0*blurSize)) * 0.09;
-   sum += flixel_texture2D(bitmap, vec2(texcoord.x, texcoord.y + 4.0*blurSize)) * 0.05;
-
-   //increase blur with intensity!
-  gl_FragColor = sum*intensity + flixel_texture2D(bitmap, texcoord); 
-  // if(sin(iTime) > 0.0)
-   //    fragColor = sum * sin(iTime)+ texture(iChannel0, texcoord);
-  // else
-	//   fragColor = sum * -sin(iTime)+ texture(iChannel0, texcoord);
-}
-	
-	
-	')
-	
-	public function new(){
-		super();
-	}
-	
-	
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*STOLE FROM DAVE AND BAMBI
-
-I LOVE BANUUU I LOVE BANUUU
-   ________
-  /        \
-_/__________\_
- ||  o||  o||
- |//--  --//|
-  \____O___/
-   |      |
-   |______|
-   |   |  |
-   |___|__|
-    
-
-*/
-
-
-
-
-
-
-class GlitchEffect extends Effect
-{
-    public var shader:GlitchShader = new GlitchShader();
-
-    public var waveSpeed(default, set):Float = 0;
-	public var waveFrequency(default, set):Float = 0;
-	public var waveAmplitude(default, set):Float = 0;
-
-	public function new(waveSpeed:Float,waveFrequency:Float,waveAmplitude:Float):Void
-	{
-		shader.uTime.value = [0];
-		this.waveSpeed = waveSpeed;
-		this.waveFrequency = waveFrequency;
-		this.waveAmplitude = waveAmplitude;
-	}
-
-    public function update(elapsed:Float):Void
-    {
-        shader.uTime.value[0] += elapsed;
-    }
-
-
-    function set_waveSpeed(v:Float):Float
-    {
-        waveSpeed = v;
-        shader.uSpeed.value = [waveSpeed];
-        return v;
-    }
-    
-    function set_waveFrequency(v:Float):Float
-    {
-        waveFrequency = v;
-        shader.uFrequency.value = [waveFrequency];
-        return v;
-    }
-    
-    function set_waveAmplitude(v:Float):Float
-    {
-        waveAmplitude = v;
-        shader.uWaveAmplitude.value = [waveAmplitude];
-        return v;
-    }
-
-}
-
-class DistortBGEffect extends Effect
-{
-    public var shader:DistortBGShader = new DistortBGShader();
-
-    public var waveSpeed(default, set):Float = 0;
-	public var waveFrequency(default, set):Float = 0;
-	public var waveAmplitude(default, set):Float = 0;
-
-	public function new(waveSpeed:Float,waveFrequency:Float,waveAmplitude:Float):Void
-	{
-		this.waveSpeed = waveSpeed;
-		this.waveFrequency = waveFrequency;
-		this.waveAmplitude = waveAmplitude;
-		shader.uTime.value = [0];
-	}
-
-    public function update(elapsed:Float):Void
-    {
-        shader.uTime.value[0] += elapsed;
-    }
-
-
-    function set_waveSpeed(v:Float):Float
-    {
-        waveSpeed = v;
-        shader.uSpeed.value = [waveSpeed];
-        return v;
-    }
-    
-    function set_waveFrequency(v:Float):Float
-    {
-        waveFrequency = v;
-        shader.uFrequency.value = [waveFrequency];
-        return v;
-    }
-    
-    function set_waveAmplitude(v:Float):Float
-    {
-        waveAmplitude = v;
-        shader.uWaveAmplitude.value = [waveAmplitude];
-        return v;
-    }
-
-}
-
-
-class PulseEffect extends Effect
-{
-    public var shader:PulseShader = new PulseShader();
-
-    public var waveSpeed(default, set):Float = 0;
-	public var waveFrequency(default, set):Float = 0;
-	public var waveAmplitude(default, set):Float = 0;
-    public var Enabled(default, set):Bool = false;
-
-	public function new(waveSpeed:Float,waveFrequency:Float,waveAmplitude:Float):Void
-	{
-		this.waveSpeed = waveSpeed;
-		this.waveFrequency = waveFrequency;
-		this.waveAmplitude = waveAmplitude;
-		shader.uTime.value = [0];
-        shader.uampmul.value = [0];
-        shader.uEnabled.value = [false];
-	}
-
-    public function update(elapsed:Float):Void
-    {
-        shader.uTime.value[0] += elapsed;
-    }
-
-
-    function set_waveSpeed(v:Float):Float
-    {
-        waveSpeed = v;
-        shader.uSpeed.value = [waveSpeed];
-        return v;
-    }
-
-    function set_Enabled(v:Bool):Bool
-    {
-        Enabled = v;
-        shader.uEnabled.value = [Enabled];
-        return v;
-    }
-    
-    function set_waveFrequency(v:Float):Float
-    {
-        waveFrequency = v;
-        shader.uFrequency.value = [waveFrequency];
-        return v;
-    }
-    
-    function set_waveAmplitude(v:Float):Float
-    {
-        waveAmplitude = v;
-        shader.uWaveAmplitude.value = [waveAmplitude];
-        return v;
-    }
-
-}
-
-
-class InvertColorsEffect extends Effect
-{
-    public var shader:InvertShader = new InvertShader();
-	public function new(lockAlpha){
-	//	shader.lockAlpha.value = [lockAlpha];
-	}
-
-}
-
-class GlitchShader extends FlxShader
-{
-    @:glFragmentSource('
-    #pragma header
-    //uniform float tx, ty; // x,y waves phase
-
-    //modified version of the wave shader to create weird garbled corruption like messes
-    uniform float uTime;
-    
-    /**
-     * How fast the waves move over time
-     */
-    uniform float uSpeed;
-    
-    /**
-     * Number of waves over time
-     */
-    uniform float uFrequency;
-    
-    /**
-     * How much the pixels are going to stretch over the waves
-     */
-    uniform float uWaveAmplitude;
-
-    vec2 sineWave(vec2 pt)
-    {
-        float x = 0.0;
-        float y = 0.0;
-        
-        float offsetX = sin(pt.y * uFrequency + uTime * uSpeed) * (uWaveAmplitude / pt.x * pt.y);
-        float offsetY = sin(pt.x * uFrequency - uTime * uSpeed) * (uWaveAmplitude / pt.y * pt.x);
-        pt.x += offsetX; // * (pt.y - 1.0); // <- Uncomment to stop bottom part of the screen from moving
-        pt.y += offsetY;
-
-        return vec2(pt.x + x, pt.y + y);
-    }
-
-    void main()
-    {
-        vec2 uv = sineWave(openfl_TextureCoordv);
-        gl_FragColor = texture2D(bitmap, uv);
-    }')
-
-    public function new()
-    {
-       super();
-    }
-}
-
-class InvertShader extends FlxShader
-{
-    @:glFragmentSource('
-    #pragma header
-    
-    vec4 sineWave(vec4 pt)
-    {
-	
-	return vec4(1.0 - pt.x, 1.0 - pt.y, 1.0 - pt.z, pt.w);
-    }
-
-    void main()
-    {
-        vec2 uv = openfl_TextureCoordv;
-        gl_FragColor = sineWave(texture2D(bitmap, uv));
-		gl_FragColor.a = 1.0 - gl_FragColor.a;
-    }')
-
-    public function new()
-    {
-       super();
-    }
-}
-
-
-
-class DistortBGShader extends FlxShader
-{
-    @:glFragmentSource('
-    #pragma header
-    //uniform float tx, ty; // x,y waves phase
-
-    //gives the character a glitchy, distorted outline
-    uniform float uTime;
-    
-    /**
-     * How fast the waves move over time
-     */
-    uniform float uSpeed;
-    
-    /**
-     * Number of waves over time
-     */
-    uniform float uFrequency;
-    
-    /**
-     * How much the pixels are going to stretch over the waves
-     */
-    uniform float uWaveAmplitude;
-
-    vec2 sineWave(vec2 pt)
-    {
-        float x = 0.0;
-        float y = 0.0;
-        
-        float offsetX = sin(pt.x * uFrequency + uTime * uSpeed) * (uWaveAmplitude / pt.x * pt.y);
-        float offsetY = sin(pt.y * uFrequency - uTime * uSpeed) * (uWaveAmplitude);
-        pt.x += offsetX; // * (pt.y - 1.0); // <- Uncomment to stop bottom part of the screen from moving
-        pt.y += offsetY;
-
-        return vec2(pt.x + x, pt.y + y);
-    }
-
-    vec4 makeBlack(vec4 pt)
-    {
-        return vec4(0, 0, 0, pt.w);
-    }
-
-    void main()
-    {
-        vec2 uv = sineWave(openfl_TextureCoordv);
-        gl_FragColor = makeBlack(texture2D(bitmap, uv)) + texture2D(bitmap,openfl_TextureCoordv);
-    }')
-
-    public function new()
-    {
-       super();
-    }
-}
-
-
-class PulseShader extends FlxShader
-{
-    @:glFragmentSource('
-    #pragma header
-    uniform float uampmul;
-
-    //modified version of the wave shader to create weird garbled corruption like messes
-    uniform float uTime;
-    
-    /**
-     * How fast the waves move over time
-     */
-    uniform float uSpeed;
-    
-    /**
-     * Number of waves over time
-     */
-    uniform float uFrequency;
-
-    uniform bool uEnabled;
-    
-    /**
-     * How much the pixels are going to stretch over the waves
-     */
-    uniform float uWaveAmplitude;
-
-    vec4 sineWave(vec4 pt, vec2 pos)
-    {
-        if (uampmul > 0.0)
-        {
-            float offsetX = sin(pt.y * uFrequency + uTime * uSpeed);
-            float offsetY = sin(pt.x * (uFrequency * 2) - (uTime / 2) * uSpeed);
-            float offsetZ = sin(pt.z * (uFrequency / 2) + (uTime / 3) * uSpeed);
-            pt.x = mix(pt.x,sin(pt.x / 2 * pt.y + (5 * offsetX) * pt.z),uWaveAmplitude * uampmul);
-            pt.y = mix(pt.y,sin(pt.y / 3 * pt.z + (2 * offsetZ) - pt.x),uWaveAmplitude * uampmul);
-            pt.z = mix(pt.z,sin(pt.z / 6 * (pt.x * offsetY) - (50 * offsetZ) * (pt.z * offsetX)),uWaveAmplitude * uampmul);
-        }
-
-
-        return vec4(pt.x, pt.y, pt.z, pt.w);
-    }
-
-    void main()
-    {
-        vec2 uv = openfl_TextureCoordv;
-        gl_FragColor = sineWave(texture2D(bitmap, uv),uv);
-    }')
-
-    public function new()
-    {
-       super();
-    }
-}
-
-
-
-
-class Effect {
-	public function setValue(shader:FlxShader, variable:String, value:Float){
-		Reflect.setProperty(Reflect.getProperty(shader, 'variable'), 'value', [value]);
-	}
-	
 }
