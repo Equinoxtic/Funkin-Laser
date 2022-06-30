@@ -11,7 +11,7 @@ This rewrite includes:
 * Winning Icons?
 * More Lua variables :)
 
-This engine uses Psych Engine 0.4.2, meaning you can compile it with an older version of Haxe, like 4.1.5 and so on.
+NOTE: This engine uses Psych Engine 0.5.2.
 
 Sadly, this engine only supports x64-based machines (I think) so... Sad day for all of 32-based machine users :(
 
