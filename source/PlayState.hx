@@ -3455,44 +3455,47 @@ class PlayState extends MusicBeatState
 				adScore = score;
 			}
 		}
+			
+		if (ClientPrefs.advancedScoring) {
+			songScore += adScore;
+		} else {
+			songScore += score;
+		}
+		
+		songHits++;
+		totalPlayed++;
+		RecalculateRating();
 
-		if(!ModifierVars.practice) {
-			if (ClientPrefs.advancedScoring) {
-				songScore += adScore;
-			} else {
-				songScore += score;
+		if (scoreTxtTween != null) {
+			scoreTxtTween.cancel();
+		}
+
+		if (ClientPrefs.advancedScoring) {
+			if (cockScoreTwn != null) {
+				cockScoreTwn.cancel();
 			}
-			songHits++;
-			totalPlayed++;
-			RecalculateRating();
-			if(scoreTxtTween != null) {
-				scoreTxtTween.cancel();
+			if (cockScoreZoom != null) {
+				cockScoreZoom.cancel();
 			}
-			if (ClientPrefs.advancedScoring) {
-				if (cockScoreTwn != null) {
-					cockScoreTwn.cancel();
+		}
+
+		if (UIPrefs.scoreZooming) {
+			scoreTxt.scale.x = 1.07;
+			scoreTxt.scale.y = 1.07;
+			scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 0.4, {
+				onComplete: function(twn:FlxTween) {
+					scoreTxtTween = null;
 				}
-				if (cockScoreZoom != null) {
-					cockScoreZoom.cancel();
+			});
+		}
+
+		if (ClientPrefs.advancedScoring) {
+			cockScoreTxt.alpha = 1;
+			cockScoreTwn = FlxTween.tween(cockScoreTxt, {alpha: 0}, 0.45, {
+				onComplete: function(twn:FlxTween) {
+					cockScoreTwn = null;
 				}
-			}
-			if (UIPrefs.scoreZooming) {
-				scoreTxt.scale.x = 1.07;
-				scoreTxt.scale.y = 1.07;
-				scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 0.4, {
-					onComplete: function(twn:FlxTween) {
-						scoreTxtTween = null;
-					}
-				});
-			}
-			if (ClientPrefs.advancedScoring) {
-				cockScoreTxt.alpha = 1;
-				cockScoreTwn = FlxTween.tween(cockScoreTxt, {alpha: 0}, 0.75, {
-					onComplete: function(twn:FlxTween) {
-						cockScoreTwn = null;
-					}
-				});
-			}
+			});
 		}
 
 		/* if (combo > 60)
