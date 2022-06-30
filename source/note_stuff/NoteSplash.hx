@@ -3,6 +3,7 @@ package note_stuff;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
+import preference_vars.ClientPrefs;
 
 class NoteSplash extends FlxSprite
 {

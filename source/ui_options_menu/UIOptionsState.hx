@@ -23,6 +23,9 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
 import flixel.input.keyboard.FlxKey;
 import flixel.graphics.FlxGraphic;
+import preference_vars.ClientPrefs;
+import preference_vars.UIPrefs;
+import menus.MainMenuState;
 import Controls;
 
 using StringTools;

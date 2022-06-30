@@ -14,6 +14,14 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.FlxCamera;
+import funkin_stuff.CoolUtil;
+import funkin_stuff.Song;
+import funkin_stuff.Highscore;
+import preference_vars.ClientPrefs;
+import preference_vars.UIPrefs;
+import preference_vars.ModifierVars;
+import menus.StoryMenuState;
+import menus.FreeplayState;
 
 using StringTools; // No wonder why string.replace() isn't working :facepalm:
 

@@ -1,6 +1,7 @@
 package attached_utils;
 
 import flixel.FlxSprite;
+import preference_vars.ClientPrefs;
 
 using StringTools;
 

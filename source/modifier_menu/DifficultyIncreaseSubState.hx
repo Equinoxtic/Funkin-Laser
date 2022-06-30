@@ -24,6 +24,9 @@ import flixel.util.FlxTimer;
 import flixel.input.keyboard.FlxKey;
 import flixel.graphics.FlxGraphic;
 import checkbox_utils.CheckboxThingie;
+import attached_utils.AttachedText;
+import preference_vars.ModifierVars;
+import character_classes.Character;
 
 using StringTools;
 

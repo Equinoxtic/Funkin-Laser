@@ -2,6 +2,11 @@ package editors;
 
 import funkin_stuff.Section.SwagSection;
 import funkin_stuff.Song.SwagSong;
+import funkin_stuff.Conductor;
+import note_stuff.StrumNote;
+import note_stuff.Note;
+import note_stuff.NoteSplash;
+import preference_vars.ClientPrefs;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.util.FlxColor;

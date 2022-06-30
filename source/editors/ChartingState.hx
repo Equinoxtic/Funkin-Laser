@@ -15,6 +15,7 @@ import note_stuff.StrumNote;
 import note_stuff.Note;
 import character_classes.HealthIcon;
 import character_classes.Character;
+import character_classes.Character.CharacterFile;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxObject;
@@ -1743,7 +1744,7 @@ class ChartingState extends MusicBeatState
 		var rawJson = OpenFlAssets.getText(path);
 		#end
 
-		var json:Character.CharacterFile = cast Json.parse(rawJson);
+		var json:character_classes.Character.CharacterFile = cast Json.parse(rawJson);
 		return json.healthicon;
 	}
 

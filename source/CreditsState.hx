@@ -14,6 +14,8 @@ import flixel.util.FlxColor;
 import flixel.tweens.FlxTween;
 import lime.utils.Assets;
 import attached_utils.AttachedSprite;
+import menus.MainMenuState;
+import funkin_stuff.CoolUtil;
 
 using StringTools;
 

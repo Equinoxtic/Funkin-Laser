@@ -2,6 +2,7 @@ package character_classes;
 
 import flixel.FlxSprite;
 import openfl.utils.Assets as OpenFlAssets;
+import preference_vars.ClientPrefs;
 
 using StringTools;
 

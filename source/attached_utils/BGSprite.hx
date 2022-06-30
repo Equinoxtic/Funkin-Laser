@@ -2,6 +2,7 @@ package attached_utils;
 
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
+import preference_vars.ClientPrefs;
 
 class BGSprite extends FlxSprite
 {

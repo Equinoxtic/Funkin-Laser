@@ -16,6 +16,13 @@ import flixel.tweens.FlxEase;
 import flixel.system.FlxSound;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.addons.transition.FlxTransitionableState;
+import preference_vars.ClientPrefs;
+import preference_vars.ModifierVars;
+import funkin_stuff.Highscore;
+import funkin_stuff.CoolUtil;
+import funkin_stuff.Song;
+import menus.StoryMenuState;
+import menus.FreeplayState;
 
 using StringTools;
 

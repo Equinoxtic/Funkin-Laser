@@ -19,6 +19,7 @@ import lime.net.curl.CURLCode;
 import preference_vars.ClientPrefs;
 import funkin_stuff.CoolUtil;
 import funkin_stuff.Highscore;
+import funkin_stuff.Song;
 import PlayState;
 import WeekData;
 

@@ -26,6 +26,7 @@ import flixel.graphics.FlxGraphic;
 import checkbox_utils.CheckboxThingieNew;
 import attached_utils.AttachedTextNew;
 import character_classes.Character;
+import preference_vars.ClientPrefs;
 import Controls;
 
 using StringTools;
