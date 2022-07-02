@@ -1,3 +1,4 @@
 export/
 .vscode/
+source/vlc/
 APIStuff.hx
