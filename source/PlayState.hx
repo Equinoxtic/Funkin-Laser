@@ -175,6 +175,9 @@ class PlayState extends MusicBeatState
 	private var timeBarBG:AttachedSprite;
 	public var timeBar:FlxBar;
 
+	public var songSpeed(default, set):Float = 1;
+	public var noteKillOffset:Float = 350;
+
 	private var generatedMusic:Bool = false;
 	public var endingSong:Bool = false;
 	private var startingSong:Bool = false;
@@ -1141,6 +1144,33 @@ class PlayState extends MusicBeatState
 		}
 	}
 
+	function set_songSpeed(value:Float):Float
+	{
+		if (generatedMusic)
+		{
+			var ratio:Float = value / songSpeed; //funny word huh
+			for (note in notes)
+			{
+				if(note.isSustainNote && !note.animation.curAnim.name.endsWith('end'))
+				{
+					note.scale.y *= ratio;
+					note.updateHitbox();
+				}
+			}
+			for (note in unspawnNotes)
+			{
+				if(note.isSustainNote && !note.animation.curAnim.name.endsWith('end'))
+				{
+					note.scale.y *= ratio;
+					note.updateHitbox();
+				}
+			}
+		}
+		songSpeed = value;
+		noteKillOffset = 350 / songSpeed;
+		return value;
+	}
+
 	public function addTextToDebug(text:String) {
 		#if LUA_ALLOWED
 		luaDebugGroup.forEachAlive(function(spr:DebugLuaText) {
@@ -1612,6 +1642,18 @@ class PlayState extends MusicBeatState
 		}
 		*/
 
+		if (ModifierVars.hardcoreMode && !ModifierVars.pussyMode && ModifierVars.songSpeed > 0) {
+			songSpeed = SONG.speed + 1.75 + ModifierVars.songSpeed;
+		}
+
+		if (ModifierVars.pussyMode && !ModifierVars.hardcoreMode && ModifierVars.songSpeed > 0) {
+			songSpeed = SONG.speed - 0.75 + ModifierVars.songSpeed;
+		}
+
+		if (!ModifierVars.hardcoreMode && !ModifierVars.pussyMode && ModifierVars.songSpeed > 0) {
+			songSpeed = SONG.speed + ModifierVars.songSpeed;
+		}
+
 		Conductor.changeBPM(songData.bpm);
 
 		curSong = songData.song;
@@ -1728,7 +1770,7 @@ class PlayState extends MusicBeatState
 						{
 							oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
 
-							var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + (Conductor.stepCrochet / FlxMath.roundDecimal(SONG.speed, 2)), daNoteData, oldNote, true);
+							var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + (Conductor.stepCrochet / FlxMath.roundDecimal(songSpeed, 2)), daNoteData, oldNote, true);
 							sustainNote.mustPress = gottaHitNote;
 							sustainNote.noteType = swagNote.noteType;
 							sustainNote.scrollFactor.set();
@@ -2431,11 +2473,10 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		var roundedSpeed:Float = FlxMath.roundDecimal(SONG.speed, 2);
 		if (unspawnNotes[0] != null)
 		{
 			var time:Float = 1500;
-			if(roundedSpeed < 1) time /= roundedSpeed;
+			if(songSpeed < 1) time /= songSpeed;
 
 			while (unspawnNotes.length > 0 && unspawnNotes[0].strumTime - Conductor.songPosition < time)
 			{
@@ -2502,20 +2543,20 @@ class PlayState extends MusicBeatState
 				}
 				if(daNote.copyY) {
 					if (ClientPrefs.downScroll) {
-						daNote.y = (strumY + 0.45 * (Conductor.songPosition - daNote.strumTime) * roundedSpeed);
+						daNote.y = (strumY + 0.45 * (Conductor.songPosition - daNote.strumTime) * songSpeed);
 						if (daNote.isSustainNote) {
 							//Jesus fuck this took me so much mother fucking time AAAAAAAAAA
 							if (daNote.animation.curAnim.name.endsWith('end')) {
-								daNote.y += 10.5 * (fakeCrochet / 400) * 1.5 * roundedSpeed + (46 * (roundedSpeed - 1));
-								daNote.y -= 46 * (1 - (fakeCrochet / 600)) * roundedSpeed;
+								daNote.y += 10.5 * (fakeCrochet / 400) * 1.5 * songSpeed + (46 * (songSpeed - 1));
+								daNote.y -= 46 * (1 - (fakeCrochet / 600)) * songSpeed;
 								if(PlayState.isPixelStage) {
 									daNote.y += 8;
 								} else {
 									daNote.y -= 19;
 								}
 							} 
-							daNote.y += (Note.swagWidth / 2) - (60.5 * (roundedSpeed - 1));
-							daNote.y += 27.5 * ((SONG.bpm / 100) - 1) * (roundedSpeed - 1);
+							daNote.y += (Note.swagWidth / 2) - (60.5 * (songSpeed - 1));
+							daNote.y += 27.5 * ((SONG.bpm / 100) - 1) * (songSpeed - 1);
 
 							if(daNote.mustPress || !daNote.ignoreNote)
 							{
@@ -2531,7 +2572,7 @@ class PlayState extends MusicBeatState
 							}
 						}
 					} else {
-						daNote.y = (strumY - 0.45 * (Conductor.songPosition - daNote.strumTime) * roundedSpeed);
+						daNote.y = (strumY - 0.45 * (Conductor.songPosition - daNote.strumTime) * songSpeed);
 
 						if(daNote.mustPress || !daNote.ignoreNote)
 						{
@@ -2629,7 +2670,7 @@ class PlayState extends MusicBeatState
 				var doKill:Bool = daNote.y < -daNote.height;
 				if(ClientPrefs.downScroll) doKill = daNote.y > FlxG.height;
 
-				if (doKill)
+				if (Conductor.songPosition > noteKillOffset + daNote.strumTime)
 				{
 					if (daNote.mustPress && !ModifierVars.botplay &&!daNote.ignoreNote && !endingSong && (daNote.tooLate || !daNote.wasGoodHit)) {
 						noteMiss(daNote);
@@ -3491,9 +3532,9 @@ class PlayState extends MusicBeatState
 					cockScoreTwn = null;
 				}
 			});
-			cockScoreTwn = FlxTween.tween(cockScoreTxt.scale, {x: 1, y: 1}, 0.45, {
+			cockScoreZoom = FlxTween.tween(cockScoreTxt.scale, {x: 1, y: 1}, 0.45, {
 				onComplete: function(twn:FlxTween) {
-					cockScoreTwn = null;
+					cockScoreZoom = null;
 				}
 			});
 		}
@@ -3624,8 +3665,9 @@ class PlayState extends MusicBeatState
 			numScore.velocity.x = FlxG.random.float(-5, 5);
 			numScore.visible = !ClientPrefs.hideHud;
 
-			if (combo >= 10 || combo == 0)
-				add(numScore);
+			// if (combo >= 10)
+
+			add(numScore);
 
 			FlxTween.tween(numScore, {alpha: 0}, 0.2, {
 				onComplete: function(tween:FlxTween)
@@ -3791,6 +3833,9 @@ class PlayState extends MusicBeatState
 			}
 		});
 
+		combo = 0;
+		adCombo = 0;
+
 		health -= daNote.missHealth; //For testing purposes
 		trace(daNote.missHealth);
 		songMisses++;
@@ -3906,9 +3951,9 @@ class PlayState extends MusicBeatState
 			if (!note.isSustainNote)
 			{
 				sustainingg = false;
-				popUpScore(note);
 				combo += 1;
 				adCombo += 1;
+				popUpScore(note);
 				if(combo > 9999) combo = 9999;
 				if(ClientPrefs.hitsounds) {
 					FlxG.sound.play(Paths.sound('hitsound'));

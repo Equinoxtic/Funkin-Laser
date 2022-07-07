@@ -39,7 +39,8 @@ class FreeplayModMenu extends MusicBeatSubstate
 		'MULTIPLIERS'
 	];
 	static var noCheckbox:Array<String> = [
-		'Health Drain Amount'
+		'Health Drain Amount',
+		'Song Speed'
 	];
 	
 	static var options:Array<String> = [
@@ -52,7 +53,8 @@ class FreeplayModMenu extends MusicBeatSubstate
 		'No Fail',
 		'Health Drain',
 		'MULTIPLIERS',
-		'Health Drain Amount'
+		'Health Drain Amount',
+		'Song Speed'
 	];
 
 	private var grpOptions:FlxTypedGroup<Alphabet>;
@@ -220,10 +222,10 @@ class FreeplayModMenu extends MusicBeatSubstate
 					var addFloat:Float = controls.UI_LEFT ? -0.1 : 0.1;
 					if(holdTime > 0.5 || controls.UI_LEFT_P || controls.UI_RIGHT_P)
 					switch(options[curSelected]) {
-						/* case 'Song Speed':
+						case 'Song Speed':
 							ModifierVars.songSpeed += addFloat;
 							if (ModifierVars.songSpeed < 0) ModifierVars.songSpeed = 0;
-							if (ModifierVars.songSpeed > 3) ModifierVars.songSpeed = 3; */
+							if (ModifierVars.songSpeed > 3) ModifierVars.songSpeed = 3;
 						case 'Health Drain Amount':
 							ModifierVars.healthDrainAmount += addFloat;
 							if (ModifierVars.healthDrainAmount < 0) ModifierVars.healthDrainAmount = 0;
@@ -271,8 +273,8 @@ class FreeplayModMenu extends MusicBeatSubstate
 				daText = "Enabling this would enable \"Practice\" mode.\nThis mode will grant you no failure, but a penalty once your HP drops to 0.";
 			case 'No Fail':
 				daText = "Enabling this will make you invincible.";
-			/* case 'Song Speed':
-				daText = "Set how fast the song should go.\n(Going above 0 will speed up the song)"; */
+			case 'Song Speed':
+				daText = "Set how fast the song should go.\n(Going above 0 will speed up the song)";
 		}
 		descText.text = daText;
 
@@ -338,8 +340,8 @@ class FreeplayModMenu extends MusicBeatSubstate
 			if(text != null) {
 				var daText:String = '';
 				switch(options[textNumber[i]]) {
-					/* case 'Song Speed':
-						daText = '' + ModifierVars.songSpeed; */
+					case 'Song Speed':
+						daText = '' + ModifierVars.songSpeed;
 					case 'Health Drain Amount':
 						daText = '' + ModifierVars.healthDrainAmount;
 				}
