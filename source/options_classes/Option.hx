@@ -24,7 +24,7 @@ import Controls;
 
 using StringTools;
 
-class UIOption
+class Option
 {
 	private var child:Alphabet;
 	public var text(get, set):String;

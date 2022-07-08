@@ -23,18 +23,20 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
 import flixel.input.keyboard.FlxKey;
 import flixel.graphics.FlxGraphic;
+import options_classes.UIOption;
+import base_options.BaseUIOptionsMenu;
 import Controls;
 
 using StringTools;
 
-class UILayoutSubState extends BaseOptionsMenu
+class UILayoutSubState extends BaseUIOptionsMenu
 {
 	public function new()
 	{
 		title = 'UI Layout';
 		rpcTitle = 'UI Options - UI Layout';
 
-		var option:Option = new Option('UI Style',
+		var option:UIOption = new UIOption('UI Style',
 			"Set the UI Style to something fancy!",
 			'uiStyle',
 			'string',
@@ -42,7 +44,7 @@ class UILayoutSubState extends BaseOptionsMenu
 			['Standard', 'Mic\'d Up']);
 		addOption(option);
 
-		var option:Option = new Option('Judgement Style',
+		var option:UIOption = new UIOption('Judgement Style',
 			"Cool-ass Judgement skins :sunglasses:",
 			'judgementStyle',
 			'string',
@@ -50,7 +52,7 @@ class UILayoutSubState extends BaseOptionsMenu
 			['FNF', 'Kade']);
 		addOption(option);
 
-		var option:Option = new Option('Icon Set',
+		var option:UIOption = new UIOption('Icon Set',
 			"Set what icon set you\'re gonna use!",
 			'iconSet',
 			'string',
@@ -58,7 +60,7 @@ class UILayoutSubState extends BaseOptionsMenu
 			['FNF', 'FPS+', 'Mic\'d up']);
 		addOption(option);
 
-		var option:Option = new Option('Strum Style',
+		var option:UIOption = new UIOption('Strum Style',
 			"Set the style of the strumline!",
 			'strumStyle',
 			'string',
@@ -66,7 +68,7 @@ class UILayoutSubState extends BaseOptionsMenu
 			['Normal', 'Middle Scroll (Old)', 'Middle Scroll (New)', 'Opaque Enemy Strums']);
 		addOption(option);
 
-		var option:Option = new Option('UI Type',
+		var option:UIOption = new UIOption('UI Type',
 			"If enabled, it will show advanced statistics.\n(i.e. current step and beat and etc.)",
 			'uiType',
 			'string',

@@ -23,18 +23,20 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
 import flixel.input.keyboard.FlxKey;
 import flixel.graphics.FlxGraphic;
+import options_classes.UIOption;
+import base_options.BaseUIOptionsMenu;
 import Controls;
 
 using StringTools;
 
-class UIBehaviourSubState extends BaseOptionsMenu
+class UIBehaviourSubState extends BaseUIOptionsMenu
 {
 	public function new()
 	{
 		title = 'UI Behaviour';
 		rpcTitle = 'UI Options - UI Behaviour';
 
-		var option:Option = new Option('Noteskin',
+		var option:UIOption = new UIOption('Noteskin',
 			"Set your noteskin!",
 			'noteskin',
 			'string',
@@ -42,7 +44,7 @@ class UIBehaviourSubState extends BaseOptionsMenu
 			['Arrows', 'Circles']);
 		addOption(option);
 		
-		var option:Option = new Option('Time Bar:',
+		var option:UIOption = new UIOption('Time Bar:',
 			"What should the Time bar display?",
 			'timeShowing',
 			'string',
@@ -50,7 +52,7 @@ class UIBehaviourSubState extends BaseOptionsMenu
 			['Time Left', 'Elapsed', 'Song Name - Time', 'Song Name Only']);
 		addOption(option);
 			
-		var option:Option = new Option('Pause Music',
+		var option:UIOption = new UIOption('Pause Music',
 			"Choose what the Pause Menu music should play!",
 			'pauseMusic',
 			'string',
@@ -58,14 +60,14 @@ class UIBehaviourSubState extends BaseOptionsMenu
 			['Breakfast', 'Osu', 'Osu Bacon Boi', 'Tea Time']);
 		addOption(option);
 
-		var option:Option = new Option("Icon Bopping",
+		var option:UIOption = new UIOption("Icon Bopping",
 			"Whether the icons should bop on the beat hit.",
 			'iconBop',
 			'bool',
 			true);
 		addOption(option);
 
-		var option:Option = new Option("Zoom Score Text",
+		var option:UIOption = new UIOption("Zoom Score Text",
 			"Whether the Score should zoom whenever you hit the note.",
 			'scoreZooming',
 			'bool',

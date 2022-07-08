@@ -1,4 +1,4 @@
-package ui_options_menu;
+package base_options;
 
 #if desktop
 import Discord.DiscordClient;
@@ -28,6 +28,7 @@ import attached_utils.AttachedTextNew;
 import character_classes.Character;
 import preference_vars.ClientPrefs;
 import Controls;
+import options_classes.Option;
 
 using StringTools;
 
