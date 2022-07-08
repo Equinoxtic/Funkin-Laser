@@ -1644,7 +1644,7 @@ class PlayState extends MusicBeatState
 
 		var hardMod:Bool = ModifierVars.hardcoreMode;
 		var pussMod:Bool = ModifierVars.pussyMode;
-		var speedMod:Float = ModifierVars.songSpeed
+		var speedMod:Float = ModifierVars.songSpeed;
 
 		if (hardMod && !pussMod && speedMod > 0) {
 			songSpeed = SONG.speed + 1.75 + ModifierVars.songSpeed;
