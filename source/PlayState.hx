@@ -1642,15 +1642,19 @@ class PlayState extends MusicBeatState
 		}
 		*/
 
-		if (ModifierVars.hardcoreMode && !ModifierVars.pussyMode && ModifierVars.songSpeed > 0) {
+		var hardMod:Bool = ModifierVars.hardcoreMode;
+		var pussMod:Bool = ModifierVars.pussyMode;
+		var speedMod:Float = ModifierVars.songSpeed
+
+		if (hardMod && !pussMod && speedMod > 0) {
 			songSpeed = SONG.speed + 1.75 + ModifierVars.songSpeed;
 		}
 
-		if (ModifierVars.pussyMode && !ModifierVars.hardcoreMode && ModifierVars.songSpeed > 0) {
+		if (!hardMod && pussMod && speedMod > 0) {
 			songSpeed = SONG.speed - 0.75 + ModifierVars.songSpeed;
 		}
 
-		if (!ModifierVars.hardcoreMode && !ModifierVars.pussyMode && ModifierVars.songSpeed > 0) {
+		if (!hardMod && !pussMod && speedMod > 0) {
 			songSpeed = SONG.speed + ModifierVars.songSpeed;
 		}
 
