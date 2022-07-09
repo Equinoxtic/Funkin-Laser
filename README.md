@@ -21,7 +21,7 @@ Sadly, this engine only supports x64-based machines (I think) so... Sad day for 
 
 ## GitHub Stats
 
-![Funkin Laser](https://github-readme-stats.vercel.app/api/pin/?username=Equinoxtic&repo=Funkin-Laser)
+![Funkin Laser](https://github-readme-stats.vercel.app/api/pin/?username=Equinoxtic&repo=Funkin-Laser&show_owner=true&theme=rose_pine)
 
 
 Happy Modding! <3
