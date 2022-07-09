@@ -1,7 +1,5 @@
 package hidden_states;
 
-package;
-
 import flixel.FlxG;
 import menus.MainMenuState;
 
