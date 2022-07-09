@@ -29,7 +29,7 @@ import Controls;
 
 using StringTools;
 
-class DifficultyReductionSubState extends BaseModOptionMenu
+class DifficultyReductionSubState extends BaseModOptionsMenu
 {
 	public function new()
 	{
@@ -41,6 +41,6 @@ class DifficultyReductionSubState extends BaseModOptionMenu
 
 	function getOptions()
 	{
-
+		
 	}
 }
