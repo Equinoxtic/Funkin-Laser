@@ -34,8 +34,8 @@ class GamemodeSelectionSubState extends BaseModOptionsMenu
 	
 	public function new()
 	{
-		title = "Gamemode Selection";
-		rpcTitle = "Modifier Menu - Gamemode Selection";
+		title = "Gamemodes";
+		rpcTitle = "Modifier Menu - Gamemodes";
 		getOptions();
 		super();
 	}

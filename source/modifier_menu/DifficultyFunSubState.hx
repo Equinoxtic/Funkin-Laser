@@ -72,7 +72,7 @@ class DifficultyFunSubState extends BaseModOptionsMenu
 		var option:ModOption = new ModOption("Song Speed Multiplier",
 			"Set how fast the song should be.",
 			'songSpeed',
-			'percent',
+			'float',
 			0);
 		addOption(option);
 		option.displayFormat = '%v';

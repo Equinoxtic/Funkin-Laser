@@ -23,6 +23,7 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
 import flixel.input.keyboard.FlxKey;
 import flixel.graphics.FlxGraphic;
+import preference_vars.ModifierVars;
 import preference_vars.ClientPrefs;
 import options_menu.OptionsState;
 import menus.FreeplayState;
@@ -32,7 +33,7 @@ using StringTools;
 
 class ModifierMenuState extends MusicBeatState
 {
-	var options:Array<String> = ['Gamemodes and OG Mods', 'Difficulty Reduction', 'Difficulty Increase', 'Fun and Deadly'];
+	var options:Array<String> = ['Gamemodes', 'Difficulty Reduction', 'Difficulty Increase', 'Fun and Deadly'];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private static var curSelected:Int = 0;
 	public static var isFreeplay:Bool = false;
@@ -40,7 +41,7 @@ class ModifierMenuState extends MusicBeatState
 
 	function openSelectedSubstate(label:String) {
 		switch(label) {
-			case 'Gamemodes and OG Mods':
+			case 'Gamemodes':
 				openSubState(new GamemodeSelectionSubState());
 			case 'Difficulty Reduction':
 				openSubState(new DifficultyReductionSubState());
@@ -84,14 +85,14 @@ class ModifierMenuState extends MusicBeatState
 		add(selectorRight);
 
 		changeSelection();
-		ClientPrefs.saveSettings();
+		ModifierVars.saveMods();
 
 		super.create();
 	}
 
 	override function closeSubState() {
+		ModifierVars.saveMods();
 		super.closeSubState();
-		ClientPrefs.saveSettings();
 	}
 
 	override function update(elapsed:Float) {

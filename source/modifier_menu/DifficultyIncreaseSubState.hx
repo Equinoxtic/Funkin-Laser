@@ -79,7 +79,7 @@ class DifficultyIncreaseSubState extends BaseModOptionsMenu
 		var option:ModOption = new ModOption("Ghost Note Transparency",
 			"Set how transparent the notes should be with Ghost Notes.",
 			'ghostNoteAlpha',
-			'percent',
+			'float',
 			0.45);
 		addOption(option);
 		option.displayFormat = '%v';
@@ -92,7 +92,7 @@ class DifficultyIncreaseSubState extends BaseModOptionsMenu
 		var option:ModOption = new ModOption("Limited Vision Intensity",
 			"Set how limited the vision is for the HUD.",
 			'lvIntensity',
-			'percent',
+			'float',
 			0.45);
 		addOption(option);
 		option.displayFormat = '%v';
@@ -105,7 +105,7 @@ class DifficultyIncreaseSubState extends BaseModOptionsMenu
 		var option:ModOption = new ModOption("Nausea Intensity",
 			"Set how strong the nausea effect should be.",
 			'nauseaIntensity',
-			'percent',
+			'float',
 			0.5);
 		addOption(option);
 		option.displayFormat = '%v';
@@ -118,7 +118,7 @@ class DifficultyIncreaseSubState extends BaseModOptionsMenu
 		var option:ModOption = new ModOption("Health Drain Amount",
 			"Set the multiplier for Health Drain.",
 			'healthDrainAmount',
-			'percent',
+			'float',
 			0.1);
 		addOption(option);
 		option.displayFormat = '%v';
