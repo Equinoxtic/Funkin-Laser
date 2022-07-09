@@ -64,7 +64,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 		'Show Song Name on Song Length',
 		'Hide Song Length',
 		'Flashing Lights',
-		'Camera Zooms'
+		'Camera Zooms',
+		'Directional Camera'
 		#if !mobile
 		,'FPS Counter'
 		,'Memory Counter'
@@ -254,6 +255,9 @@ class PreferencesSubstate extends MusicBeatSubstate
 
 					case 'Camera Zooms':
 						ClientPrefs.camZooms = !ClientPrefs.camZooms;
+						
+					case 'Directional Camera':
+						ClientPrefs.directionalCamera = !ClientPrefs.directionalCamera;
 
 					case 'Hide HUD':
 						ClientPrefs.hideHud = !ClientPrefs.hideHud;
@@ -366,6 +370,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 				daText = "Uncheck this if you're sensitive to flashing lights!";
 			case 'Camera Zooms':
 				daText = "If unchecked, the camera won't zoom in on a beat hit.";
+			case 'Directional Camera':
+				daText = "If checked, the camera moves with the focused character's directional animations.";
 			case 'Advanced Score System':
 				daText = "If checked, you will enable the Advanced Scoring System.\n(Hotline 024 inspiration)";
 			case 'Show Judgement Data':
@@ -446,6 +452,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 						daValue = ClientPrefs.violence;
 					case 'Camera Zooms':
 						daValue = ClientPrefs.camZooms;
+					case 'Directional Camera':
+						daValue = ClientPrefs.directionalCamera;
 					case 'Advanced Score System':
 						daValue = ClientPrefs.advancedScoring;
 					case 'Show Judgement Data':

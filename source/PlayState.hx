@@ -125,6 +125,8 @@ class PlayState extends MusicBeatState
 	public var GF_X:Float = 400;
 	public var GF_Y:Float = 130;
 
+	public var focusedCharacter:Character;
+
 	public var boyfriendGroup:FlxSpriteGroup;
 	public var dadGroup:FlxSpriteGroup;
 	public var gfGroup:FlxSpriteGroup;
@@ -2208,9 +2210,28 @@ class PlayState extends MusicBeatState
 				}
 		}
 
+		var charAnimOffsetX:Float = 0;
+		var charAnimOffsetY:Float = 0;
+		if(ClientPrefs.directionalCamera){
+			if(focusedCharacter!=null){
+				if(focusedCharacter.animation.curAnim!=null){
+					switch (focusedCharacter.animation.curAnim.name){
+						case 'singUP' | 'singUP-alt':
+							charAnimOffsetY -= 15;
+						case 'singDOWN' | 'singDOWN-alt':
+							charAnimOffsetY += 15;
+						case 'singLEFT' | 'singLEFT-alt':
+							charAnimOffsetX -= 15;
+						case 'singRIGHT' | 'singRIGHT-alt':
+							charAnimOffsetX += 15;
+					}
+				}
+			}
+		}
+
 		if(!inCutscene) {
 			var lerpVal:Float = CoolUtil.boundTo(Math.abs(elapsed * 2.4) * cameraSpeed, 0, 1);
-			camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
+			camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x + charAnimOffsetX, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y + charAnimOffsetY, lerpVal));
 			if(!startingSong && !endingSong && boyfriend.animation.curAnim.name.startsWith('idle')) {
 				boyfriendIdleTime += elapsed;
 				if(boyfriendIdleTime >= 0.15) { // Kind of a mercy thing for making the achievement easier to get as it's apparently frustrating to some playerss
@@ -3180,29 +3201,38 @@ class PlayState extends MusicBeatState
 
 		if (!SONG.notes[id].mustHitSection)
 		{
-			moveCamera(true);
+			if(focusedCharacter!=dad)
+				moveCamera(true);
 			callOnLuas('onMoveCamera', ['dad']);
 		}
 		else
 		{
-			moveCamera(false);
+			if(focusedCharacter!=boyfriend)
+				moveCamera(false);
 			callOnLuas('onMoveCamera', ['boyfriend']);
 		}
 	}
 
 	var cameraTwn:FlxTween;
-	public function moveCamera(isDad:Bool) {
-		if(isDad) {
+	public function moveCamera(isDad:Bool) 	
+	{
+		if(isDad)
+		{
+			focusedCharacter=dad;
 			camFollow.set(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
 			camFollow.x += dad.cameraPosition[0];
 			camFollow.y += dad.cameraPosition[1];
 			tweenCamIn();
-		} else {
+		}
+		else
+		{
 			camFollow.set(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
-
+			focusedCharacter=boyfriend;
 			switch (curStage)
 			{
 				case 'limo':
+					camFollow.x = boyfriend.getMidpoint().x - 300;
+				case 'darklimo':
 					camFollow.x = boyfriend.getMidpoint().x - 300;
 				case 'mall':
 					camFollow.y = boyfriend.getMidpoint().y - 200;

@@ -39,6 +39,7 @@ class ClientPrefs {
 	public static var comboOffset:Array<Int> = [0, 0, 0, 0];
 	public static var checkForUpdates:Bool = false;
 	public static var showMemCounter:Bool = true;
+	public static var directionalCamera:Bool = true;
 
 	public static var defaultKeys:Array<FlxKey> = [
 		A, LEFT,			//Note Left
@@ -108,6 +109,7 @@ class ClientPrefs {
 		FlxG.save.data.comboOffset = comboOffset;
 		FlxG.save.data.checkForUpdates = checkForUpdates;
 		FlxG.save.data.showMemCounter = showMemCounter;
+		FlxG.save.data.directionalCamera = directionalCamera;
 
 		var achieves:Array<String> = [];
 		for (i in 0...Achievements.achievementsUnlocked.length) {
@@ -230,6 +232,9 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.showMemCounter != null) {
 			showMemCounter = FlxG.save.data.showMemCounter;
+		}
+		if(FlxG.save.data.directionalCamera != null) {
+			directionalCamera = FlxG.save.data.directionalCamera;
 		}
 
 		var save:FlxSave = new FlxSave();
