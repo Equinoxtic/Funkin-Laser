@@ -37,7 +37,7 @@ class ModifierVars {
 	public static var fastSpeed:Float = 2.35;
 	public static var ghostNoteAlpha:Float = 0.45;
 	public static var lvIntensity:Float = 0.45;
-	public static var nauseaIntensity:Float = 3.25;
+	public static var nauseaIntensity:Float = 0.5;
 
 	/* Fun and Deadly */
 	public static var botplay:Bool = false;

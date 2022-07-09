@@ -74,5 +74,57 @@ class DifficultyIncreaseSubState extends BaseModOptionsMenu
 			'bool',
 			false);
 		addOption(option);
+
+		var option:ModOption = new ModOption("Ghost Note Transparency",
+			"Set how transparent the notes should be with Ghost Notes.",
+			'ghostNoteAlpha',
+			'percent',
+			0.45);
+		addOption(option);
+		option.displayFormat = '%v';
+		option.scrollSpeed = 15;
+		option.minValue = 0.05;
+		option.maxValue = 0.75;
+		option.changeValue = 0.05;
+		option.decimals = 2;
+
+		var option:ModOption = new ModOption("Limited Vision Intensity",
+			"Set how limited the vision is for the HUD.",
+			'lvIntensity',
+			'percent',
+			0.45);
+		addOption(option);
+		option.displayFormat = '%v';
+		option.scrollSpeed = 25;
+		option.minValue = 0.1;
+		option.maxValue = 2;
+		option.changeValue = 0.1;
+		option.decimals = 1;
+
+		var option:ModOption = new ModOption("Nausea Intensity",
+			"Set how strong the nausea effect should be.",
+			'nauseaIntensity',
+			'percent',
+			0.5);
+		addOption(option);
+		option.displayFormat = '%v';
+		option.scrollSpeed = 30;
+		option.minValue = 0.05;
+		option.maxValue = 5.25;
+		option.changeValue = 0.01;
+		option.decimals = 2;
+
+		var option:ModOption = new ModOption("Health Drain Amount",
+			"Set the multiplier for Health Drain.",
+			'healthDrainAmount',
+			'percent',
+			0.1);
+		addOption(option);
+		option.displayFormat = '%v';
+		option.scrollSpeed = 15;
+		option.minValue = 0.0;
+		option.maxValue = 5;
+		option.changeValue = 0.1;
+		option.decimals = 1;
 	}
 }
