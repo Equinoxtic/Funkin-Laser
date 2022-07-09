@@ -2,7 +2,7 @@
 
 A rewritten / revamped version of Psych Engine.
 
-This rewrite includes:
+## This rewrite includes
 
 * Gameplay Modifiers
 * New options such as hitsounds
@@ -18,6 +18,10 @@ It also supports 0.5.2, 0.6 and onwards, but do bare in mind that we barely upda
 Sadly, this engine only supports x64-based machines (I think) so... Sad day for all of 32-based machine users :(
 
 ***PS: Read COMPILING.md for instructions on how to build the engine.***
+
+## GitHub Stats
+
+![Equinoxtic's GitHub stats](https://github-readme-stats.vercel.app/api?username=Equinoxtic&show_icons=true&theme=rose_pine)
 
 Happy Modding! <3
 
