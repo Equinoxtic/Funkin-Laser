@@ -74,6 +74,21 @@ class UIBehaviourSubState extends BaseUIOptionsMenu
 			true);
 		addOption(option);
 
+		var option:UIOption = new UIOption("Health Bar Type",
+			"Choose what color the health bar should display.",
+			'healthBarType',
+			'string',
+			"Default",
+			["Default", "Vanilla FNF"]);
+		addOption(option);
+		
+		var option:UIOption = new UIOption("Use Time Bar Colors",
+			"Whether to make the time bar show the enemy's icon color.",
+			'timeBarColors',
+			'bool',
+			false);
+		addOption(option);
+
 		super();
 	}
 }

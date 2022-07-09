@@ -38,7 +38,7 @@ class ClientPrefs {
 	public static var badWindow:Int = 135;
 	public static var comboOffset:Array<Int> = [0, 0, 0, 0];
 	public static var checkForUpdates:Bool = false;
-	public static var showMemCounter:Bool = false;
+	public static var showMemCounter:Bool = true;
 
 	public static var defaultKeys:Array<FlxKey> = [
 		A, LEFT,			//Note Left

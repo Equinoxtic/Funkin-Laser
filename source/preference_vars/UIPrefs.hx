@@ -29,6 +29,8 @@ class UIPrefs
 	public static var pauseMusic:String = 'Breakfast';
 	public static var iconBop:Bool = true;
 	public static var scoreZooming:Bool = true;
+	public static var healthBarType:String = "Default";
+	public static var timeBarColors:Bool = false;
 	
 	public static function saveUIPrefs()
 	{
@@ -51,6 +53,8 @@ class UIPrefs
 		FlxG.save.data.pauseMusic = pauseMusic;
 		FlxG.save.data.iconBop = iconBop;
 		FlxG.save.data.scoreZooming = scoreZooming;
+		FlxG.save.data.healthBarType = healthBarType;
+		FlxG.save.data.timeBarColors = timeBarColors;
 	}
 
 	public static function loadUIPrefs()
@@ -109,6 +113,14 @@ class UIPrefs
 
 		if (FlxG.save.data.scoreZooming != null) {
 			scoreZooming = FlxG.save.data.scoreZooming;
+		}
+
+		if (FlxG.save.data.healthBarType != null) {
+			healthBarType = FlxG.save.data.healthBarType;
+		}
+
+		if (FlxG.save.data.timeBarColors != null) {
+			timeBarColors = FlxG.save.data.timeBarColors;
 		}
 	}
 }

@@ -67,6 +67,7 @@ class PreferencesSubstate extends MusicBeatSubstate
 		'Camera Zooms'
 		#if !mobile
 		,'FPS Counter'
+		,'Memory Counter'
 		#end
 	];
 
@@ -205,6 +206,11 @@ class PreferencesSubstate extends MusicBeatSubstate
 						if(Main.fpsVar != null)
 							Main.fpsVar.visible = ClientPrefs.showFPS;
 
+					case 'Memory Counter':
+						ClientPrefs.showMemCounter = !ClientPrefs.showMemCounter;
+						if(Main.memCounter != null)
+							Main.memCounter.visible = ClientPrefs.showMemCounter;
+
 					case 'Low Quality':
 						ClientPrefs.lowQuality = !ClientPrefs.lowQuality;
 
@@ -334,6 +340,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 				daText = "Changes how late a note is spawned.\nUseful for preventing audio lag from wireless earphones.";
 			case 'FPS Counter':
 				daText = "If unchecked, hides FPS Counter.";
+			case 'Memory Counter':
+				daText = "If unchecked, hides Memory Counter";
 			case 'Low Quality':
 				daText = "If checked, disables some background details,\ndecreases loading times and improves performance.";
 			case 'Persistent Cached Data':
@@ -414,6 +422,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 				switch(options[checkboxNumber[i]]) {
 					case 'FPS Counter':
 						daValue = ClientPrefs.showFPS;
+					case 'Memory Counter':
+						daValue = ClientPrefs.showMemCounter;
 					case 'Low Quality':
 						daValue = ClientPrefs.lowQuality;
 					case 'Anti-Aliasing':
