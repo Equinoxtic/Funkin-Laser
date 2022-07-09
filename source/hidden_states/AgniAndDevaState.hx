@@ -1,7 +1,5 @@
 package hidden_states;
 
-package hidden_states;
-
 import flixel.FlxG;
 import menus.MainMenuState;
 
@@ -13,7 +11,7 @@ class AgniAndDevaState extends MusicBeatState
 	{
 		super.create();
 		trace("
-			YJJJJJJJJJJJJJ77777777777??JJJJJJJJJJJYY555555555PGGGGGP555555YJJJJJJJJ??7777777777777777JPGY!:...!&P5P#?.....                                                                                                                                                  .                                                                      .                                                                        
+YJJJJJJJJJJJJJ77777777777??JJJJJJJJJJJYY555555555PGGGGGP555555YJJJJJJJJ??7777777777777777JPGY!:...!&P5P#?.....                                                                                                                                                  .                                                                      .                                                                        
 YJJJJJJJJJJJJJ?777777777777??JJJJJJJJJJJJYY55555555PPGGGP5555555YJJJJJJJJ??7777777777777777?YPPJ~.7&555PBY.....                                                                                                                                                 .                                                                    .                                                                          
 YJJJJJJJJJJJJJJ77777777777777??JJJJJJJJJJJJJJYY55555555PPGP5555555YJJJJJJJJ??7777777777777?777J5G5GB5555YBP:....                                                                                                                      ......                    .                                                                  .                                                         .!J55Y~            
 YJJJJJJJJJJJJJJ?7777777777777777??JJJJJJJJJJJJJJJYY55555555P55555555YJJJJJJJJ??77777777?????????JYGP55555JGG^....                                                                                                                   ...........                                                                                                                                            .Y&@@@@@&GJ:         
