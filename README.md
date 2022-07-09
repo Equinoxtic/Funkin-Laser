@@ -21,7 +21,7 @@ Sadly, this engine only supports x64-based machines (I think) so... Sad day for 
 
 ## GitHub Stats
 
-![Equinoxtic's GitHub stats](https://github-readme-stats.vercel.app/api?username=Equinoxtic&show_icons=true&theme=rose_pine)
+![Equinoxtic's GitHub stats](https://github-readme-stats.vercel.app/api?username=Equinoxtic&show_owner=true&theme=rose_pine)
 
 Happy Modding! <3
 
