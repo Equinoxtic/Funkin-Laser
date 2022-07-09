@@ -5,7 +5,7 @@ import menus.MainMenuState;
 
 using StringTools;
 
-class AmiGwainSagaState extends MusicBeatState
+class GwainState extends MusicBeatState
 {
 	override function create()
 	{

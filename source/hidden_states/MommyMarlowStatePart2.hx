@@ -5,7 +5,7 @@ import menus.MainMenuState;
 
 using StringTools;
 
-class MommyMarlowState extends MusicBeatState
+class MommyMarlowStatePart2 extends MusicBeatState
 {
 	override function create()
 	{
