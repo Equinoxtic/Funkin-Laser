@@ -41,6 +41,45 @@ class DifficultyFunSubState extends BaseModOptionsMenu
 
 	function getOptions()
 	{
-		
+		var option:ModOption = new ModOption("Hell",
+			"Hell. Just pure Hell.",
+			'hell',
+			'bool',
+			false);
+		addOption(option);
+
+		var option:ModOption = new ModOption("Drugs",
+			"Woahhhh brooooo, this shit so good af broooooo",
+			'drugs',
+			'bool',
+			false);
+		addOption(option);
+
+		var option:ModOption = new ModOption("Amogus",
+			"sus",
+			'amogus',
+			'bool',
+			false);
+		addOption(option);
+
+		var option:ModOption = new ModOption("Drugs Multiplier",
+			"wohsowhoahdwohosahdodhwodsodhfhsdhahowed",
+			'drugsMulti',
+			'percent',
+			1.15);
+		addOption(option);
+
+		var option:ModOption = new ModOption("Song Speed Multiplier",
+			"Set how fast the song should be.",
+			'songSpeed',
+			'percent',
+			0);
+		addOption(option);
+		option.displayFormat = '%v';
+		option.scrollSpeed = 15;
+		option.minValue = 0;
+		option.maxValue = 3.5;
+		option.changeValue = 0.1;
+		option.decimals = 1;
 	}
 }
