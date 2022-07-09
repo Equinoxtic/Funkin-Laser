@@ -5,9 +5,10 @@ import flixel.FlxGame;
 import flixel.FlxState;
 import openfl.Assets;
 import openfl.Lib;
-import openfl.display.FPS;
 import openfl.display.Sprite;
 import openfl.events.Event;
+import display.laser.ui.FPS;
+import display.laser.ui.MemCounter;
 import menus.TitleState;
 import preference_vars.ClientPrefs;
 
@@ -21,6 +22,7 @@ class Main extends Sprite
 	var skipSplash:Bool = true; // Whether to skip the flixel splash screen that appears in release mode.
 	var startFullscreen:Bool = false; // Whether to start the game in fullscreen on desktop targets
 	public static var fpsVar:FPS;
+	public static var memCounter:MemCounter;
 
 	// You can pretty much ignore everything from here on - your code should go in your states.
 
@@ -79,6 +81,12 @@ class Main extends Sprite
 		addChild(fpsVar);
 		if(fpsVar != null) {
 			fpsVar.visible = ClientPrefs.showFPS;
+		}
+
+		memCounter = new MemCounter(10, 3, 0xFFFFFFFF);
+		addChild(memCounter);
+		if(memCounter != null) {
+			memCounter.visible = ClientPrefs.showMemCounter;
 		}
 		#end
 

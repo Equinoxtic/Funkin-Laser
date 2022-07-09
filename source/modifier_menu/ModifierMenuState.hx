@@ -29,7 +29,7 @@ import Controls;
 
 using StringTools;
 
-class OptionsState extends MusicBeatState
+class ModifierMenuState extends MusicBeatState
 {
 	var options:Array<String> = ['Gamemodes and OG Mods', 'Difficulty Reduction', 'Difficulty Increase', 'Fun and Deadly'];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
