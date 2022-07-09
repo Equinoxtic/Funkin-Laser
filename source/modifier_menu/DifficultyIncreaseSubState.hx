@@ -35,6 +35,7 @@ class DifficultyIncreaseSubState extends BaseModOptionsMenu
 	{
 		title = "Difficulty Increase";
 		rpcTitle = "Modifier Menu - Difficulty Increase";
+		getOptions();
 		super();
 	}
 
