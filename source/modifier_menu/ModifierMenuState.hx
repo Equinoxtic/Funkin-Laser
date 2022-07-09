@@ -24,7 +24,8 @@ import flixel.util.FlxTimer;
 import flixel.input.keyboard.FlxKey;
 import flixel.graphics.FlxGraphic;
 import preference_vars.ClientPrefs;
-import menus.MainMenuState;
+import options_menu.OptionsState;
+import menus.FreeplayState;
 import Controls;
 
 using StringTools;
@@ -34,6 +35,7 @@ class ModifierMenuState extends MusicBeatState
 	var options:Array<String> = ['Gamemodes and OG Mods', 'Difficulty Reduction', 'Difficulty Increase', 'Fun and Deadly'];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private static var curSelected:Int = 0;
+	public static var isFreeplay:Bool = false;
 	public static var menuBG:FlxSprite;
 
 	function openSelectedSubstate(label:String) {
@@ -104,7 +106,12 @@ class ModifierMenuState extends MusicBeatState
 
 		if (controls.BACK) {
 			FlxG.sound.play(Paths.sound('cancelMenu'));
-			MusicBeatState.switchState(new MainMenuState());
+			if (!isFreeplay) {
+				isFreeplay = false;
+				MusicBeatState.switchState(new OptionsState());
+			} else {
+				MusicBeatState.switchState(new FreeplayState());
+			}
 		}
 
 		if (controls.ACCEPT) {

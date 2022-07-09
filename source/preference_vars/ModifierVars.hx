@@ -47,6 +47,18 @@ class ModifierVars {
 	public static var amogus:Bool = false;
 	public static var drugsMulti:Float = 1.15;
 
+	/*
+	public static var modMap:Map<String, Dynamic> = [
+		'hardcoremode' => false,
+		'pussymode' => false, 
+		'practice' => false,
+		'botplay' => false,
+		'healthdrain' => false,
+		'healthdrainamount' => 0.1,
+		'songspeed' => 0
+	];
+	*/
+
 	public static function saveMods() {
 
 		/* Gamemodes */
@@ -85,6 +97,8 @@ class ModifierVars {
 		FlxG.save.data.drugs = drugs;
 		FlxG.save.data.amogus = amogus;
 		FlxG.save.data.drugsMulti = 0;
+
+		// FlxG.save.data.modMap = modMap;
 
 		/* Saving */
 		FlxG.save.flush();
@@ -210,5 +224,20 @@ class ModifierVars {
 		if (FlxG.save.data.drugsMulti != null) {
 			drugsMulti = FlxG.save.data.drugsMulti;
 		}
+
+		/*
+		if(FlxG.save.data.modMap != null)
+		{
+			var savedMap:Map<String, Dynamic> = FlxG.save.data.modMap;
+			for (name => value in savedMap)
+			{
+				modMap.set(name, value);
+			}
+		}
+		*/
 	}
+
+	/* inline public static function getGameplaySetting(name:String, defaultValue:Dynamic):Dynamic {
+		return PlayState.isStoryMode ? defaultValue : (modMap.exists(name) ? modMap.get(name) : defaultValue);
+	} */
 }

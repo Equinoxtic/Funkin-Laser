@@ -22,6 +22,7 @@ import funkin_stuff.Highscore;
 import funkin_stuff.Song;
 import preference_vars.ClientPrefs;
 import preference_vars.ModifierVars;
+import modifier_menu.ModifierMenuState;
 import WeekData;
 
 using StringTools;
@@ -315,7 +316,8 @@ class FreeplayState extends MusicBeatState
 			}
 
 			if (FlxG.keys.justPressed.CONTROL) {
-				openSubState(new modifier_menu.FreeplayModMenu());
+				ModifierMenuState.isFreeplay = true;
+				MusicBeatState.switchState(new ModifierMenuState());
 			}
 		}
 
