@@ -13,7 +13,7 @@ class UIPrefs
 	public static var uiStyle:String = 'Standard';
 	public static var judgementStyle:String = 'FNF';
 	public static var iconSet:String = 'FNF';
-	public static var strumStyle:String = 'Normal';
+	// public static var strumStyle:String = 'Normal';
 	public static var uiType:String = "Normal";
 	
 	/* Visual Effects
@@ -38,7 +38,7 @@ class UIPrefs
 		FlxG.save.data.uiStyle = uiStyle;
 		FlxG.save.data.judgementStyle = judgementStyle;
 		FlxG.save.data.iconSet = iconSet;
-		FlxG.save.data.strumStyle = strumStyle;
+		// FlxG.save.data.strumStyle = strumStyle;
 		FlxG.save.data.uiType = uiType;
 
 		/* Visual Effects
@@ -72,9 +72,9 @@ class UIPrefs
 			iconSet = FlxG.save.data.iconSet;
 		}
 
-		if (FlxG.save.data.strumStyle != null) {
+		/* if (FlxG.save.data.strumStyle != null) {
 			strumStyle = FlxG.save.data.strumStyle;
-		}
+		} */
 
 		if (FlxG.save.data.uiType != null) {
 			uiType = FlxG.save.data.uiType;
