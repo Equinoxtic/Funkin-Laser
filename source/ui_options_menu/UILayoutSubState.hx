@@ -60,13 +60,13 @@ class UILayoutSubState extends BaseUIOptionsMenu
 			['FNF', 'FPS+', 'Mic\'d up']);
 		addOption(option);
 
-		var option:UIOption = new UIOption('Strum Style',
+		/* var option:UIOption = new UIOption('Strum Style',
 			"Set the style of the strumline!",
 			'strumStyle',
 			'string',
 			'Normal',
 			['Normal', 'Middle Scroll (Old)', 'Middle Scroll (New)', 'Opaque Enemy Strums']);
-		addOption(option);
+		addOption(option); */
 
 		var option:UIOption = new UIOption('UI Type',
 			"If enabled, it will show advanced statistics.\n(i.e. current step and beat and etc.)",

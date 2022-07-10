@@ -1563,7 +1563,7 @@ class PlayState extends MusicBeatState
 				notes.forEachAlive(function(note:Note) {
 					note.copyAlpha = false;
 					note.alpha = note.multAlpha;
-					if(ClientPrefs.middleScroll && !note.mustPress && UIPrefs.strumStyle == 'Middle Scroll (New)') {
+					if(ClientPrefs.middleScroll && !note.mustPress) {
 						note.alpha *= 0.5;
 					}
 				});
@@ -1801,7 +1801,7 @@ class PlayState extends MusicBeatState
 							{
 								sustainNote.x += FlxG.width / 2; // general offset
 							}
-							else if(ClientPrefs.middleScroll && UIPrefs.strumStyle == 'Middle Scroll (New)')
+							else if(ClientPrefs.middleScroll)
 							{
 								sustainNote.x += 310;
 								if(daNoteData > 1) //Up and Right
@@ -1816,7 +1816,7 @@ class PlayState extends MusicBeatState
 					{
 						swagNote.x += FlxG.width / 2; // general offset
 					}
-					else if(ClientPrefs.middleScroll && UIPrefs.strumStyle == 'Middle Scroll (New)')
+					else if(ClientPrefs.middleScroll)
 					{
 						swagNote.x += 310;
 						if(daNoteData > 1) //Up and Right
@@ -1918,7 +1918,7 @@ class PlayState extends MusicBeatState
 			}
 			else
 			{
-				if(ClientPrefs.middleScroll && UIPrefs.strumStyle == 'Middle Scroll (New)')
+				if(ClientPrefs.middleScroll)
 				{
 					babyArrow.x += 310;
 					if(i > 1) { //Up and Right
@@ -2268,7 +2268,7 @@ class PlayState extends MusicBeatState
 		}
 
 		if (ModifierVars.noFail) {
-			health = 1;
+			health += 2 * 100;
 		}
 
 		if (ModifierVars.screenShake) {
@@ -2293,7 +2293,7 @@ class PlayState extends MusicBeatState
 		}
 
 		if (ModifierVars.healthDrain) {
-			health -= ModifierVars.healthDrainAmount * (health/22);
+			health -= (ModifierVars.healthDrainAmount / 16) * (health/22);
 		}
 
 		// var credit:String = Assets.getText(Paths.txt(curSong.toLowerCase().replace(' ', '-') + "/" + "credit"));
@@ -2533,7 +2533,7 @@ class PlayState extends MusicBeatState
 			var fakeCrochet:Float = (60 / SONG.bpm) * 1000;
 			notes.forEachAlive(function(daNote:Note)
 			{
-				if(!daNote.mustPress && ClientPrefs.middleScroll && UIPrefs.strumStyle == 'Middle Scroll (New)')
+				if(!daNote.mustPress && ClientPrefs.middleScroll)
 				{
 					daNote.active = true;
 					daNote.visible = false;
@@ -4068,7 +4068,7 @@ class PlayState extends MusicBeatState
 				}
 			}
 
-			if (ModifierVars.healthDrain || ModifierVars.pussyMode) {
+			if (ModifierVars.pussyMode) {
 				health += 0.05 * (health/22);
 			}
 
