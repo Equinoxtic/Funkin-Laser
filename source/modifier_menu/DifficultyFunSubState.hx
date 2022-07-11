@@ -73,11 +73,11 @@ class DifficultyFunSubState extends BaseModOptionsMenu
 			"Set how fast the song should be.",
 			'songSpeed',
 			'float',
-			0);
+			1);
 		addOption(option);
 		option.displayFormat = '%v';
 		option.scrollSpeed = 15;
-		option.minValue = 0;
+		option.minValue = 1;
 		option.maxValue = 3.5;
 		option.changeValue = 0.1;
 		option.decimals = 1;

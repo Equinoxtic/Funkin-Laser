@@ -18,7 +18,7 @@ class ModifierVars {
 	public static var healthDrain:Bool = false;
 	public static var screenShake:Bool = false;
 	public static var enigma:Bool = false;
-	public static var songSpeed:Float = 0;
+	public static var songSpeed:Float = 1;
 	public static var healthDrainAmount:Float = 0.1;
 	public static var screenShakeIntensity:Float = 0.005;
 

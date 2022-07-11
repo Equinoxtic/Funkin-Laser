@@ -260,6 +260,10 @@ class PlayState extends MusicBeatState
 	var cockScoreZoom:FlxTween;
 	var cockScoreTmr:FlxTimer;
 
+	var vignette:FlxSprite;
+	var vignetteOverlay:FlxSprite;
+	var vignetteDesat:FlxSprite;
+
 	public static var campaignScore:Int = 0;
 	public static var campaignMisses:Int = 0;
 	public static var seenCutscene:Bool = false;
@@ -950,30 +954,28 @@ class PlayState extends MusicBeatState
 		scoreTxt.visible = !ClientPrefs.hideHud;
 		add(scoreTxt);
 
-		if (ClientPrefs.advancedScoring) {
-			cockScoreTxt = new FlxText(0, healthBarBG.y - 36, FlxG.width, "", 20);
-			cockScoreTxt.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-			cockScoreTxt.scrollFactor.set();
-			cockScoreTxt.borderSize = 1.25;
-			cockScoreTxt.visible = !ClientPrefs.hideHud;
-			cockScoreTxt.alpha = 0;
-			add(cockScoreTxt);
+		cockScoreTxt = new FlxText(0, healthBarBG.y - 36, FlxG.width, "", 20);
+		cockScoreTxt.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		cockScoreTxt.scrollFactor.set();
+		cockScoreTxt.borderSize = 1.25;
+		cockScoreTxt.visible = (!ClientPrefs.hideHud && ClientPrefs.advancedScoring);
+		cockScoreTxt.alpha = 0;
+		add(cockScoreTxt);
 
-			chainTxt = new FlxText(0, healthBarBG.y -36 * 2, FlxG.width, "PERFECT CHAIN!", 20);
-			chainTxt.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-			chainTxt.scrollFactor.set();
-			chainTxt.borderSize = 1.25;
-			chainTxt.visible = !ClientPrefs.hideHud;
-			chainTxt.alpha = 0;
-			add(chainTxt);
-		}
+		chainTxt = new FlxText(0, healthBarBG.y -36 * 2, FlxG.width, "PERFECT CHAIN!", 20);
+		chainTxt.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		chainTxt.scrollFactor.set();
+		chainTxt.borderSize = 1.25;
+		chainTxt.visible = (!ClientPrefs.hideHud && ClientPrefs.advancedScoring);
+		chainTxt.alpha = 0;
+		add(chainTxt);
 
 		judgementData = new FlxText(10 * 2, healthBarBG.y - 275, FlxG.width, "", 20);
 		judgementData.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		judgementData.scrollFactor.set();
 		judgementData.borderSize = 1.25;
 		// judgementData.visible = !ClientPrefs.hideHud;
-		judgementData.visible = ClientPrefs.showJudgementData;
+		judgementData.visible = (ClientPrefs.showJudgementData && !ClientPrefs.hideHud);
 		add(judgementData);
 
 		extraSongDets = new FlxText(-10 * 2, healthBarBG.y - 20, FlxG.width, "", 20);
@@ -997,22 +999,43 @@ class PlayState extends MusicBeatState
 		extraShitText.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		extraShitText.scrollFactor.set();
 		extraShitText.borderSize = 1.25;
+		extraShitText.visible = (UIPrefs.uiType == "Advanced") ? true : false;
 		
 		moreExtraShit = new FlxText(-10 * 2, extraSongDets.y - (20 * 8), FlxG.width, "", 20);
 		moreExtraShit.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		moreExtraShit.scrollFactor.set();
 		moreExtraShit.borderSize = 1.25;
+		moreExtraShit.visible = (UIPrefs.uiType == "Advanced") ? true : false;
 		
 		moreMoreExtraShit = new FlxText(10 * 2, extraSongDets.y - (20 * 4), FlxG.width, "", 20);
 		moreMoreExtraShit.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		moreMoreExtraShit.scrollFactor.set();
 		moreMoreExtraShit.borderSize = 1.25;
+		moreMoreExtraShit.visible = (UIPrefs.uiType == "Advanced") ? true : false;
 		
-		if (UIPrefs.uiType == "Advanced") {
-			add(extraShitText);
-			add(moreExtraShit);
-			add(moreMoreExtraShit);
-		}
+		add(extraShitText);
+		add(moreExtraShit);
+		add(moreMoreExtraShit);
+
+		vignetteOverlay = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		vignetteOverlay.setGraphicSize(Std.int(vignetteOverlay.width * 1.1));
+		vignetteOverlay.scrollFactor.set();
+		vignetteOverlay.screenCenter();
+		vignetteOverlay.alpha = ModifierVars.lvIntensity - 0.75;
+		add(vignetteOverlay);
+
+		vignette = new FlxSprite().loadGraphic(Paths.image('vignette'));
+		vignette.scrollFactor.set();
+		vignette.screenCenter();
+		vignette.antialiasing = ClientPrefs.globalAntialiasing;
+		vignette.alpha = ModifierVars.lvIntensity;
+		add(vignette);
+
+		vignetteDesat = new FlxSprite().loadGraphic(Paths.image('vignette_desat'));
+		vignetteDesat.scrollFactor.set();
+		vignetteDesat.antialiasing = ClientPrefs.globalAntialiasing;
+		vignetteDesat.alpha = 0;
+		add(vignetteDesat);
 
 		strumLineNotes.cameras = [camHUD];
 		grpNoteSplashes.cameras = [camHUD];
@@ -1033,6 +1056,9 @@ class PlayState extends MusicBeatState
 		timeBar.cameras = [camHUD];
 		timeBarBG.cameras = [camHUD];
 		timeTxt.cameras = [camHUD];
+		vignette.cameras = [camHUD];
+		vignetteOverlay.cameras = [camHUD];
+		vignetteDesat.cameras = [camHUD];
 		doof.cameras = [camHUD];
 
 		// if (SONG.song == 'South')

@@ -99,8 +99,8 @@ class DifficultyIncreaseSubState extends BaseModOptionsMenu
 		option.scrollSpeed = 25;
 		option.minValue = 0.1;
 		option.maxValue = 2;
-		option.changeValue = 0.1;
-		option.decimals = 1;
+		option.changeValue = 0.05;
+		option.decimals = 2;
 
 		var option:ModOption = new ModOption("Nausea Intensity",
 			"Set how strong the nausea effect should be.",
