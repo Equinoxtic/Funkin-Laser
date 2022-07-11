@@ -27,11 +27,15 @@ class UIPrefs
 	/* UI Behaviour */
 	public static var noteskin:String = 'Arrows';
 	public static var timeShowing:String = 'Time Left';
-	public static var pauseMusic:String = 'Breakfast';
 	public static var iconBop:Bool = true;
 	public static var scoreZooming:Bool = true;
 	public static var healthBarType:String = "Default";
 	public static var timeBarColors:Bool = false;
+	
+	/** Sound & Music Effects **/
+	public static var hitsounds:Bool = true;
+	public static var hitsoundsVolume:Float = 0.5;
+	public static var pauseMusic:String = 'Breakfast';
 	
 	public static function saveUIPrefs()
 	{

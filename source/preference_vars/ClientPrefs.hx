@@ -25,7 +25,7 @@ class ClientPrefs {
 	public static var imagesPersist:Bool = false;
 	public static var ghostTapping:Bool = true;
 	public static var hideTime:Bool = false;
-	public static var hitsounds:Bool = false;
+	// public static var hitsounds:Bool = false;
 	public static var showJudgementData:Bool = true;
 	public static var allowVictoryScreen:Bool = true;
 	public static var winningIcons:Bool = true;
@@ -95,7 +95,7 @@ class ClientPrefs {
 		FlxG.save.data.imagesPersist = imagesPersist;
 		FlxG.save.data.ghostTapping = ghostTapping;
 		FlxG.save.data.hideTime = hideTime;
-		FlxG.save.data.hitsounds = hitsounds;
+		// FlxG.save.data.hitsounds = hitsounds;
 		FlxG.save.data.showJudgementData = showJudgementData;
 		FlxG.save.data.allowVictoryScreen = allowVictoryScreen;
 		FlxG.save.data.winningIcons = winningIcons;
@@ -191,9 +191,9 @@ class ClientPrefs {
 		if(FlxG.save.data.hideTime != null) {
 			hideTime = FlxG.save.data.hideTime;
 		}
-		if(FlxG.save.data.hitsounds != null) {
+		/* if(FlxG.save.data.hitsounds != null) {
 			hitsounds = FlxG.save.data.hitsounds;
-		}
+		} */
 		if(FlxG.save.data.showJudgementData != null) {
 			showJudgementData = FlxG.save.data.showJudgementData;
 		}

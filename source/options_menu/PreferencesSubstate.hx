@@ -52,7 +52,7 @@ class PreferencesSubstate extends MusicBeatSubstate
 		'Framerate', //Apparently 120FPS isn't correctly supported on Browser? Probably it has some V-Sync shit enabled by default, idk
 		#end
 		'GAMEPLAY',
-		'Hitsounds',
+		// 'Hitsounds',
 		'Downscroll',
 		'Middlescroll',
 		'Ghost Tapping',
@@ -241,8 +241,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 					case 'Swearing':
 						ClientPrefs.cursing = !ClientPrefs.cursing;
 
-					case 'Hitsounds':
-						ClientPrefs.hitsounds = !ClientPrefs.hitsounds;
+					/* case 'Hitsounds':
+						ClientPrefs.hitsounds = !ClientPrefs.hitsounds; */
 
 					case 'Downscroll':
 						ClientPrefs.downScroll = !ClientPrefs.downScroll;
@@ -352,8 +352,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 				daText = "If checked, images loaded will stay in memory\nuntil the game is closed, this increases memory usage,\nbut basically makes reloading times instant.";
 			case 'Anti-Aliasing':
 				daText = "If unchecked, disables anti-aliasing, increases performance\nat the cost of the graphics not looking as smooth.";
-			case 'Hitsounds':
-				daText = "If checked, each note hit will play a hit sound.";
+			/* case 'Hitsounds':
+				daText = "If checked, each note hit will play a hit sound."; */
 			case 'Downscroll':
 				daText = "If checked, notes go Down instead of Up, simple enough.";
 			case 'Middlescroll':
@@ -438,8 +438,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 						daValue = ClientPrefs.noteSplashes;
 					case 'Flashing Lights':
 						daValue = ClientPrefs.flashing;
-					case 'Hitsounds':
-						daValue = ClientPrefs.hitsounds;
+					/* case 'Hitsounds':
+						daValue = ClientPrefs.hitsounds; */
 					case 'Downscroll':
 						daValue = ClientPrefs.downScroll;
 					case 'Middlescroll':

@@ -4041,8 +4041,8 @@ class PlayState extends MusicBeatState
 				adCombo += 1;
 				popUpScore(note);
 				if(combo > 9999) combo = 9999;
-				if(ClientPrefs.hitsounds) {
-					FlxG.sound.play(Paths.sound('hitsound'));
+				if(UIPrefs.hitsounds) {
+					FlxG.sound.play(Paths.sound('hitsound'), UIPrefs.hitsoundsVolume);
 				}
 			} else {
 				sustainingg = true;

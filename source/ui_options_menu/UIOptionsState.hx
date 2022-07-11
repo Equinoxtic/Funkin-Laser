@@ -32,7 +32,7 @@ using StringTools;
 
 class UIOptionsState extends MusicBeatState
 {
-	var options:Array<String> = ['UI Layout', 'UI Behaviour'];
+	var options:Array<String> = ['UI Layout', 'UI Behaviour', 'Sound & Music Effects'];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private static var curSelected:Int = 0;
 	public static var menuBG:FlxSprite;
@@ -43,6 +43,8 @@ class UIOptionsState extends MusicBeatState
 				openSubState(new UILayoutSubState());
 			case 'UI Behaviour':
 				openSubState(new UIBehaviourSubState());
+			case 'Sound & Music Effects':
+				openSubState(new UISoundSettings());
 		}
 	}
 
