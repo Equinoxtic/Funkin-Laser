@@ -260,10 +260,6 @@ class PlayState extends MusicBeatState
 	var cockScoreZoom:FlxTween;
 	var cockScoreTmr:FlxTimer;
 
-	var vignette:FlxSprite;
-	var vignetteOverlay:FlxSprite;
-	var vignetteDesat:FlxSprite;
-
 	public static var campaignScore:Int = 0;
 	public static var campaignMisses:Int = 0;
 	public static var seenCutscene:Bool = false;
@@ -1018,26 +1014,6 @@ class PlayState extends MusicBeatState
 			add(moreMoreExtraShit);
 		}
 
-		/* vignetteOverlay = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-		vignetteOverlay.setGraphicSize(Std.int(vignetteOverlay.width * 1.1));
-		vignetteOverlay.scrollFactor.set();
-		vignetteOverlay.screenCenter();
-		vignetteOverlay.alpha = ModifierVars.lvIntensity - 0.75;
-		add(vignetteOverlay);
-
-		vignette = new FlxSprite().loadGraphic(Paths.image('vignette'));
-		vignette.scrollFactor.set();
-		vignette.screenCenter();
-		vignette.antialiasing = ClientPrefs.globalAntialiasing;
-		vignette.alpha = ModifierVars.lvIntensity;
-		add(vignette); */
-
-		/* vignetteDesat = new FlxSprite().loadGraphic(Paths.image('vignette_desat'));
-		vignetteDesat.scrollFactor.set();
-		vignetteDesat.antialiasing = ClientPrefs.globalAntialiasing;
-		vignetteDesat.alpha = 0;
-		add(vignetteDesat); */
-
 		strumLineNotes.cameras = [camHUD];
 		grpNoteSplashes.cameras = [camHUD];
 		notes.cameras = [camHUD];
@@ -1057,9 +1033,6 @@ class PlayState extends MusicBeatState
 		timeBar.cameras = [camHUD];
 		timeBarBG.cameras = [camHUD];
 		timeTxt.cameras = [camHUD];
-		vignette.cameras = [camHUD];
-		vignetteOverlay.cameras = [camHUD];
-		// vignetteDesat.cameras = [camHUD];
 		doof.cameras = [camHUD];
 
 		// if (SONG.song == 'South')
@@ -2450,7 +2423,7 @@ class PlayState extends MusicBeatState
 			iconP1.animation.curAnim.curFrame = 1;
 		else
 			iconP1.animation.curAnim.curFrame = 0;
-		
+
 		if (healthBar.percent > 80)
 			iconP2.animation.curAnim.curFrame = 1;
 		else
