@@ -27,6 +27,8 @@ import options_classes.Option;
 import base_options.BaseOptionsMenu;
 import Controls;
 
+using StringTools;
+
 class GraphicsSettings extends BaseOptionsMenu
 {
 	public function new()
@@ -56,6 +58,13 @@ class GraphicsSettings extends BaseOptionsMenu
 		var option:Option = new Option("Anti-Aliasing",
 			"If unchecked, disables anti-aliasing, increases performance\nat the cost of the graphics not looking as smooth.",
 			'globalAntialiasing',
+			'bool',
+			true);
+		addOption(option);
+
+		var option:Option = new Option("Flashing Lights",
+			"Uncheck this if you're sensitive to flashing lights!",
+			'flashing',
 			'bool',
 			true);
 		addOption(option);
