@@ -2461,13 +2461,8 @@ class PlayState extends MusicBeatState
 		}
 
 		if (UIPrefs.useVignette && !ModifierVars.limitedVision) {
-			var percent:Float = healthBar.percent / 100;
-			if (healthBar.percent != 5) {
-				vignetteDesat.color = FlxColor.fromRGB(boyfriend.healthColorArray[0], boyfriend.healthColorArray[1], boyfriend.healthColorArray[2]);
-			} else {
-				vignetteDesat.color = FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]);
-			}
-			FlxTween.tween(vignetteDesat, {alpha: (healthBar.percent != 5) ? percent - 0.65 : percent + 0.65}, 3);
+			vignetteDesat.color = FlxColor.fromRGB(boyfriend.healthColorArray[0], boyfriend.healthColorArray[1], boyfriend.healthColorArray[2]);
+			FlxTween.tween(vignetteDesat, {alpha: (healthBar.percent / 100) - 0.5}, 3);
 		}
 
 		if (FlxG.keys.justPressed.EIGHT && !endingSong && !inCutscene) {
