@@ -1021,7 +1021,8 @@ class PlayState extends MusicBeatState
 		vignetteOverlay.setGraphicSize(Std.int(vignetteOverlay.width * 1.1));
 		vignetteOverlay.scrollFactor.set();
 		vignetteOverlay.screenCenter();
-		vignetteOverlay.alpha = ModifierVars.lvIntensity - 1.75;
+		vignetteOverlay.alpha = ModifierVars.lvIntensity - 1.5;
+		vignetteOverlay.visible = ModifierVars.limitedVision;
 		add(vignetteOverlay);
 
 		vignette = new FlxSprite().loadGraphic(Paths.image('vignette'));
@@ -1029,12 +1030,14 @@ class PlayState extends MusicBeatState
 		vignette.screenCenter();
 		vignette.antialiasing = ClientPrefs.globalAntialiasing;
 		vignette.alpha = ModifierVars.lvIntensity;
+		vignette.visible = ModifierVars.limitedVision;
 		add(vignette);
 
 		vignetteDesat = new FlxSprite().loadGraphic(Paths.image('vignette_desat'));
 		vignetteDesat.scrollFactor.set();
 		vignetteDesat.antialiasing = ClientPrefs.globalAntialiasing;
 		vignetteDesat.alpha = 0;
+		vignetteDesat.visible = UIPrefs.useVignette;
 		add(vignetteDesat);
 
 		strumLineNotes.cameras = [camHUD];
@@ -2445,15 +2448,27 @@ class PlayState extends MusicBeatState
 		if (health > 2)
 			health = 2;
 
-		if (healthBar.percent < 20)
+		if (healthBar.percent < 20) {
 			iconP1.animation.curAnim.curFrame = 1;
-		else
+		} else {
 			iconP1.animation.curAnim.curFrame = 0;
+		}
 
-		if (healthBar.percent > 80)
+		if (healthBar.percent > 80) {
 			iconP2.animation.curAnim.curFrame = 1;
-		else
+		} else {
 			iconP2.animation.curAnim.curFrame = 0;
+		}
+
+		if (UIPrefs.useVignette && !ModifierVars.limitedVision) {
+			var percent:Float = healthBar.percent / 100;
+			if (healthBar.percent != 5) {
+				vignetteDesat.color = FlxColor.fromRGB(boyfriend.healthColorArray[0], boyfriend.healthColorArray[1], boyfriend.healthColorArray[2]);
+			} else {
+				vignetteDesat.color = FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]);
+			}
+			FlxTween.tween(vignetteDesat, {alpha: (healthBar.percent != 5) ? percent - 0.65 : percent + 0.65}, 3);
+		}
 
 		if (FlxG.keys.justPressed.EIGHT && !endingSong && !inCutscene) {
 			// resetShit();

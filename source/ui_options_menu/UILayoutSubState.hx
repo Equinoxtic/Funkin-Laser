@@ -88,6 +88,7 @@ class UILayoutSubState extends BaseUIOptionsMenu
 			'bool',
 			false);
 		addOption(option);
+		*/
 
 		var option:UIOption = new UIOption("Player and Enemy Vignette",
 			"Vignette for Enemy and Player's vignette.",
@@ -95,6 +96,5 @@ class UILayoutSubState extends BaseUIOptionsMenu
 			'bool',
 			false);
 		addOption(option);
-		*/
 	}
 }
