@@ -1021,7 +1021,7 @@ class PlayState extends MusicBeatState
 		vignetteOverlay.setGraphicSize(Std.int(vignetteOverlay.width * 1.1));
 		vignetteOverlay.scrollFactor.set();
 		vignetteOverlay.screenCenter();
-		vignetteOverlay.alpha = ModifierVars.lvIntensity - 0.75;
+		vignetteOverlay.alpha = ModifierVars.lvIntensity - 1.75;
 		add(vignetteOverlay);
 
 		vignette = new FlxSprite().loadGraphic(Paths.image('vignette'));
