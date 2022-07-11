@@ -15,6 +15,7 @@ class UIPrefs
 	public static var iconSet:String = 'FNF';
 	// public static var strumStyle:String = 'Normal';
 	public static var uiType:String = "Normal";
+	// public static var useVignette:Bool = true;
 	
 	/* Visual Effects
 	public static var highscoreVignette:Bool = false;
@@ -40,6 +41,7 @@ class UIPrefs
 		FlxG.save.data.iconSet = iconSet;
 		// FlxG.save.data.strumStyle = strumStyle;
 		FlxG.save.data.uiType = uiType;
+		// FlxG.save.data.useVignette = useVignette;
 
 		/* Visual Effects
 		FlxG.save.data.vfxModcharts = vfxModcharts;
@@ -79,6 +81,10 @@ class UIPrefs
 		if (FlxG.save.data.uiType != null) {
 			uiType = FlxG.save.data.uiType;
 		}
+
+		/* if (FlxG.save.data.useVignette != null) {
+			useVignette = FlxG.save.data.useVignette;
+		} */
 
 		/* Visual Effects
 		if (FlxG.save.data.vfxModcharts != null) {

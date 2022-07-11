@@ -35,7 +35,12 @@ class UILayoutSubState extends BaseUIOptionsMenu
 	{
 		title = 'UI Layout';
 		rpcTitle = 'UI Options - UI Layout';
-
+		getOptions();
+		super();
+	}
+	
+	public function getOptions()
+	{
 		var option:UIOption = new UIOption('UI Style',
 			"Set the UI Style to something fancy!",
 			'uiStyle',
@@ -76,6 +81,20 @@ class UILayoutSubState extends BaseUIOptionsMenu
 			['Normal', 'Advanced']);
 		addOption(option);
 
-		super();
+		/*
+		var option:UIOption = new UIOption("Static Icons",
+			"Whether the Icons should stay in one place or not.",
+			'staticIcons',
+			'bool',
+			false);
+		addOption(option);
+
+		var option:UIOption = new UIOption("Player and Enemy Vignette",
+			"Vignette for Enemy and Player's vignette.",
+			'useVignette',
+			'bool',
+			false);
+		addOption(option);
+		*/
 	}
 }
