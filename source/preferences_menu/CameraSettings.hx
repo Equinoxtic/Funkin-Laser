@@ -29,4 +29,37 @@ import Controls;
 
 using StringTools;
 
-// TODO: Finish this code idk
+class CameraSettings extends BaseOptionsMenu
+{
+	public function new()
+	{
+		title = "Camera Settings";
+		rpcTitle = "Preferences - Camera Settings";
+		getOptions();
+		super();
+	}
+
+	function getOptions()
+	{
+		var option:Option = new Option("Camera Zooms",
+			"If unchecked, the camera won't zoom in on a beat hit.",
+			'camZooms',
+			'bool',
+			true);
+		addOptions(option);
+
+		var option:Option = new Option("Hide HUD",
+			"If checked, hides most HUD elements.",
+			'hideHud',
+			'bool',
+			false);
+		addOption(option);
+
+		var option:Option = new Option("Directional Camera",
+			"If checked, the camera moves with the focused character's directional animations.",
+			'directionalCamera',
+			'bool',
+			true);
+		addOption(option);
+	}
+}
