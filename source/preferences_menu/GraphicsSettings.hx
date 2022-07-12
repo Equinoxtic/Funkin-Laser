@@ -33,8 +33,8 @@ class GraphicsSettings extends BaseOptionsMenu
 {
 	public function new()
 	{
-		title = "Graphics";
-		rpcTitle = "Preferences - Graphics";
+		title = "Graphics Settings";
+		rpcTitle = "Preferences - Graphics Settings";
 		getOptions();
 		super();
 	}
