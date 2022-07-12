@@ -919,7 +919,7 @@ class PlayState extends MusicBeatState
 		healthBarBG.y = FlxG.height * 0.89;
 		healthBarBG.screenCenter(X);
 		healthBarBG.scrollFactor.set();
-		healthBarBG.visible = !ClientPrefs.hideHud;
+		healthBarBG.visible = (!ClientPrefs.hideHud || ModifierVars.enigma);
 		healthBarBG.xAdd = -4;
 		healthBarBG.yAdd = -4;
 		add(healthBarBG);
@@ -935,12 +935,12 @@ class PlayState extends MusicBeatState
 
 		iconP1 = new HealthIcon(boyfriend.healthIcon, true);
 		iconP1.y = healthBar.y - (iconP1.height / 2);
-		iconP1.visible = !ClientPrefs.hideHud;
+		iconP1.visible = (!ClientPrefs.hideHud || ModifierVars.enigma);
 		add(iconP1);
 
 		iconP2 = new HealthIcon(dad.healthIcon, false);
 		iconP2.y = healthBar.y - (iconP2.height / 2);
-		iconP2.visible = !ClientPrefs.hideHud;
+		iconP2.visible = (!ClientPrefs.hideHud || ModifierVars.enigma);
 		add(iconP2);
 		
 		reloadHealthBarColors(UIPrefs.healthBarType, "Default");
@@ -1170,11 +1170,6 @@ class PlayState extends MusicBeatState
 		DiscordClient.changePresence(detailsText, SONG.song + " - " + SONG.credit + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 		#end
 		super.create();
-
-		if (ModifierVars.enigma) {
-			healthBar.alpha = 0;
-			healthBarBG.alpha = 0;
-		}
 	}
 
 	function set_songSpeed(value:Float):Float
@@ -3785,7 +3780,6 @@ class PlayState extends MusicBeatState
 			{
 				coolText.destroy();
 				comboSpr.destroy();
-
 				rating.destroy();
 			},
 			startDelay: Conductor.crochet * 0.001
