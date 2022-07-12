@@ -80,7 +80,6 @@ class OptionsState extends MusicBeatState
 			optionText.y += (100 * (i - (options.length / 2))) + 50;
 			grpOptions.add(optionText);
 		}
-		changeSelection();
 
 		selectorLeft = new Alphabet(0, 0, ">", true, false);
 		add(selectorLeft);

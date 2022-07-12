@@ -32,7 +32,7 @@ using StringTools;
 
 class UIOptionsState extends MusicBeatState
 {
-	var options:Array<String> = ['UI Layout', 'UI Behaviour', 'Sound & Music Effects'];
+	var options:Array<String> = ['UI Layout', 'UI Behaviour', 'Sound and Music'];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private static var curSelected:Int = 0;
 	public static var menuBG:FlxSprite;
@@ -103,7 +103,7 @@ class UIOptionsState extends MusicBeatState
 
 		if (controls.BACK) {
 			FlxG.sound.play(Paths.sound('cancelMenu'));
-			MusicBeatState.switchState(new MainMenuState());
+			MusicBeatState.switchState(new options_menu.OptionsState());
 		}
 
 		if (controls.ACCEPT) {

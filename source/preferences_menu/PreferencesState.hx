@@ -54,7 +54,7 @@ class PreferencesState extends MusicBeatState
 
 	override function create() {
 		#if desktop
-		DiscordClient.changePresence("UI Options Menu", null);
+		DiscordClient.changePresence("Preferences Menu", null);
 		#end
 
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
@@ -76,13 +76,10 @@ class PreferencesState extends MusicBeatState
 			grpOptions.add(optionText);
 		}
 
-		selectorLeft = new Alphabet(0, 0, '>', true, false);
+		selectorLeft = new Alphabet(0, 0, ">", true, false);
 		add(selectorLeft);
-		selectorRight = new Alphabet(0, 0, '<', true, false);
+		selectorRight = new Alphabet(0, 0, "<", true, false);
 		add(selectorRight);
-
-		changeSelection();
-		ClientPrefs.saveSettings();
 
 		super.create();
 	}
@@ -90,6 +87,7 @@ class PreferencesState extends MusicBeatState
 	override function closeSubState() {
 		super.closeSubState();
 		ClientPrefs.saveSettings();
+		changeSelection();
 	}
 
 	override function update(elapsed:Float) {
