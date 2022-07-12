@@ -2457,7 +2457,7 @@ class PlayState extends MusicBeatState
 
 		if (UIPrefs.useVignette && !ModifierVars.limitedVision) {
 			vignetteDesat.color = FlxColor.fromRGB(boyfriend.healthColorArray[0], boyfriend.healthColorArray[1], boyfriend.healthColorArray[2]);
-			FlxTween.tween(vignetteDesat, {alpha: (healthBar.percent / 100) - 0.5}, 3);
+			FlxTween.tween(vignetteDesat, {alpha: (healthBar.percent / 100) - 0.65}, 2.5);
 		}
 
 		if (FlxG.keys.justPressed.EIGHT && !endingSong && !inCutscene) {
