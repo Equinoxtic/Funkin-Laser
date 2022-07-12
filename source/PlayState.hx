@@ -3564,7 +3564,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if(daRating == 'marvelous' && !note.noteSplashDisabled) {
+		if(daRating == 'sick' && !note.noteSplashDisabled) {
 			spawnNoteSplashOnNote(note);
 		}
 		
