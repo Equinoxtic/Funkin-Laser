@@ -3756,7 +3756,7 @@ class PlayState extends MusicBeatState
 
 			// if (combo >= 10)
 
-			add(numScore);
+			insert(members.indexOf(strumLineNotes), numScore);
 
 			FlxTween.tween(numScore, {alpha: 0}, 0.2, {
 				onComplete: function(tween:FlxTween)
