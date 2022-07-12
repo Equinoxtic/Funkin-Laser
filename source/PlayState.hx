@@ -1073,20 +1073,23 @@ class PlayState extends MusicBeatState
 		updateTime = true;
 
 		#if (MODS_ALLOWED && LUA_ALLOWED)
-		var doPush:Bool = false;
-		var luaFile:String = 'data/' + Paths.formatToSongPath(SONG.song) + '/script.lua';
-		if(FileSystem.exists(Paths.modFolders(luaFile))) {
-			luaFile = Paths.modFolders(luaFile);
-			doPush = true;
-		} else {
-			luaFile = Paths.getPreloadPath(luaFile);
-			if(FileSystem.exists(luaFile)) {
+		if (!ModifierVars.disabledModcharts) {
+			var doPush:Bool = false;
+			var luaFile:String = 'data/' + Paths.formatToSongPath(SONG.song) + '/script.lua';
+			if(FileSystem.exists(Paths.modFolders(luaFile))) {
+				luaFile = Paths.modFolders(luaFile);
 				doPush = true;
+			} else {
+				luaFile = Paths.getPreloadPath(luaFile);
+				if(FileSystem.exists(luaFile)) {
+					doPush = true;
+				}
+			}
+
+			if(doPush) {
+				luaArray.push(new FunkinLua(luaFile));
 			}
 		}
-		
-		if(doPush) 
-			luaArray.push(new FunkinLua(luaFile));
 		#end
 		
 		var daSong:String = Paths.formatToSongPath(curSong);
@@ -2300,7 +2303,7 @@ class PlayState extends MusicBeatState
 			camHUD.shake(ModifierVars.screenShakeIntensity, 0.1);
 		}
 
-		if (ModifierVars.hardcoreMode && !pausedHardcoreModchart) {
+		if (ModifierVars.hardcoreMode && !pausedHardcoreModchart && !ModifierVars.disabledModcharts) {
 			var songPos = Conductor.songPosition;
 			var curBpm = Conductor.bpm;
 			var currentBeat = (songPos/100)/(curBpm/70);
