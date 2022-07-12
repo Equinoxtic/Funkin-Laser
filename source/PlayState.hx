@@ -1726,8 +1726,12 @@ class PlayState extends MusicBeatState
 			songSpeed = SONG.speed - 0.75 + ModifierVars.songSpeed;
 		}
 
-		if (!hardMod && !pussMod && speedMod > 0) {
-			songSpeed = SONG.speed + ModifierVars.songSpeed;
+		if (!hardMod && !pussMod) {
+			if (speedMod > 0) {
+				songSpeed = SONG.speed + ModifierVars.songSpeed;
+			} else {
+				songSpeed = SONG.speed;
+			}
 		}
 
 		Conductor.changeBPM(songData.bpm);
