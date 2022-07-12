@@ -3674,10 +3674,13 @@ class PlayState extends MusicBeatState
 		comboSpr.x += ClientPrefs.comboOffset[0];
 		comboSpr.y -= ClientPrefs.comboOffset[1];
 
-
-
+		/*
 		add(rating);
 		add(comboSpr);
+		*/
+
+		insert(members.indexOf(strumLineNotes), rating);
+		insert(members.indexOf(strumLineNotes), comboSpr);
 		
 		if (combo >= 10)
 			comboSpr.visible = true;
