@@ -25,6 +25,7 @@ import flixel.input.keyboard.FlxKey;
 import flixel.graphics.FlxGraphic;
 import options_classes.Option;
 import base_options.BaseOptionsMenu;
+import preference_vars.ClientPrefs;
 import Controls;
 
 using StringTools;
@@ -41,6 +42,17 @@ class GraphicsSettings extends BaseOptionsMenu
 
 	function getOptions()
 	{
+		var option:Option = new Option("Framerate",
+			"Pretty self explanatory, isn't it?",
+			'framerate',
+			'int',
+			60);
+		addOption(option);
+		option.minValue = 30;
+		option.maxValue = 360;
+		option.displayFormat = '%v FPS';
+		option.onChange = onChangeFramerate;
+
 		var option:Option = new Option("Low Quality",
 			"If checked, disables some background details,\ndecreases loading times and improves performance.",
 			'lowQuality',
@@ -60,6 +72,8 @@ class GraphicsSettings extends BaseOptionsMenu
 			'globalAntialiasing',
 			'bool',
 			true);
+		option.showBoyfriend = true;
+		option.onChange = onChangeAntiAliasing;
 		addOption(option);
 
 		var option:Option = new Option("Flashing Lights",
@@ -68,5 +82,31 @@ class GraphicsSettings extends BaseOptionsMenu
 			'bool',
 			true);
 		addOption(option);
+	}
+
+	function onChangeAntiAliasing()
+	{
+		for (sprite in members)
+		{
+			var sprite:Dynamic = sprite; //Make it check for FlxSprite instead of FlxBasic
+			var sprite:FlxSprite = sprite; //Don't judge me ok
+			if(sprite != null && (sprite is FlxSprite) && !(sprite is FlxText)) {
+				sprite.antialiasing = ClientPrefs.globalAntialiasing;
+			}
+		}
+	}
+
+	function onChangeFramerate()
+	{
+		if(ClientPrefs.framerate > FlxG.drawFramerate)
+		{
+			FlxG.updateFramerate = ClientPrefs.framerate;
+			FlxG.drawFramerate = ClientPrefs.framerate;
+		}
+		else
+		{
+			FlxG.drawFramerate = ClientPrefs.framerate;
+			FlxG.updateFramerate = ClientPrefs.framerate;
+		}
 	}
 }
