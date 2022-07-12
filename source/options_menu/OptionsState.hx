@@ -44,7 +44,7 @@ class OptionsState extends MusicBeatState
 			case 'Controls':
 				openSubState(new ControlsSubstate());
 			case 'Preferences':
-				openSubState(new PreferencesSubstate());
+				MusicBeatState.switchState(new preferences_menu.PreferencesState());
 			case 'UI Options':
 				MusicBeatState.switchState(new ui_options_menu.UIOptionsState());
 			case 'Extras':

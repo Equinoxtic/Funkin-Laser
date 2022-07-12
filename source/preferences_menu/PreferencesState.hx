@@ -29,15 +29,23 @@ import Controls;
 
 using StringTools;
 
-class UIOptionsState extends MusicBeatState
+class PreferencesState extends MusicBeatState
 {
-	var options:Array<String> = [];
+	var options:Array<String> = ['Gameplay Settings', 'Graphics Settings', 'Camera Settings', 'UI Settings'];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private static var curSelected:Int = 0;
 	public static var menuBG:FlxSprite;
 
 	function openSelectedSubstate(label:String) {
 		switch(label) {
+			case 'Gameplay Settings':
+				openSubState(new GameplaySettings());
+			case 'Graphics Settings':
+				openSubState(new GraphicsSettings());
+			case 'Camera Settings':
+				openSubState(new CameraSettings());
+			case 'UI Settings':
+				openSubState(new UISettings());
 		}
 	}
 
