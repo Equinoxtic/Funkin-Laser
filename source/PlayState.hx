@@ -299,6 +299,9 @@ class PlayState extends MusicBeatState
 
 	var pausedHardcoreModchart:Bool = false;
 
+	var songCreditsBG:FlxSprite;
+	var songCreditsText:FlxText;
+
 	override public function create()
 	{
 		#if MODS_ALLOWED
@@ -1017,6 +1020,17 @@ class PlayState extends MusicBeatState
 		add(moreExtraShit);
 		add(moreMoreExtraShit);
 
+		songCreditsBG = new FlxSprite().makeGraphic(150 * 3, 50 * 2, FlxColor.GRAY);
+		songCreditsBG.setGraphicSize(Std.int(songCreditsBG.width * 1.05));
+		songCreditsBG.alpha = 0.45;
+		songCreditsBG.x = 50 * 25;
+		songCreditsBG.y = 50 * 5;
+		add(songCreditsBG);
+
+		songCreditsText = new FlxText(songCreditsBG.x - 5, songCreditsBG.y + (15 * 2), FlxG.width, "", 14);
+		songCreditsText.setFormat(Paths.font('vcr.ttf'), 18, FlxColor.WHITE, LEFT);
+		add(songCreditsText);
+
 		vignetteOverlay = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		vignetteOverlay.setGraphicSize(Std.int(vignetteOverlay.width * 1.1));
 		vignetteOverlay.scrollFactor.set();
@@ -1059,6 +1073,8 @@ class PlayState extends MusicBeatState
 		timeBar.cameras = [camHUD];
 		timeBarBG.cameras = [camHUD];
 		timeTxt.cameras = [camHUD];
+		songCreditsBG.cameras = [camHUD];
+		songCreditsText.cameras = [camHUD];
 		vignette.cameras = [camHUD];
 		vignetteOverlay.cameras = [camHUD];
 		vignetteDesat.cameras = [camHUD];
@@ -1657,6 +1673,18 @@ class PlayState extends MusicBeatState
 				FlxTween.tween(extraSongDets, {x: FlxG.width * 2, alpha: 0}, 1.5, {ease: FlxEase.backInOut});
 			});
 		}
+
+		FlxTween.tween(songCreditsBG, {x: 225}, 1.25, {ease: FlxEase.quartInOut});
+		FlxTween.tween(songCreditsText, {x: 225 - 5}, 1.25, {ease: FlxEase.quartInOut, startDelay: 0.15, onComplete: function(twn:FlxTween) {
+			new FlxTimer().start(2.5, function(tmr:FlxTimer) {
+				FlxTween.tween(songCreditsBG, {x: 50 * 25}, 1.25, {ease: FlxEase.quartInOut});
+				FlxTween.tween(songCreditsText, {x: 50 * 25}, 1.25, {ease: FlxEase.quartInOut, startDelay: 0.15, onComplete: function(twn:FlxTween) {
+					songCreditsBG.kill();
+					songCreditsText.kill();
+				}});
+			});
+		}});
+		// "Deeply nested code" ~ Vertic
 
 		#if desktop
 		// Updating Discord Rich Presence (with Time Left)
@@ -2270,6 +2298,8 @@ class PlayState extends MusicBeatState
 		}
 
 		super.update(elapsed);
+
+		songCreditsText.text = PlayState.SONG.song + "\n" + PlayState.SONG.credit;
 
 		if (songScore >= 200000000) {
 			songScore = 200000000;
