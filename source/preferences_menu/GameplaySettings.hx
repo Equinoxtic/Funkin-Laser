@@ -54,6 +54,13 @@ class GameplaySettings extends BaseOptionsMenu
 			'bool',
 			false);
 		addOption(option);
+		
+		var option:Option = new Option("Ghost Tapping",
+			"If checked, you won't get misses from pressing keys\nwhile there are no notes able to be hit.",
+			'ghostTapping',
+			'bool',
+			true);
+		addOption(option);
 
 		var option:Option = new Option("Note Splashes",
 			"If unchecked, hitting \"Sick!\" notes won't show particles.",
