@@ -1023,11 +1023,11 @@ class PlayState extends MusicBeatState
 		songCreditsBG = new FlxSprite().makeGraphic(150 * 3, 50 * 2, FlxColor.GRAY);
 		songCreditsBG.setGraphicSize(Std.int(songCreditsBG.width * 1.05));
 		songCreditsBG.alpha = 0.45;
-		songCreditsBG.x = 50 * 25;
+		songCreditsBG.x = 50 * 30;
 		songCreditsBG.y = 50 * 5;
 		add(songCreditsBG);
 
-		songCreditsText = new FlxText(songCreditsBG.x - 5, songCreditsBG.y + (15 * 2), FlxG.width, "", 14);
+		songCreditsText = new FlxText(songCreditsBG.x + 15, songCreditsBG.y + (15 * 2), FlxG.width, "", 14);
 		songCreditsText.setFormat(Paths.font('vcr.ttf'), 18, FlxColor.WHITE, LEFT);
 		add(songCreditsText);
 
@@ -1674,11 +1674,11 @@ class PlayState extends MusicBeatState
 			});
 		}
 
-		FlxTween.tween(songCreditsBG, {x: 225}, 1.25, {ease: FlxEase.quartInOut});
-		FlxTween.tween(songCreditsText, {x: 225 - 5}, 1.25, {ease: FlxEase.quartInOut, startDelay: 0.15, onComplete: function(twn:FlxTween) {
+		FlxTween.tween(songCreditsBG, {x: 30}, 1.25, {ease: FlxEase.quartInOut});
+		FlxTween.tween(songCreditsText, {x: 30 + 15}, 1.25, {ease: FlxEase.quartInOut, startDelay: 0.15, onComplete: function(twn:FlxTween) {
 			new FlxTimer().start(2.5, function(tmr:FlxTimer) {
-				FlxTween.tween(songCreditsBG, {x: 50 * 25}, 1.25, {ease: FlxEase.quartInOut});
-				FlxTween.tween(songCreditsText, {x: 50 * 25}, 1.25, {ease: FlxEase.quartInOut, startDelay: 0.15, onComplete: function(twn:FlxTween) {
+				FlxTween.tween(songCreditsBG, {x: 50 * 30}, 1.25, {ease: FlxEase.quartInOut});
+				FlxTween.tween(songCreditsText, {x: 50 * 30}, 1.25, {ease: FlxEase.quartInOut, startDelay: 0.15, onComplete: function(twn:FlxTween) {
 					songCreditsBG.kill();
 					songCreditsText.kill();
 				}});
@@ -2299,7 +2299,7 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
-		songCreditsText.text = PlayState.SONG.song + "\n" + PlayState.SONG.credit;
+		songCreditsText.text = PlayState.SONG.song + "\n" + PlayState.SONG.credit + " - " + PlayState.SONG.origin;
 
 		if (songScore >= 200000000) {
 			songScore = 200000000;
