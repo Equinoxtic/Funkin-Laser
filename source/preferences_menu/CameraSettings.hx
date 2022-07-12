@@ -46,7 +46,7 @@ class CameraSettings extends BaseOptionsMenu
 			'camZooms',
 			'bool',
 			true);
-		addOptions(option);
+		addOption(option);
 
 		var option:Option = new Option("Hide HUD",
 			"If checked, hides most HUD elements.",
