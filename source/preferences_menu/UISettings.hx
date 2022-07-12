@@ -29,4 +29,44 @@ import Controls;
 
 using StringTools;
 
-// TODO: Finish this code
+class UISettings extends BaseOptionsMenu
+{
+	public function new()
+	{
+		title = "UI Settings";
+		rpcTitle = "Preferences - UI Settings";
+		getOptions();
+		super();
+	}
+
+	function getOptions()
+	{
+		var option:Option = new Option("FPS Counter",
+			"If unchecked, hides FPS Counter.",
+			'showFPS',
+			'bool',
+			true);
+		addOption(option);
+
+		var option:Option = new Option("Memory Counter",
+			"If unchecked, hides Memory Counter.",
+			'showMemCounter',
+			'bool',
+			true);
+		addOption(option);
+
+		var option:Option = new Option("Show Song Name on Song Length",
+			"If unchecked, the song name on the time bar will be hidden.",
+			'showSongName',
+			'bool',
+			false);
+		addOption(option);
+
+		var option:Option = new Option("Hide Song Length",
+			"If checked, the bar showing how much time is left\nwill be hidden.",
+			'hideTime',
+			'bool',
+			false);
+		addOption(option);
+	}
+}

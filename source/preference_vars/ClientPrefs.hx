@@ -31,7 +31,7 @@ class ClientPrefs {
 	public static var winningIcons:Bool = true;
 	public static var noteOpacity:Float = 1;
 	public static var noteTailOpacity:Float = 1;
-	public static var showSongName:Bool = true;
+	public static var showSongName:Bool = false;
 	public static var advancedScoring:Bool = false;
 	public static var sickWindow:Int = 45;
 	public static var goodWindow:Int = 90;
