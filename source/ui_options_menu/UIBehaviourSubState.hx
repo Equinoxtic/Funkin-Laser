@@ -44,20 +44,12 @@ class UIBehaviourSubState extends BaseUIOptionsMenu
 			['Arrows', 'Circles']);
 		addOption(option);
 		
-		var option:UIOption = new UIOption('Time Bar:',
+		var option:UIOption = new UIOption('Time Bar',
 			"What should the Time bar display?",
 			'timeShowing',
 			'string',
 			'Time Left',
 			['Time Left', 'Elapsed', 'Song Name - Time', 'Song Name Only']);
-		addOption(option);
-			
-		var option:UIOption = new UIOption('Pause Music',
-			"Choose what the Pause Menu music should play!",
-			'pauseMusic',
-			'string',
-			'Breakfast',
-			['Breakfast', 'Osu', 'Osu Bacon Boi', 'Tea Time']);
 		addOption(option);
 
 		var option:UIOption = new UIOption("Icon Bopping",
