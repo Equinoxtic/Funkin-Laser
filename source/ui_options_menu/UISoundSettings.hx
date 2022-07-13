@@ -24,6 +24,7 @@ import flixel.util.FlxTimer;
 import flixel.input.keyboard.FlxKey;
 import flixel.graphics.FlxGraphic;
 import options_classes.UIOption;
+import preference_vars.UIPrefs;
 import base_options.BaseUIOptionsMenu;
 import Controls;
 
@@ -54,6 +55,12 @@ class UISoundSettings extends BaseUIOptionsMenu
 			'float',
 			0.5);
 		addOption(option);
+		option.scrollSpeed = 1.6;
+		option.minValue = 0.1;
+		option.maxValue = 1;
+		option.changeValue = 0.1;
+		option.decimals = 1;
+		option.onChange = onChangeHitsoundVolume;
 
 		var option:UIOption = new UIOption('Pause Music',
 			"Choose what the Pause Menu music should play!",
@@ -62,5 +69,10 @@ class UISoundSettings extends BaseUIOptionsMenu
 			'Breakfast',
 			['Breakfast', 'Osu', 'Osu Bacon Boi', 'Tea Time']);
 		addOption(option);
+	}
+
+	function onChangeHitsoundVolume()
+	{
+		FlxG.sound.play(Paths.sound('hitsound'), UIPrefs.hitsoundsVolume);
 	}
 }
