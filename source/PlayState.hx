@@ -2579,6 +2579,7 @@ class PlayState extends MusicBeatState
 				health = 0;
 				trace("STUPID");
 			}
+			doDeathCheck();
 		}
 
 		if (unspawnNotes[0] != null)
