@@ -41,6 +41,7 @@ class ClientPrefs {
 	public static var showMemCounter:Bool = true;
 	public static var directionalCamera:Bool = true;
 	public static var showSongCredit:Bool = true;
+	public static var showCombo:Bool = true;
 
 	public static var defaultKeys:Array<FlxKey> = [
 		A, LEFT,			//Note Left
@@ -112,6 +113,7 @@ class ClientPrefs {
 		FlxG.save.data.showMemCounter = showMemCounter;
 		FlxG.save.data.directionalCamera = directionalCamera;
 		FlxG.save.data.showSongCredit = showSongCredit;
+		FlxG.save.data.showCombo = showCombo;
 
 		var achieves:Array<String> = [];
 		for (i in 0...Achievements.achievementsUnlocked.length) {
@@ -240,6 +242,9 @@ class ClientPrefs {
 		}
 		if(FlxG.save.data.showSongCredit != null) {
 			showSongCredit = FlxG.save.data.showSongCredit;
+		}
+		if(FlxG.save.data.showCombo != null) {
+			showCombo = FlxG.save.data.showCombo;
 		}
 
 		var save:FlxSave = new FlxSave();

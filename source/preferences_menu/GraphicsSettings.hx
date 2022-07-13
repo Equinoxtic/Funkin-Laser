@@ -82,6 +82,13 @@ class GraphicsSettings extends BaseOptionsMenu
 			'bool',
 			true);
 		addOption(option);
+
+		var option:Option = new Option("Show Combo",
+			"Disabling this will not show how much combo you have.",
+			'showCombo',
+			'bool',
+			true);
+		addOption(option);
 	}
 
 	function onChangeAntiAliasing()
