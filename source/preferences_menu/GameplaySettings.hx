@@ -82,5 +82,12 @@ class GameplaySettings extends BaseOptionsMenu
 			'bool',
 			false);
 		addOption(option);
+
+		var option:Option = new Option('Disable Reset Button',
+			"If checked, pressing Reset won't do anything.",
+			'noReset',
+			'bool',
+			false);
+		addOption(option);
 	}
 }
