@@ -2410,7 +2410,11 @@ class PlayState extends MusicBeatState
 				SONG.origin = "Friday Night Funkin'";
 		}
 
-		judgementData.text = 'Total Hits: ' + songHits + '\nCombo: ' + combo + '\n\nSick: ' + songSicks + '\nGood: ' + songGoods + '\nBad: ' + songBads + '\nShit: ' + songShits;
+		if (ClientPrefs.showCombo) {
+			judgementData.text = 'Total Hits: ' + songHits + '\nCombo: ' + combo + '\n\nSick: ' + songSicks + '\nGood: ' + songGoods + '\nBad: ' + songBads + '\nShit: ' + songShits;
+		} else {
+			judgementData.text = 'Total Hits: ' + songHits + '\n\nSick: ' + songSicks + '\nGood: ' + songGoods + '\nBad: ' + songBads + '\nShit: ' + songShits;
+		}
 
 		if (SONG.credit != null || SONG.origin != null) {
 			extraSongDets.text = SONG.song.toUpperCase() + '\n' + CoolUtil.difficultyString() + '\n' + SONG.credit + '\n' + SONG.origin;
