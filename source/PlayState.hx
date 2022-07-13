@@ -1036,7 +1036,7 @@ class PlayState extends MusicBeatState
 		vignetteOverlay.setGraphicSize(Std.int(vignetteOverlay.width * 1.1));
 		vignetteOverlay.scrollFactor.set();
 		vignetteOverlay.screenCenter();
-		vignetteOverlay.alpha = ModifierVars.lvIntensity - 1.5;
+		vignetteOverlay.alpha = ModifierVars.lvIntensity - 1.15;
 		vignetteOverlay.visible = ModifierVars.limitedVision;
 		add(vignetteOverlay);
 
