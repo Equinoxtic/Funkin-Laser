@@ -23,7 +23,7 @@ class MemCounter extends TextField
 		y = inY;
 		selectable = false;
 		mouseEnabled = false;
-		defaultTextFormat = new TextFormat("_sans", 14, inCol);
+		defaultTextFormat = new TextFormat("_sans", 8, inCol);
 		autoSize = LEFT;
 		multiline = true;
 
