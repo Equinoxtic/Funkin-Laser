@@ -55,6 +55,13 @@ class UISettings extends BaseOptionsMenu
 			true);
 		addOption(option);
 
+		var option:Option = new Option("Show Song Credit",
+			"If unchecked, when starting a song, credits will no longer be shown.",
+			'showSongCredit',
+			'bool',
+			true);
+		addOption(option);
+
 		var option:Option = new Option("Show Song Name on Song Length",
 			"If unchecked, the song name on the time bar will be hidden.",
 			'showSongName',

@@ -301,6 +301,7 @@ class PlayState extends MusicBeatState
 
 	var songCreditsBG:FlxSprite;
 	var songCreditsText:FlxText;
+	var shouldShowSongCredit:Bool = ClientPrefs.showSongCredit;
 
 	override public function create()
 	{
@@ -1188,7 +1189,13 @@ class PlayState extends MusicBeatState
 		// Updating Discord Rich Presence.
 		DiscordClient.changePresence(detailsText, SONG.song + " - " + SONG.credit + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 		#end
+
 		super.create();
+
+		if (!shouldShowSongCredit) {
+			songCreditsBG.kill();
+			songCreditsText.kill();
+		}
 	}
 
 	function set_songSpeed(value:Float):Float
@@ -1674,16 +1681,18 @@ class PlayState extends MusicBeatState
 			});
 		}
 
-		FlxTween.tween(songCreditsBG, {x: 30}, 1.25, {ease: FlxEase.quartInOut});
-		FlxTween.tween(songCreditsText, {x: 30 + 15}, 1.25, {ease: FlxEase.quartInOut, startDelay: 0.15, onComplete: function(twn:FlxTween) {
-			new FlxTimer().start(2.5, function(tmr:FlxTimer) {
-				FlxTween.tween(songCreditsBG, {x: 50 * 30}, 1.25, {ease: FlxEase.quartInOut});
-				FlxTween.tween(songCreditsText, {x: 50 * 30}, 1.25, {ease: FlxEase.quartInOut, startDelay: 0.15, onComplete: function(twn:FlxTween) {
-					songCreditsBG.kill();
-					songCreditsText.kill();
-				}});
-			});
-		}});
+		if (shouldShowSongCredit) {
+			FlxTween.tween(songCreditsBG, {x: 30}, 1.25, {ease: FlxEase.quartInOut});
+			FlxTween.tween(songCreditsText, {x: 30 + 15}, 1.25, {ease: FlxEase.quartInOut, startDelay: 0.15, onComplete: function(twn:FlxTween) {
+				new FlxTimer().start(2.5, function(tmr:FlxTimer) {
+					FlxTween.tween(songCreditsBG, {x: 50 * 30}, 1.25, {ease: FlxEase.quartInOut});
+					FlxTween.tween(songCreditsText, {x: 50 * 30}, 1.25, {ease: FlxEase.quartInOut, startDelay: 0.15, onComplete: function(twn:FlxTween) {
+						songCreditsBG.kill();
+						songCreditsText.kill();
+					}});
+				});
+			}});
+		}
 		// "Deeply nested code" ~ Vertic
 
 		#if desktop
