@@ -4,8 +4,8 @@
 
 * Install **Git** - We gonna clone repos bois
 * Install **Haxe** (4.1.5 - 4.2.X) - important no forgor ok?
-* Install **HaxeFlixel** - Very very important aswell no forgor pls
-* Install **Visual Studio Code** - best code editor :fire:
+* Install **HaxeFlixel** - Very very important as well no forgor pls
+* Install **Visual Studio Code** - best code editor :fire: :sunglasses:
 * Install **Visual Studio 2019** - only used for installing components
 
 ## Install haxeflixel 
@@ -48,7 +48,7 @@ Go and search for these components (Press CTRL + Q to search)
 
 This will only take up 4GB of your storage
 
-After you hve done all of these steps, it is time for you to start installing the engine
+After you have done all of these steps, it is time for you to start installing the engine
 
 ## Installing the engine
 
@@ -68,7 +68,7 @@ Open up your terminal
 
 Type in ``git clone https://github.com/Equinoxtic/Funkin-Laser``
 
-Wait for it to finish, then once it is finished, type in ``cd Funkin-Laser``
+Wait for it to finish, then once it is finished, type in ``cd Funkin-Laser`` (if that doesn't work try: ``cd Funkin-Laser-main``)
 
 Now type in ``lime test windows``
 
