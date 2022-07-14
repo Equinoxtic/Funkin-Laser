@@ -37,26 +37,6 @@ class OptionsState extends MusicBeatState
 	private static var curSelected:Int = 0;
 	public static var menuBG:FlxSprite;
 
-	function switchOptionsSubstate(label:String) {
-		switch(label) {
-			case 'Notes':
-				openSubState(new NotesSubstate());
-			case 'Controls':
-				openSubState(new ControlsSubstate());
-			case 'Preferences':
-				MusicBeatState.switchState(new preferences_menu.PreferencesState());
-			case 'UI Options':
-				MusicBeatState.switchState(new ui_options_menu.UIOptionsState());
-			case 'Extras':
-				openSubState(new ExtraPrefsSubstate());
-			case 'Modifiers':
-				MusicBeatState.switchState(new modifier_menu.ModifierMenuState());
-		}
-	}
-
-	var selectorLeft:Alphabet;
-	var selectorRight:Alphabet;
-
 	override function create() {
 		#if desktop
 		DiscordClient.changePresence("Options Menu", null);
@@ -80,11 +60,7 @@ class OptionsState extends MusicBeatState
 			optionText.y += (100 * (i - (options.length / 2))) + 50;
 			grpOptions.add(optionText);
 		}
-
-		selectorLeft = new Alphabet(0, 0, ">", true, false);
-		add(selectorLeft);
-		selectorRight = new Alphabet(0, 0, "<", true, false);
-		add(selectorRight);
+		changeSelection();
 
 		super.create();
 	}
@@ -95,8 +71,7 @@ class OptionsState extends MusicBeatState
 		changeSelection();
 	}
 
-	override function update(elapsed:Float) 
-	{
+	override function update(elapsed:Float) {
 		super.update(elapsed);
 
 		if (controls.UI_UP_P) {
@@ -115,10 +90,21 @@ class OptionsState extends MusicBeatState
 			for (item in grpOptions.members) {
 				item.alpha = 0;
 			}
-			switchOptionsSubstate(options[curSelected]);
-			#if desktop
-			DiscordClient.changePresence("Options Menu - " + options[curSelected], null);
-			#end
+
+			switch(options[curSelected]) {
+				case 'Notes':
+					openSubState(new NotesSubstate());
+				case 'Controls':
+					openSubState(new ControlsSubstate());
+				case 'Preferences':
+					MusicBeatState.switchState(new preferences_menu.PreferencesState());
+				case 'UI Options':
+					MusicBeatState.switchState(new ui_options_menu.UIOptionsState());
+				case 'Extras':
+					openSubState(new ExtraPrefsSubstate());
+				case 'Modifiers':
+					MusicBeatState.switchState(new modifier_menu.ModifierMenuState());
+			}
 		}
 	}
 	
@@ -138,12 +124,9 @@ class OptionsState extends MusicBeatState
 			item.alpha = 0.6;
 			if (item.targetY == 0) {
 				item.alpha = 1;
-				selectorLeft.x = item.x - 63;
-				selectorLeft.y = item.y;
-				selectorRight.x = item.x + item.width + 15;
-				selectorRight.y = item.y;
 			}
 		}
 		FlxG.sound.play(Paths.sound('scrollMenu'));
 	}
 }
+
