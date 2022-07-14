@@ -81,13 +81,15 @@ class PreferencesState extends MusicBeatState
 		selectorRight = new Alphabet(0, 0, "<", true, false);
 		add(selectorRight);
 
+		changeSelection();
+		ClientPrefs.saveSettings();
+
 		super.create();
 	}
 
 	override function closeSubState() {
 		super.closeSubState();
 		ClientPrefs.saveSettings();
-		changeSelection();
 	}
 
 	override function update(elapsed:Float) {
@@ -102,7 +104,7 @@ class PreferencesState extends MusicBeatState
 
 		if (controls.BACK) {
 			FlxG.sound.play(Paths.sound('cancelMenu'));
-			MusicBeatState.switchState(new MainMenuState());
+			MusicBeatState.switchState(new options_menu.OptionsState());
 		}
 
 		if (controls.ACCEPT) {
