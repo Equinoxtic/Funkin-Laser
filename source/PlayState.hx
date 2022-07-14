@@ -201,7 +201,7 @@ class PlayState extends MusicBeatState
 	public var camHUD:FlxCamera;
 	public var camGame:FlxCamera;
 	public var camOther:FlxCamera;
-	public var cameraSpeed:Float = ClientPrefs.framerate / 60 + 0.5;
+	public var cameraSpeed:Float = ClientPrefs.framerate / 60;
 
 	var dialogue:Array<String> = ['blah blah blah', 'coolswag'];
 	var dialogueJson:DialogueFile = null;
