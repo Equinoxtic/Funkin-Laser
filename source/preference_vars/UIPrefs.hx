@@ -21,8 +21,9 @@ class UIPrefs
 	public static var highscoreVignette:Bool = false;
 	public static var vfxModcharts:Bool = false;
 	public static var motionBlur:Bool = false;
-	public static var allowShader:Bool = false;
-	*/
+	public static var allowShader:Bool = falsee */
+	public static var strumTailShader:Bool = true;
+	public static var strumTailShaderType:String = "Wiggle";
 
 	/* UI Behaviour */
 	public static var noteskin:String = 'Arrows';
@@ -47,11 +48,12 @@ class UIPrefs
 		FlxG.save.data.uiType = uiType;
 		FlxG.save.data.useVignette = useVignette;
 
-		/* Visual Effects
-		FlxG.save.data.vfxModcharts = vfxModcharts;
+		/* Visual Effects */
+		/* FlxG.save.data.vfxModcharts = vfxModcharts;
 		FlxG.save.data.motionBlur = motionBlur;
-		FlxG.save.data.allowShader = allowShader;
-		*/
+		FlxG.save.data.allowShader = allowShader; */
+		FlxG.save.data.strumTailShader =  strumTailShader;
+		FlxG.save.data.strumTailShaderType = strumTailShaderType;
 
 		/* UI Behaviour */
 		FlxG.save.data.noteskin = noteskin;
@@ -101,8 +103,13 @@ class UIPrefs
 
 		if (FlxG.save.data.allowShader != null) {
 			allowShader = FlxG.save.data.allowShader;
+		} */
+		if (FlxG.save.data.strumTailShader != null) {
+			strumTailShader = FlxG.save.data.strumTailShader;
 		}
-		*/
+		if (FlxG.save.data.strumTailShaderType != null) {
+			strumTailShaderType = FlxG.save.data.strumTailShaderType;
+		}
 
 		/* UI Behaviour */
 		if (FlxG.save.data.noteskin != null) {

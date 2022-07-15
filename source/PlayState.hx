@@ -201,6 +201,7 @@ class PlayState extends MusicBeatState
 	public var camHUD:FlxCamera;
 	public var camGame:FlxCamera;
 	public var camOther:FlxCamera;
+	public var camSus:FlxCamera;
 	public var cameraSpeed:Float = ClientPrefs.framerate / 60;
 
 	var dialogue:Array<String> = ['blah blah blah', 'coolswag'];
@@ -303,12 +304,35 @@ class PlayState extends MusicBeatState
 	var songCreditsText:FlxText;
 	var shouldShowSongCredit:Bool = ClientPrefs.showSongCredit;
 
+	var nauseaShader:WiggleEffect;
+	var noteWiggleShader:WiggleEffect;
+	var noteBeatWiggle:WiggleEffect;
+
 	override public function create()
 	{
 		#if MODS_ALLOWED
 		Paths.destroyLoadedImages(resetSpriteCache);
 		#end
 		resetSpriteCache = false;
+
+		var nauseaSpeed = ModifierVars.nauseaIntensity;
+		nauseaShader = new WiggleEffect();
+		nauseaShader.effectType = WiggleEffectType.FLAG;
+		nauseaShader.waveAmplitude = nauseaSpeed - 0.4;
+		nauseaShader.waveFrequency = nauseaSpeed + 2.5;
+		nauseaShader.waveSpeed = nauseaSpeed + 0.75;
+
+		var songPos = Conductor.songPosition;
+		var curBpm = Conductor.bpm;
+		var currentBeat = (songPos/5000)*(curBpm/500);
+		noteWiggleShader = new WiggleEffect();
+		noteWiggleShader.effectType = WiggleEffectType.FLAG;
+		noteWiggleShader.waveAmplitude = 0.0085;
+		noteWiggleShader.waveFrequency = 0.0085;
+		noteWiggleShader.waveSpeed = currentBeat;
+
+		noteBeatWiggle = new WiggleEffect();
+		noteBeatWiggle.effectType = WiggleEffectType.FLAG;
 
 		resetStats();
 
@@ -318,12 +342,15 @@ class PlayState extends MusicBeatState
 		// practiceMode = false;
 		// var gameCam:FlxCamera = FlxG.camera;
 		camGame = new FlxCamera();
+		camSus = new FlxCamera();
 		camHUD = new FlxCamera();
 		camOther = new FlxCamera();
+		camSus.bgColor.alpha = 0;
 		camHUD.bgColor.alpha = 0;
 		camOther.bgColor.alpha = 0;
 
 		FlxG.cameras.reset(camGame);
+		FlxG.cameras.add(camSus);
 		FlxG.cameras.add(camHUD);
 		FlxG.cameras.add(camOther);
 		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
@@ -2166,6 +2193,15 @@ class PlayState extends MusicBeatState
 
 		callOnLuas('onUpdate', [elapsed]);
 
+		if (ModifierVars.nauseous) {
+			nauseaShader.update(elapsed);
+			FlxG.camera.setFilters([new ShaderFilter(nauseaShader.shader)]);
+			camHUD.setFilters([new ShaderFilter(nauseaShader.shader)]);
+		}
+
+		noteWiggleShader.update(elapsed);
+		camSus.setFilters([new ShaderFilter(noteWiggleShader.shader)]);
+
 		switch (curStage)
 		{
 			case 'schoolEvil':
@@ -2574,7 +2610,12 @@ class PlayState extends MusicBeatState
 		{
 			FlxG.camera.zoom = FlxMath.lerp(defaultCamZoom, FlxG.camera.zoom, CoolUtil.boundTo(1 - (elapsed * 3.125), 0, 1));
 			camHUD.zoom = FlxMath.lerp(1, camHUD.zoom, CoolUtil.boundTo(1 - (elapsed * 3.125), 0, 1));
+			camSus.zoom = FlxMath.lerp(1, camHUD.zoom, CoolUtil.boundTo(1 - (elapsed * 3.125), 0, 1));
 		}
+
+		noteBeatWiggle.waveAmplitude = FlxMath.lerp(0, noteBeatWiggle.waveAmplitude, CoolUtil.boundTo(1 - (elapsed * 2.4), 0, 1));
+		noteBeatWiggle.waveFrequency = FlxMath.lerp(0, noteBeatWiggle.waveFrequency, CoolUtil.boundTo(1 - (elapsed * 2.4), 0, 1));
+		// noteBeatWiggle.waveSpeed = FlxMath.lerp(0, noteBeatWiggle.waveSpeed, CoolUtil.boundTo(Math.abs(elapsed * 2.4), 0, 1));
 
 		FlxG.watch.addQuick("beatShit", curBeat);
 		FlxG.watch.addQuick("stepShit", curStep);
@@ -2653,6 +2694,10 @@ class PlayState extends MusicBeatState
 				strumAngle += daNote.offsetAngle;
 				strumAlpha *= daNote.multAlpha;
 				var center:Float = strumY + Note.swagWidth / 2;
+
+				if (daNote.isSustainNote) {
+					daNote.cameras = [camSus];
+				}
 
 				if(daNote.copyX) {
 					daNote.x = strumX;
@@ -4466,12 +4511,21 @@ class PlayState extends MusicBeatState
 			if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 4 == 0) {
 				FlxG.camera.zoom += 0.015 * 2;
 				camHUD.zoom += 0.03 * 2;
+				camSus.zoom += 0.03 * 2;
 			}
 		} else {
 			if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 2 == 0) {
 				FlxG.camera.zoom += 0.015 * 2;
 				camHUD.zoom += 0.03 * 2;
+				camSus.zoom += 0.03 * 2;
 			}
+		}
+
+		if (curBeat % 1 == 0) {
+			var ampfreq:Float = 0.45;
+			noteBeatWiggle.waveAmplitude = ampfreq;
+			noteBeatWiggle.waveFrequency = ampfreq;
+			noteBeatWiggle.waveSpeed = 25.75;
 		}
 
 		if (UIPrefs.iconBop) {
