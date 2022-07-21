@@ -42,12 +42,12 @@ class UIVFX extends BaseUIOptionsMenu
 	{
 		var option:UIOption = new UIOption("Note Tail Shaders",
 			"Whether the note tail should have shaders during the gameplay.",
-			'strumTailShaders',
+			'strumTailShader',
 			'bool',
 			false);
 		addOption(option);
 
-		var option:UIOption = new UIOption("Note Tail Shader Behaviour",
+		var option:UIOption = new UIOption("Note Tail Shader Type",
 			"Choose how the note tail shaders behave.",
 			'strumTailShaderType',
 			'string',
