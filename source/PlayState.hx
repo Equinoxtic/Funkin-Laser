@@ -2199,8 +2199,17 @@ class PlayState extends MusicBeatState
 			camHUD.setFilters([new ShaderFilter(nauseaShader.shader)]);
 		}
 
-		noteWiggleShader.update(elapsed);
-		camSus.setFilters([new ShaderFilter(noteWiggleShader.shader)]);
+		
+		if (UIPrefs.strumTailShader) {
+			switch(UIPrefs.strumTailShaderType) {
+				case "Wiggle":
+					noteWiggleShader.update(elapsed);
+					camSus.setFilters([new ShaderFilter(noteWiggleShader.shader)]);
+				case "Wiggle on beat":
+					noteBeatWiggle.update(elapsed);
+					camSus.setFilters([new ShaderFilter(noteBeatWiggle.shader)]);
+			}
+		}
 
 		switch (curStage)
 		{
@@ -2613,9 +2622,11 @@ class PlayState extends MusicBeatState
 			camSus.zoom = FlxMath.lerp(1, camHUD.zoom, CoolUtil.boundTo(1 - (elapsed * 3.125), 0, 1));
 		}
 
-		noteBeatWiggle.waveAmplitude = FlxMath.lerp(0, noteBeatWiggle.waveAmplitude, CoolUtil.boundTo(1 - (elapsed * 2.4), 0, 1));
-		noteBeatWiggle.waveFrequency = FlxMath.lerp(0, noteBeatWiggle.waveFrequency, CoolUtil.boundTo(1 - (elapsed * 2.4), 0, 1));
-		// noteBeatWiggle.waveSpeed = FlxMath.lerp(0, noteBeatWiggle.waveSpeed, CoolUtil.boundTo(Math.abs(elapsed * 2.4), 0, 1));
+		if (UIPrefs.strumTailShaderType == "Wiggle on beat" && UIPrefs.strumTailShader) {
+			noteBeatWiggle.waveAmplitude = FlxMath.lerp(0, noteBeatWiggle.waveAmplitude, CoolUtil.boundTo(1 - (elapsed * 3.125), 0, 1));
+			noteBeatWiggle.waveFrequency = FlxMath.lerp(0, noteBeatWiggle.waveFrequency, CoolUtil.boundTo(1 - (elapsed * 3.125), 0, 1));
+			// noteBeatWiggle.waveSpeed = FlxMath.lerp(0, noteBeatWiggle.waveSpeed, CoolUtil.boundTo(Math.abs(elapsed * 2.4), 0, 1));
+		}
 
 		FlxG.watch.addQuick("beatShit", curBeat);
 		FlxG.watch.addQuick("stepShit", curStep);
@@ -4521,11 +4532,13 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (curBeat % 1 == 0) {
-			var ampfreq:Float = 0.45;
-			noteBeatWiggle.waveAmplitude = ampfreq;
-			noteBeatWiggle.waveFrequency = ampfreq;
-			noteBeatWiggle.waveSpeed = 25.75;
+		if (curBeat % 1 == 0 && UIPrefs.strumTailShaderType == "Wiggle on beat" && UIPrefs.strumTailShader) {
+			if (noteBeatWiggle.waveAmplitude < 0.29 && noteBeatWiggle.waveFrequency < 0.29) {
+				var ampfreq:Float = 0.028;
+				noteBeatWiggle.waveAmplitude = ampfreq;
+				noteBeatWiggle.waveFrequency = ampfreq;
+				noteBeatWiggle.waveSpeed = 23.75;
+			}
 		}
 
 		if (UIPrefs.iconBop) {
