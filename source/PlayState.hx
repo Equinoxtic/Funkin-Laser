@@ -330,7 +330,7 @@ class PlayState extends MusicBeatState
 		noteWiggleShader.waveAmplitude = 0.0085;
 		noteWiggleShader.waveFrequency = 0.0085;
 		noteWiggleShader.waveSpeed = currentBeat;
-
+		
 		noteBeatWiggle = new WiggleEffect();
 		noteBeatWiggle.effectType = WiggleEffectType.FLAG;
 
@@ -2625,7 +2625,7 @@ class PlayState extends MusicBeatState
 		if (UIPrefs.strumTailShaderType == "Wiggle on beat" && UIPrefs.strumTailShader) {
 			noteBeatWiggle.waveAmplitude = FlxMath.lerp(0, noteBeatWiggle.waveAmplitude, CoolUtil.boundTo(1 - (elapsed * 3.125), 0, 1));
 			noteBeatWiggle.waveFrequency = FlxMath.lerp(0, noteBeatWiggle.waveFrequency, CoolUtil.boundTo(1 - (elapsed * 3.125), 0, 1));
-			// noteBeatWiggle.waveSpeed = FlxMath.lerp(0, noteBeatWiggle.waveSpeed, CoolUtil.boundTo(Math.abs(elapsed * 2.4), 0, 1));
+			noteBeatWiggle.waveSpeed = FlxMath.lerp(0, noteBeatWiggle.waveSpeed, CoolUtil.boundTo(1, 0, 0));
 		}
 
 		FlxG.watch.addQuick("beatShit", curBeat);
@@ -4533,11 +4533,14 @@ class PlayState extends MusicBeatState
 		}
 
 		if (curBeat % 1 == 0 && UIPrefs.strumTailShaderType == "Wiggle on beat" && UIPrefs.strumTailShader) {
-			if (noteBeatWiggle.waveAmplitude < 0.29 && noteBeatWiggle.waveFrequency < 0.29) {
-				var ampfreq:Float = 0.028;
+			var songPos = Conductor.songPosition;
+			var curBpm = Conductor.bpm;
+			var currentBeat = (songPos/150)*(curBpm/300);
+			if (noteBeatWiggle.waveAmplitude < 0.37 && noteBeatWiggle.waveFrequency < 0.44 && noteBeatWiggle.waveSpeed < currentBeat) {
+				var ampfreq:Float = 0.036;
 				noteBeatWiggle.waveAmplitude = ampfreq;
 				noteBeatWiggle.waveFrequency = ampfreq;
-				noteBeatWiggle.waveSpeed = 23.75;
+				noteBeatWiggle.waveSpeed = currentBeat;
 			}
 		}
 
