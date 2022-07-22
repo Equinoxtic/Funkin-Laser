@@ -31,6 +31,7 @@ typedef SwagSong =
 
 	var credit:String;
 	var origin:String;
+	var cinematicMode:Bool;
 }
 
 class Song
@@ -50,6 +51,7 @@ class Song
 
 	public var credit:String;
 	public var origin:String;
+	public var cinematicMode:Bool;
 
 	public function new(song, notes, bpm)
 	{

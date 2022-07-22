@@ -240,7 +240,8 @@ class ChartingState extends MusicBeatState
 				stage: 'stage',
 				validScore: false,
 				credit: '',
-				origin: ''
+				origin: '',
+				cinematicMode: false
 			};
 		}
 		
@@ -368,6 +369,13 @@ class ChartingState extends MusicBeatState
 			_song.needsVoices = check_voices.checked;
 			trace('CHECKED!');
 		};
+
+		var check_cinema = new FlxUICheckBox(10, 35, null, null, "Cinema Mode", 100);
+		check_cinema.checked = _song.cinematicMode;
+		check_cinema.callback = function() {
+			_song.cinematicMode = check_cinema.checked;
+			trace("Cinema Mode Enabled");
+		}
 
 		var saveButton:FlxButton = new FlxButton(110, 8, "Save", function()
 		{
@@ -567,6 +575,7 @@ class ChartingState extends MusicBeatState
 		tab_group_song.add(UI_origin);
 
 		tab_group_song.add(check_voices);
+		tab_group_song.add(check_cinema);
 		tab_group_song.add(clear_events);
 		tab_group_song.add(clear_notes);
 		tab_group_song.add(saveButton);
@@ -2149,7 +2158,8 @@ class ChartingState extends MusicBeatState
 			stage: _song.stage,
 			validScore: false,
 			credit: _song.credit,
-			origin: _song.origin
+			origin: _song.origin,
+			cinematicMode: _song.cinematicMode
 		};
 		var json = {
 			"song": eventsSong

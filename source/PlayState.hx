@@ -829,6 +829,7 @@ class PlayState extends MusicBeatState
 			
 			case 'schoolEvil':
 				var evilTrail = new FlxTrail(dad, null, 4, 24, 0.3, 0.069); //nice
+				evilTrail.visible = !SONG.cinematicMode;
 				insert(members.indexOf(dadGroup) - 1, evilTrail);
 		}
 
@@ -950,7 +951,7 @@ class PlayState extends MusicBeatState
 		healthBarBG.y = FlxG.height * 0.89;
 		healthBarBG.screenCenter(X);
 		healthBarBG.scrollFactor.set();
-		healthBarBG.visible = (!ClientPrefs.hideHud || ModifierVars.enigma);
+		healthBarBG.visible = (!ClientPrefs.hideHud || !ModifierVars.enigma);
 		healthBarBG.xAdd = -4;
 		healthBarBG.yAdd = -4;
 		add(healthBarBG);
@@ -966,12 +967,12 @@ class PlayState extends MusicBeatState
 
 		iconP1 = new HealthIcon(boyfriend.healthIcon, true);
 		iconP1.y = healthBar.y - (iconP1.height / 2);
-		iconP1.visible = (!ClientPrefs.hideHud || ModifierVars.enigma);
+		iconP1.visible = (!ClientPrefs.hideHud || !ModifierVars.enigma);
 		add(iconP1);
 
 		iconP2 = new HealthIcon(dad.healthIcon, false);
 		iconP2.y = healthBar.y - (iconP2.height / 2);
-		iconP2.visible = (!ClientPrefs.hideHud || ModifierVars.enigma);
+		iconP2.visible = (!ClientPrefs.hideHud || !ModifierVars.enigma);
 		add(iconP2);
 		
 		reloadHealthBarColors(UIPrefs.healthBarType, "Default");
@@ -1218,6 +1219,19 @@ class PlayState extends MusicBeatState
 		#end
 
 		super.create();
+
+		if (SONG.cinematicMode) {
+			for (sprite in members) {
+				var sprite:Dynamic = sprite;
+				var sprite:BGSprite = sprite;
+				if (sprite != null && (sprite is BGSprite) && !(sprite is FlxText)) {
+					sprite.alpha = 0;
+				}
+			}
+			boyfriend.kill();
+			dad.kill();
+			gf.kill();
+		}
 
 		if (!shouldShowSongCredit) {
 			songCreditsBG.kill();
@@ -2447,7 +2461,7 @@ class PlayState extends MusicBeatState
 		}
 
 		switch(curSong.toLowerCase().replace(' ', '-')) { // Hard-coded song credit shit
-			case 'tutorial' | 'bopeebo' | 'fresh' | 'dad-battle' | 'spookeez' | 'south' | 'pico' | 'philly-nice' | 'blammed' | 'satin-panties' | 'high' | 'milf' | 'cocoa' | 'eggnog' | 'senpai' | 'roses' | 'thorns':
+			default:
 				SONG.credit = "Kawai Sprite";
 				SONG.origin = "Friday Night Funkin'";
 			case 'monster' | 'winter-horrorland':
