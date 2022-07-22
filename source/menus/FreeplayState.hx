@@ -1,5 +1,6 @@
 package menus;
 
+import Discord.DiscordClient;
 #if desktop
 import Discord.DiscordClient;
 #end
@@ -405,6 +406,23 @@ class FreeplayState extends MusicBeatState
 				// item.setGraphicSize(Std.int(item.width));
 			}
 		}
+
+		switch (FlxG.random.int(0, 5))
+		{
+			case 0:
+				DiscordClient.changePresence("Vibing to " + songs[curSelected].songName + " for:", null, null, true);
+			case 1:
+				DiscordClient.changePresence("Sleeping on someone with " + songs[curSelected].songName + " for:", null, null, true);
+			case 2:
+				DiscordClient.changePresence("Dreaming about " + songs[curSelected].songName + " for:", null, null, true);
+			case 3:
+				DiscordClient.changePresence("Suckling some " + songs[curSelected].songName + " for:", null, null, true);
+			case 4:
+				DiscordClient.changePresence("Presenting " + songs[curSelected].songName + " to myself for:", null, null, true);
+			case 5:
+				DiscordClient.changePresence("Admiring " + songs[curSelected].songName + " for:", null, null, true);
+		}
+
 		changeDiff();
 		Paths.currentModDirectory = songs[curSelected].folder;
 	}
