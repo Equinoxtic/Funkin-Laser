@@ -82,7 +82,7 @@ class UISoundSettings extends BaseUIOptionsMenu
 		option.decimals = 2;
 		option.onChange = onChangeMissSoundsVolume;
 
-		var option:UIOption = new UIOption("MUte Vocals on Miss",
+		var option:UIOption = new UIOption("Mute Vocals on Miss",
 			"Whether the vocals should be muted when missing a note.",
 			'muteVox',
 			'bool',
