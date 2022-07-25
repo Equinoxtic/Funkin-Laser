@@ -35,8 +35,9 @@ class UIPrefs
 	
 	/* Sound & Music Effects */
 	public static var hitsounds:Bool = true;
-	public static var hitsoundsVolume:Float = 0.5;
+	public static var hitsoundsVolume:Float = 0.75;
 	public static var missSounds:Bool = true;
+	public static var missSoundsVolume:Float = 0.1;
 	public static var pauseMusic:String = 'Breakfast';
 	
 	public static function saveUIPrefs()
@@ -69,6 +70,7 @@ class UIPrefs
 		FlxG.save.data.hitsounds = hitsounds;
 		FlxG.save.data.hitsoundsVolume = hitsoundsVolume;
 		FlxG.save.data.missSounds = missSounds;
+		FlxG.save.data.missSoundsVolume = missSoundsVolume;
 		FlxG.save.data.pauseMusic = pauseMusic;
 	}
 
@@ -158,6 +160,10 @@ class UIPrefs
 
 		if (FlxG.save.data.missSounds != null) {
 			missSounds = FlxG.save.data.missSounds;
+		}
+
+		if (FlxG.save.data.missSoundsVolume != null) {
+			missSoundsVolume = FlxG.save.data.missSoundsVolume;
 		}
 
 		if (FlxG.save.data.pauseMusic != null) {

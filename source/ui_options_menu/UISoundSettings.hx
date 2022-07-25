@@ -53,7 +53,7 @@ class UISoundSettings extends BaseUIOptionsMenu
 			"Set how loud the hitsounds should be.",
 			'hitsoundsVolume',
 			'float',
-			0.5);
+			0.75);
 		addOption(option);
 		option.scrollSpeed = 1.6;
 		option.minValue = 0.1;
@@ -69,6 +69,19 @@ class UISoundSettings extends BaseUIOptionsMenu
 			true);
 		addOption(option);
 
+		var option:UIOption = new UIOption("Miss Sounds Volume",
+			"Set how loud the hitsounds should be.",
+			'missSoundsVolume',
+			'float',
+			0.1);
+		addOption(option);
+		option.scrollSpeed = 1.6;
+		option.minValue = 0.1;
+		option.maxValue = 0.3;
+		option.changeValue = 0.01;
+		option.decimals = 2;
+		option.onChange = onChangeMissSoundsVolume;
+
 		var option:UIOption = new UIOption('Pause Music',
 			"Choose what the Pause Menu music should play!",
 			'pauseMusic',
@@ -81,5 +94,10 @@ class UISoundSettings extends BaseUIOptionsMenu
 	function onChangeHitsoundVolume()
 	{
 		FlxG.sound.play(Paths.sound('hitsound'), UIPrefs.hitsoundsVolume);
+	}
+
+	function onChangeMissSoundVolume()
+	{
+		FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), UIPrefs.missSoundsVolume);
 	}
 }
