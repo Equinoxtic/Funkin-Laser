@@ -4043,7 +4043,7 @@ class PlayState extends MusicBeatState
 		health -= daNote.missHealth; //For testing purposes
 		trace(daNote.missHealth);
 		songMisses++;
-		vocals.volume = 0;
+		if (UIPrefs.muteVox) { vocals.volume = 0; }
 		totalPlayed++;
 		RecalculateRating();
 
@@ -4121,7 +4121,8 @@ class PlayState extends MusicBeatState
 				case 3:
 					boyfriend.playAnim('singRIGHTmiss', true);
 			}
-			vocals.volume = 0;
+			
+			if (UIPrefs.muteVox) { vocals.volume = 0; }
 		}
 	}
 

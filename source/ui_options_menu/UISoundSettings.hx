@@ -82,6 +82,13 @@ class UISoundSettings extends BaseUIOptionsMenu
 		option.decimals = 2;
 		option.onChange = onChangeMissSoundsVolume;
 
+		var option:UIOption = new UIOption("MUte Vocals on Miss",
+			"Whether the vocals should be muted when missing a note.",
+			'muteVox',
+			'bool',
+			true);
+		addOption(option);
+
 		var option:UIOption = new UIOption('Pause Music',
 			"Choose what the Pause Menu music should play!",
 			'pauseMusic',
@@ -96,7 +103,7 @@ class UISoundSettings extends BaseUIOptionsMenu
 		FlxG.sound.play(Paths.sound('hitsound'), UIPrefs.hitsoundsVolume);
 	}
 
-	function onChangeMissSoundVolume()
+	function onChangeMissSoundsVolume()
 	{
 		FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), UIPrefs.missSoundsVolume);
 	}
