@@ -62,6 +62,13 @@ class UISoundSettings extends BaseUIOptionsMenu
 		option.decimals = 1;
 		option.onChange = onChangeHitsoundVolume;
 
+		var option:UIOption = new UIOption("Miss Sounds",
+			"If disabled, each note miss won't play a miss sound.",
+			'missSounds',
+			'bool',
+			true);
+		addOption(option);
+
 		var option:UIOption = new UIOption('Pause Music',
 			"Choose what the Pause Menu music should play!",
 			'pauseMusic',

@@ -33,9 +33,10 @@ class UIPrefs
 	public static var healthBarType:String = "Default";
 	public static var timeBarColors:Bool = false;
 	
-	/** Sound & Music Effects **/
+	/* Sound & Music Effects */
 	public static var hitsounds:Bool = true;
 	public static var hitsoundsVolume:Float = 0.5;
+	public static var missSounds:Bool = true;
 	public static var pauseMusic:String = 'Breakfast';
 	
 	public static function saveUIPrefs()
@@ -63,6 +64,12 @@ class UIPrefs
 		FlxG.save.data.scoreZooming = scoreZooming;
 		FlxG.save.data.healthBarType = healthBarType;
 		FlxG.save.data.timeBarColors = timeBarColors;
+
+		/* Sound & Music effects */
+		FlxG.save.data.hitsounds = hitsounds;
+		FlxG.save.data.hitsoundsVolume = hitsoundsVolume;
+		FlxG.save.data.missSounds = missSounds;
+		FlxG.save.data.pauseMusic = pauseMusic;
 	}
 
 	public static function loadUIPrefs()
@@ -138,6 +145,23 @@ class UIPrefs
 
 		if (FlxG.save.data.timeBarColors != null) {
 			timeBarColors = FlxG.save.data.timeBarColors;
+		}
+
+		/* Sound & Music Effects */
+		if (FlxG.save.data.hitsounds != null) {
+			hitsounds = FlxG.save.data.hitsounds;
+		}
+
+		if (FlxG.save.data.hitsoundsVolume != null) {
+			hitsoundsVolume = FlxG.save.data.hitsoundsVolume;
+		}
+
+		if (FlxG.save.data.missSounds != null) {
+			missSounds = FlxG.save.data.missSounds;
+		}
+
+		if (FlxG.save.data.pauseMusic != null) {
+			pauseMusic = FlxG.save.data.pauseMusic;
 		}
 	}
 }
