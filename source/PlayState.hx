@@ -2214,8 +2214,8 @@ class PlayState extends MusicBeatState
 		}
 
 		
-		if (UIPrefs.strumTailShader) {
-			switch(UIPrefs.strumTailShaderType) {
+		if (UIPrefs.strumTailShader && !paused) {
+			switch (UIPrefs.strumTailShaderType) {
 				case "Wiggle":
 					noteWiggleShader.update(elapsed);
 					camSus.setFilters([new ShaderFilter(noteWiggleShader.shader)]);
@@ -2344,13 +2344,13 @@ class PlayState extends MusicBeatState
 				if(focusedCharacter.animation.curAnim!=null){
 					switch (focusedCharacter.animation.curAnim.name){
 						case 'singUP' | 'singUP-alt':
-							charAnimOffsetY -= 15;
+							charAnimOffsetY -= 17;
 						case 'singDOWN' | 'singDOWN-alt':
-							charAnimOffsetY += 15;
+							charAnimOffsetY += 17;
 						case 'singLEFT' | 'singLEFT-alt':
-							charAnimOffsetX -= 15;
+							charAnimOffsetX -= 17;
 						case 'singRIGHT' | 'singRIGHT-alt':
-							charAnimOffsetX += 15;
+							charAnimOffsetX += 17;
 					}
 				}
 			}
@@ -2373,8 +2373,8 @@ class PlayState extends MusicBeatState
 
 		songCreditsText.text = PlayState.SONG.song + "\n" + PlayState.SONG.credit + " - " + PlayState.SONG.origin;
 
-		if (songScore >= 200000000) {
-			songScore = 200000000;
+		if (songScore >= 275000000) {
+			songScore = 275000000;
 		}
 
 		// Hard-coded modcharts
