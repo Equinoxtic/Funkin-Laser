@@ -308,6 +308,9 @@ class PlayState extends MusicBeatState
 	var noteWiggleShader:WiggleEffect;
 	var noteBeatWiggle:WiggleEffect;
 
+	var songCreditTween:FlxTween;
+	var songCreditTextTween:FlxTween;
+
 	override public function create()
 	{
 		#if MODS_ALLOWED
@@ -1228,6 +1231,15 @@ class PlayState extends MusicBeatState
 					sprite.alpha = 0;
 				}
 			}
+			judgementData.kill();
+			extraSongDets.kill();
+			healthBar.kill();
+			healthBarBG.kill();
+			timeBar.kill();
+			timeTxt.kill();
+			scoreTxt.kill();
+			iconP1.kill();
+			iconP2.kill();
 			boyfriend.kill();
 			dad.kill();
 			gf.kill();
@@ -1723,8 +1735,8 @@ class PlayState extends MusicBeatState
 		}
 
 		if (shouldShowSongCredit) {
-			FlxTween.tween(songCreditsBG, {x: 30}, 1.25, {ease: FlxEase.quartInOut});
-			FlxTween.tween(songCreditsText, {x: 30 + 15}, 1.25, {ease: FlxEase.quartInOut, startDelay: 0.15, onComplete: function(twn:FlxTween) {
+			songCreditTween = FlxTween.tween(songCreditsBG, {x: 30}, 1.25, {ease: FlxEase.quartInOut});
+			songCreditTextTween = FlxTween.tween(songCreditsText, {x: 30 + 15}, 1.25, {ease: FlxEase.quartInOut, startDelay: 0.15, onComplete: function(twn:FlxTween) {
 				new FlxTimer().start(2.5, function(tmr:FlxTimer) {
 					FlxTween.tween(songCreditsBG, {x: 50 * 30}, 1.25, {ease: FlxEase.quartInOut});
 					FlxTween.tween(songCreditsText, {x: 50 * 30}, 1.25, {ease: FlxEase.quartInOut, startDelay: 0.15, onComplete: function(twn:FlxTween) {
@@ -2068,6 +2080,15 @@ class PlayState extends MusicBeatState
 
 			if (chainTmr != null) chainTmr.active = false;
 
+			if (songCreditTween != null) songCreditTween.active = false;
+
+			if (songCreditTextTween != null) songCreditTextTween.active = false;
+
+			// Reset frequency, amplitude and speed once paused
+			noteBeatWiggle.waveFrequency = 0;
+			noteBeatWiggle.waveAmplitude = 0;
+			noteBeatWiggle.waveSpeed = 0;
+
 			var chars:Array<Character> = [boyfriend, gf, dad];
 			for (i in 0...chars.length) {
 				if(chars[i].colorTween != null) {
@@ -2110,6 +2131,10 @@ class PlayState extends MusicBeatState
 			if (cockScoreTmr != null) cockScoreTmr.active = true;
 
 			if (chainTmr != null) chainTmr.active = true;
+
+			if (songCreditTween != null) songCreditTween.active = true;
+
+			if (songCreditTextTween != null) songCreditTextTween.active = true;
 
 			var chars:Array<Character> = [boyfriend, gf, dad];
 			for (i in 0...chars.length) {
