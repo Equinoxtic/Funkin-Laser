@@ -4561,18 +4561,10 @@ class PlayState extends MusicBeatState
 			moveCameraSection(Std.int(curStep / 16));
 		}
 
-		if (!ModifierVars.hardcoreMode) {
-			if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 4 == 0) {
-				FlxG.camera.zoom += 0.015 * 2;
-				camHUD.zoom += 0.03 * 2;
-				camSus.zoom += 0.03 * 2;
-			}
-		} else {
-			if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % 2 == 0) {
-				FlxG.camera.zoom += 0.015 * 2;
-				camHUD.zoom += 0.03 * 2;
-				camSus.zoom += 0.03 * 2;
-			}
+		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && curBeat % Conductor.camBPM == 0) {
+			FlxG.camera.zoom += 0.015 * 2;
+			camHUD.zoom += 0.03 * 2;
+			camSus.zoom += 0.03 * 2;
 		}
 
 		var songPos = Conductor.songPosition;

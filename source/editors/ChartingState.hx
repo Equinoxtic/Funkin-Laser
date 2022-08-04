@@ -134,6 +134,7 @@ class ChartingState extends MusicBeatState
 	var curSelectedNote:Array<Dynamic>;
 
 	var tempBpm:Float = 0;
+	var tempCamBPM:Float = 0;
 
 	var vocals:FlxSound = null;
 
@@ -241,7 +242,8 @@ class ChartingState extends MusicBeatState
 				validScore: false,
 				credit: '',
 				origin: '',
-				cinematicMode: false
+				cinematicMode: false,
+				camBeatHit: 4
 			};
 		}
 		
@@ -251,6 +253,7 @@ class ChartingState extends MusicBeatState
 		FlxG.save.bind('funkin', 'ninjamuffin99');
 
 		tempBpm = _song.bpm;
+		tempCamBPM = _song.camBeatHit;
 
 		addSection();
 
@@ -261,6 +264,7 @@ class ChartingState extends MusicBeatState
 		reloadGridLayer();
 		loadSong();
 		Conductor.changeBPM(_song.bpm);
+		Conductor.changeCamBPM(_song.camBeatHit);
 		Conductor.mapBPMChanges(_song);
 
 		bpmTxt = new FlxText(1000, 50, 0, "", 16);
@@ -370,7 +374,7 @@ class ChartingState extends MusicBeatState
 			trace('CHECKED!');
 		};
 
-		var check_cinema = new FlxUICheckBox(10, 35, null, null, "Cinema Mode", 100);
+		var check_cinema = new FlxUICheckBox(10, 40, null, null, "Cinema Mode", 100);
 		check_cinema.checked = _song.cinematicMode;
 		check_cinema.callback = function() {
 			_song.cinematicMode = check_cinema.checked;
@@ -457,6 +461,10 @@ class ChartingState extends MusicBeatState
 		var stepperSpeed:FlxUINumericStepper = new FlxUINumericStepper(10, stepperBPM.y + 35, 0.1, 1, 0.1, 10, 1);
 		stepperSpeed.value = _song.speed;
 		stepperSpeed.name = 'song_speed';
+
+		var camBPM:FlxUINumericStepper = new FlxUINumericStepper(10, stepperSpeed.y + 15, 1, 4, 1, 8, 1);
+		camBPM.value = Conductor.camBPM;
+		camBPM.name = 'song_camBPM';
 
 		#if MODS_ALLOWED
 		var directories:Array<String> = [Paths.mods('characters/'), Paths.mods(Paths.currentModDirectory + '/characters/'), Paths.getPreloadPath('characters/')];
@@ -586,10 +594,11 @@ class ChartingState extends MusicBeatState
 		tab_group_song.add(loadEventJson);
 		tab_group_song.add(stepperBPM);
 		tab_group_song.add(stepperSpeed);
+		tab_group_song.add(camBPM);
 		tab_group_song.add(reloadNotesButton);
 		tab_group_song.add(noteSkinInputText);
 		tab_group_song.add(noteSplashesInputText);
-		tab_group_song.add(new FlxText(stepperBPM.x, stepperBPM.y - 15, 0, 'Song BPM:'));
+		tab_group_song.add(new FlxText(stepperBPM.x, stepperBPM.y - 15, 0, 'Song BPM & Camera Beat Hit Speed:'));
 		tab_group_song.add(new FlxText(stepperSpeed.x, stepperSpeed.y - 15, 0, 'Song Speed:'));
 		tab_group_song.add(new FlxText(player2DropDown.x, player2DropDown.y - 15, 0, 'Opponent:'));
 		tab_group_song.add(new FlxText(player3DropDown.x, player3DropDown.y - 15, 0, 'Girlfriend:'));
@@ -1068,6 +1077,11 @@ class ChartingState extends MusicBeatState
 				Conductor.mapBPMChanges(_song);
 				Conductor.changeBPM(nums.value);
 			}
+			else if (wname == 'song_camBPM')
+			{
+				tempCamBPM = nums.value;
+				Conductor.changeCamBPM(nums.value);
+			}
 			else if (wname == 'note_susLength')
 			{
 				if(curSelectedNote != null && curSelectedNote[1] > -1) {
@@ -1391,6 +1405,7 @@ class ChartingState extends MusicBeatState
 		}
 
 		_song.bpm = tempBpm;
+		_song.camBeatHit = tempCamBPM;
 
 		if(FlxG.sound.music.time < 0) {
 			FlxG.sound.music.pause();
@@ -2157,9 +2172,11 @@ class ChartingState extends MusicBeatState
 			player3: _song.player3,
 			stage: _song.stage,
 			validScore: false,
+
 			credit: _song.credit,
 			origin: _song.origin,
-			cinematicMode: _song.cinematicMode
+			cinematicMode: _song.cinematicMode,
+			camBeatHit: _song.camBeatHit
 		};
 		var json = {
 			"song": eventsSong
